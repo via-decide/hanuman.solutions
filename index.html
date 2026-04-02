@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hanuman.Solutions — Divine Digital Power & Heavy Lifting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #FF6700;
+    --gold: #F4C430;
+    --saffron-glow: rgba(255, 103, 0, 0.4);
+    --gold-glow: rgba(244, 196, 48, 0.3);
+    --dark-bg: #0A0502;
+    --surface: rgba(20, 10, 5, 0.6);
+    --surface-border: rgba(255, 103, 0, 0.15);
+    --text-main: #F2E8DE;
+    --text-muted: #A89F95;
+    
+    --font-display: 'Cinzel Decorative', serif;
+    --font-sans: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--dark-bg);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── CANVAS BACKGROUND ─── */
+  #bg {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: linear-gradient(90deg, #8B0000, var(--saffron), var(--gold));
+    z-index: 200;
+    box-shadow: 0 0 10px var(--saffron-glow);
+    transition: width 0.1s ease-out;
+  }
+
+  /* ─── NAV DOTS ─── */
+  #nav-dots {
+    position: fixed; left: 24px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 16px;
+    z-index: 100;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255, 103, 0, 0.2);
+    border: 1px solid rgba(255, 103, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dot:hover { background: rgba(255, 103, 0, 0.6); }
+  .dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 12px var(--gold-glow);
+    transform: scale(1.5);
+  }
+
+  /* ─── HANUMAN FIXED CONTAINER ─── */
+  #hanuman-wrap {
+    position: fixed; right: 0; top: 0;
+    width: 50vw; height: 100vh;
+    z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  #hanuman-svg {
+    width: min(80%, 450px);
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(255, 103, 0, 0.3));
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
+    transform-origin: center 80%;
+  }
+
+  /* Refined Ethereal Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(0.5deg); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 25px rgba(255, 103, 0, 0.3)); }
+    50% { filter: drop-shadow(0 0 50px rgba(244, 196, 48, 0.5)); }
+  }
+
+  #hanuman-svg.state-0 { animation: float 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
+  #hanuman-svg.state-1 { animation: float-tall 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
+  #hanuman-svg.state-2 { animation: float-bow 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
+  #hanuman-svg.state-3 { animation: float-point 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
+  #hanuman-svg.state-4 { animation: float-triumph 5s ease-in-out infinite, glow-pulse 4s ease-in-out infinite; }
+
+  @keyframes float-tall {
+    0%, 100% { transform: translateY(-10px) scale(1.02); }
+    50% { transform: translateY(-20px) scale(1.04) rotate(-1deg); }
+  }
+  @keyframes float-bow {
+    0%, 100% { transform: translateY(5px) rotate(3deg) scale(0.98); }
+    50% { transform: translateY(-5px) rotate(2deg) scale(0.99); }
+  }
+  @keyframes float-point {
+    0%, 100% { transform: translateY(-5px) rotate(-2deg); }
+    50% { transform: translateY(-15px) rotate(-1deg) scale(1.02); }
+  }
+  @keyframes float-triumph {
+    0%, 100% { transform: translateY(-15px) scale(1.05); }
+    50% { transform: translateY(-25px) scale(1.08); }
+  }
+
+  /* ─── DIVINE HUD (Replaced Speech Bubble) ─── */
+  #divine-hud {
+    position: absolute;
+    left: -200px; top: 55%;
+    transform: translateY(-50%) translateX(20px);
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    width: 320px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 103, 0, 0.05);
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  #divine-hud::before {
+    content: '';
+    position: absolute; top: 0; left: 0; width: 2px; height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--saffron), var(--gold), transparent);
+  }
+
+  #divine-hud.show {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  
+  .hud-header {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--saffron);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hud-indicator {
+    width: 6px; height: 6px; background: var(--gold); border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold);
+    animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hud-text {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-main);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  main {
+    position: relative; z-index: 5;
+    width: 50vw; 
+    padding: 0 4rem 0 6rem;
+  }
+
+  section {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 0;
+    position: relative;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Typography */
+  .pre-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--saffron);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0.8;
+  }
+  .pre-label::before {
+    content: '';
+    display: block; width: 40px; height: 1px;
+    background: var(--saffron);
+  }
+
+  .om-symbol {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    color: var(--saffron);
+    text-shadow: 0 0 30px var(--saffron-glow);
+    display: block;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 40%, var(--saffron) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    text-shadow: 0 4px 30px rgba(255, 103, 0, 0.15);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 700;
+    color: #FFF;
+    margin-bottom: 24px;
+    line-height: 1.15;
+  }
+  h2 span {
+    color: var(--gold);
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    max-width: 540px;
+  }
+
+  .divider {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--saffron), transparent);
+    margin: 32px 0;
+  }
+
+  /* Big ghost number */
+  .ghost-num {
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: 12rem; font-weight: 900;
+    color: rgba(255, 103, 0, 0.03);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: -1;
+  }
+
+  /* Tech Chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; max-width: 540px; }
+  .chip {
+    padding: 8px 16px;
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-main);
+    background: var(--surface);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+  .chip:hover {
+    border-color: var(--gold);
+    background: rgba(244, 196, 48, 0.1);
+    color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 103, 0, 0.2);
+  }
+
+  /* CTA Button */
+  .cta-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 18px 48px;
+    background: linear-gradient(135deg, var(--saffron), #CC4400);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none; border-radius: 4px;
+    box-shadow: 0 8px 32px var(--saffron-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .cta-btn::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+  .cta-btn:hover { 
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255, 103, 0, 0.5);
+  }
+  .cta-btn:hover::after { left: 150%; }
+
+  /* ─── CONTACT FIELDS ─── */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-top: 32px; max-width: 540px;
+  }
+  .field {
+    background: rgba(10, 5, 2, 0.5);
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    padding: 16px;
+    font-family: var(--font-sans);
+    font-size: 1rem; color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    backdrop-filter: blur(8px);
+  }
+  .field::placeholder { color: rgba(255, 255, 255, 0.3); }
+  .field:focus {
+    border-color: var(--saffron);
+    box-shadow: 0 0 0 1px var(--saffron), 0 0 20px rgba(255, 103, 0, 0.15);
+    background: rgba(20, 10, 5, 0.8);
+  }
+  .field-full { grid-column: 1 / -1; resize: vertical; min-height: 120px; }
+
+  /* ─── SCROLL INDICATOR ─── */
+  #scroll-hint {
+    position: fixed; bottom: 40px; left: 6rem;
+    z-index: 50;
+    display: flex; align-items: center; gap: 16px;
+    transition: opacity 0.5s ease;
+  }
+  #scroll-hint.gone { opacity: 0; pointer-events: none; }
+  .sh-line {
+    width: 40px; height: 1px;
+    background: var(--surface-border);
+    position: relative; overflow: hidden;
+  }
+  .sh-line::after {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--gold);
+    animation: sh-anim 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  @keyframes sh-anim { to { left: 100%; } }
+  .sh-text {
+    font-family: var(--font-mono);
+    font-size: 0.65rem; letter-spacing: 4px; color: var(--text-muted);
+  }
+
+  /* ─── MANTRA MARQUEE ─── */
+  #mantra-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(10, 5, 0, 0.6);
+    border-top: 1px solid var(--surface-border);
+    padding: 8px 0; z-index: 150;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden;
+  }
+  .mantra-track {
+    display: inline-flex; gap: 0; white-space: nowrap;
+    animation: marquee 30s linear infinite;
+  }
+  .mantra-track span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem; letter-spacing: 3px;
+    color: var(--text-muted);
+    padding: 0 24px;
+    text-transform: uppercase;
+  }
+  .mantra-sep { color: var(--saffron) !important; }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ─── DIVINE SPARKS ─── */
+  .spark {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: spark-fly var(--dur) cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  }
+  @keyframes spark-fly {
+    0%   { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+  }
+
+  /* ─── RESPONSIVE DESIGN (MOBILE FIRST OVERRIDES) ─── */
+  @media (max-width: 1024px) {
+    main { width: 60vw; padding: 0 3rem 0 5rem; }
+    #hanuman-wrap { width: 40vw; }
+    #divine-hud { left: -100px; width: 280px; }
+  }
+
+  @media (max-width: 768px) {
+    /* Stack layout */
+    main { width: 100vw; padding: 0 1.5rem 6rem 3.5rem; }
+    
+    /* Hanuman moves to background */
+    #hanuman-wrap { 
+      width: 100vw; height: 100vh; 
+      opacity: 0.15; /* Subtle watermark */
+      z-index: 0;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+    #hanuman-svg { 
+      width: 120%; max-width: none; 
+      transform: translate(20%, 20%); /* Peek from bottom right */
+    }
+    
+    /* HUD adjusts */
+    #divine-hud {
+      position: fixed;
+      top: auto; bottom: 60px; left: 1rem; right: 1rem;
+      width: auto;
+      transform: translateY(20px);
+    }
+    #divine-hud.show { transform: translateY(0); }
+    #divine-hud::before { width: 100%; height: 2px; top: -1px; left: 0; background: linear-gradient(to right, transparent, var(--saffron), transparent); }
+
+    /* Forms & Utilities */
+    .contact-grid { grid-template-columns: 1fr; }
+    .ghost-num { font-size: 8rem; right: -1rem; }
+    #scroll-hint { left: 3.5rem; bottom: 50px; }
+    #nav-dots { left: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div id="progress-bar"></div>
+
+<!-- Nav dots -->
+<div id="nav-dots">
+  <div class="dot active" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+</div>
+
+<!-- ═══ HANUMAN & HUD ═══ -->
+<div id="hanuman-wrap">
+  <div id="divine-hud">
+    <div class="hud-header">
+      <div class="hud-indicator"></div>
+      System Directive
+    </div>
+    <div class="hud-text" id="hud-content">Initializing divine protocols...</div>
+  </div>
+
+  <svg id="hanuman-svg" viewBox="0 0 290 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="aura" cx="50%" cy="40%" r="50%">
+        <stop offset="0%" stop-color="#F4C430" stop-opacity="0.35"/>
+        <stop offset="60%" stop-color="#FF6700" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#FF6700" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="mace-shine" cx="35%" cy="30%" r="65%">
+        <stop offset="0%" stop-color="#FFFDE0"/>
+        <stop offset="45%" stop-color="#F4C430"/>
+        <stop offset="100%" stop-color="#A07800"/>
+      </radialGradient>
+      <radialGradient id="face-grad" cx="50%" cy="40%" r="55%">
+        <stop offset="0%" stop-color="#F07000"/>
+        <stop offset="100%" stop-color="#C04500"/>
+      </radialGradient>
+      <radialGradient id="body-grad" cx="40%" cy="30%" r="65%">
+        <stop offset="0%" stop-color="#F06020"/>
+        <stop offset="100%" stop-color="#BB4000"/>
+      </radialGradient>
+      <filter id="glow-filter">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="strong-glow">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="dhoti-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#F4C430"/>
+        <stop offset="100%" stop-color="#CC9900"/>
+      </linearGradient>
+      <linearGradient id="crown-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#FFFAAA"/>
+        <stop offset="40%" stop-color="#F4C430"/>
+        <stop offset="100%" stop-color="#AA7700"/>
+      </linearGradient>
+    </defs>
+
+    <!-- OUTER DIVINE AURA -->
+    <circle cx="145" cy="155" r="112" fill="url(#aura)" opacity="0.8"/>
+    <circle cx="145" cy="155" r="102" fill="none" stroke="url(#crown-grad)" stroke-width="1" opacity="0.45" stroke-dasharray="6 10"/>
+    <circle cx="145" cy="155" r="92" fill="none" stroke="#F4C430" stroke-width="0.5" opacity="0.25"/>
+
+    <!-- ── TAIL ── (behind everything) -->
+    <path d="M158,390 Q198,358 222,295 Q248,228 264,170 Q278,118 268,75 Q260,50 242,62" stroke="#993300" stroke-width="22" fill="none" stroke-linecap="round"/>
+    <path d="M158,390 Q198,358 222,295 Q248,228 264,170 Q278,118 268,75 Q260,50 242,62" stroke="#DD5500" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M158,390 Q198,358 222,295 Q248,228 264,170 Q278,118 268,75 Q260,50 242,62" stroke="rgba(255,140,0,0.35)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- Tail flame tip -->
+    <ellipse cx="242" cy="55" rx="17" ry="21" fill="#CC3300"/>
+    <ellipse cx="242" cy="49" rx="11" ry="15" fill="#FF6600"/>
+    <ellipse cx="242" cy="44" rx="6" ry="10" fill="#F4C430" filter="url(#glow-filter)"/>
+    <ellipse cx="242" cy="41" rx="3" ry="6" fill="#FFFFFF" opacity="0.7"/>
+
+    <!-- ── LEGS ── -->
+    <path d="M115,355 Q105,400 108,440" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
+    <path d="M170,355 Q182,400 180,440" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
+    <ellipse cx="110" cy="445" rx="24" ry="11" fill="#A03800"/>
+    <ellipse cx="178" cy="445" rx="24" ry="11" fill="#A03800"/>
+    <path d="M95,438 Q110,432 125,438" stroke="#F4C430" stroke-width="2.5" fill="none"/>
+    <path d="M163,438 Q178,432 193,438" stroke="#F4C430" stroke-width="2.5" fill="none"/>
+
+    <!-- ── DHOTI ── -->
+    <path d="M95,308 Q100,365 108,408 L180,408 Q188,365 195,308 Z" fill="url(#dhoti-grad)"/>
+    <path d="M120,308 L132,408 Q145,418 158,408 L170,308 Z" fill="#DDA800" opacity="0.7"/>
+    <rect x="90" y="304" width="110" height="13" rx="5" fill="#AA8800"/>
+    <rect x="92" y="306" width="106" height="9" rx="4" fill="#F4C430"/>
+    <circle cx="145" cy="310" r="5" fill="#FF4400"/>
+    <circle cx="145" cy="310" r="3" fill="#F4C430"/>
+
+    <!-- ── BODY / TORSO ── -->
+    <ellipse cx="145" cy="270" rx="56" ry="76" fill="url(#body-grad)"/>
+    <path d="M118,240 Q145,255 172,240" stroke="rgba(180,60,0,0.5)" stroke-width="2" fill="none"/>
+    <ellipse cx="145" cy="285" rx="28" ry="22" fill="rgba(150,45,0,0.3)"/>
+    <path d="M105,228 Q145,260 178,232 Q188,225 192,232 Q200,245 188,258" stroke="#F4C430" stroke-width="2.5" fill="none" opacity="0.85"/>
+
+    <!-- ── LEFT ARM ── -->
+    <path d="M93,244 Q62,272 42,305 Q34,322 46,336" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
+    <ellipse cx="50" cy="343" rx="21" ry="17" fill="#C04500"/>
+    <path d="M38,332 L28,312" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
+    <path d="M43,328 L34,307" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
+    <path d="M50,326 L44,304" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
+    <path d="M57,328 L54,306" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
+    <path d="M63,333 L64,314" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
+    <rect x="55" y="278" width="28" height="10" rx="5" fill="#F4C430"/>
+    <rect x="57" y="280" width="24" height="6" rx="3" fill="#FFEC60"/>
+
+    <!-- ── RIGHT ARM ── -->
+    <path d="M197,244 Q222,260 232,286" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
+    <ellipse cx="235" cy="296" rx="17" ry="14" fill="#C04500"/>
+    <rect x="207" y="260" width="28" height="10" rx="5" fill="#F4C430"/>
+    <rect x="209" y="262" width="24" height="6" rx="3" fill="#FFEC60"/>
+
+    <!-- ── MACE (Gada) ── -->
+    <rect x="239" y="182" width="11" height="125" rx="5" fill="#7A5800" transform="rotate(12,244,244)"/>
+    <rect x="241" y="184" width="7" height="121" rx="4" fill="#A07A20" transform="rotate(12,244,244)"/>
+    <rect x="239" y="250" width="11" height="6" rx="3" fill="#F4C430" transform="rotate(12,244,277)"/>
+    <rect x="239" y="278" width="11" height="6" rx="3" fill="#F4C430" transform="rotate(12,244,281)"/>
+    <circle cx="258" cy="170" r="32" fill="url(#mace-shine)" filter="url(#glow-filter)"/>
+    <circle cx="258" cy="170" r="25" fill="#F4C430" opacity="0.45"/>
+    <circle cx="258" cy="170" r="16" fill="rgba(255,255,220,0.7)"/>
+    <circle cx="258" cy="138" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle cx="258" cy="202" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle cx="226" cy="170" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle cx="290" cy="170" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle cx="235" cy="147" r="5" fill="#F4C430"/>
+    <circle cx="281" cy="147" r="5" fill="#F4C430"/>
+    <circle cx="235" cy="193" r="5" fill="#F4C430"/>
+    <circle cx="281" cy="193" r="5" fill="#F4C430"/>
+
+    <!-- ── HEAD & NECK ── -->
+    <rect x="128" y="192" width="34" height="36" rx="14" fill="#C04500"/>
+    <path d="M112,220 Q145,238 178,220" stroke="#F4C430" stroke-width="2.5" fill="none"/>
+    <circle cx="120" cy="224" r="4.5" fill="#FF6B00"/>
+    <circle cx="131" cy="229" r="4.5" fill="#F4C430"/>
+    <circle cx="145" cy="231" r="5"   fill="#FF4400"/>
+    <circle cx="159" cy="229" r="4.5" fill="#F4C430"/>
+    <circle cx="170" cy="224" r="4.5" fill="#FF6B00"/>
+    <ellipse cx="145" cy="235" rx="7" ry="9" fill="#F4C430"/>
+    <ellipse cx="145" cy="235" rx="4" ry="6" fill="#FF4400"/>
+    
+    <ellipse cx="145" cy="148" rx="50" ry="54" fill="url(#face-grad)"/>
+    <ellipse cx="96" cy="148" rx="15" ry="20" fill="#C04500"/>
+    <ellipse cx="96" cy="148" rx="9"  ry="13" fill="#8B3000"/>
+    <ellipse cx="194" cy="148" rx="15" ry="20" fill="#C04500"/>
+    <ellipse cx="194" cy="148" rx="9"  ry="13" fill="#8B3000"/>
+    <ellipse cx="145" cy="164" rx="24" ry="20" fill="#B03800"/>
+
+    <!-- ── EYES & DETAILS ── -->
+    <ellipse cx="128" cy="140" rx="12" ry="13" fill="#FFF8F0"/>
+    <ellipse cx="162" cy="140" rx="12" ry="13" fill="#FFF8F0"/>
+    <ellipse cx="129" cy="141" rx="8"  ry="9"  fill="#8B4000"/>
+    <ellipse cx="163" cy="141" rx="8"  ry="9"  fill="#8B4000"/>
+    <circle cx="130" cy="142" r="5" fill="#0A0300"/>
+    <circle cx="164" cy="142" r="5" fill="#0A0300"/>
+    <circle cx="130" cy="142" r="2.5" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle cx="164" cy="142" r="2.5" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle cx="127" cy="139" r="1.8" fill="white"/>
+    <circle cx="161" cy="139" r="1.8" fill="white"/>
+    <path d="M114,130 Q126,122 136,128" stroke="#6B1A00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M154,128 Q164,122 176,130" stroke="#6B1A00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="145" cy="156" rx="9" ry="7" fill="#A03000"/>
+    <circle cx="140" cy="158" r="3.5" fill="#701500"/>
+    <circle cx="150" cy="158" r="3.5" fill="#701500"/>
+    <path d="M130,172 Q145,182 160,172" stroke="#701500" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="145" cy="126" rx="6"  ry="10" fill="#CC0000"/>
+    <ellipse cx="145" cy="124" rx="3.5" ry="6" fill="#F4C430" filter="url(#glow-filter)"/>
+    <circle  cx="145" cy="120" r="2" fill="#FF6600"/>
+
+    <!-- ── CROWN ── -->
+    <rect x="103" y="95" width="84" height="14" rx="5" fill="#AA7700"/>
+    <rect x="105" y="97" width="80" height="10" rx="4" fill="#F4C430"/>
+    <circle cx="120" cy="102" r="3.5" fill="#FF2200"/>
+    <circle cx="135" cy="102" r="3.5" fill="#00AAFF" opacity="0.8"/>
+    <circle cx="145" cy="102" r="4"   fill="#FF2200"/>
+    <circle cx="155" cy="102" r="3.5" fill="#00AAFF" opacity="0.8"/>
+    <circle cx="170" cy="102" r="3.5" fill="#FF2200"/>
+    <polygon points="113,96  124,58  135,96" fill="url(#crown-grad)"/>
+    <polygon points="125,96  134,52  143,96" fill="#F4C430"/>
+    <polygon points="138,96  145,46  152,96" fill="url(#crown-grad)" filter="url(#glow-filter)"/>
+    <polygon points="147,96  156,52  165,96" fill="#F4C430"/>
+    <polygon points="155,96  166,58  177,96" fill="url(#crown-grad)"/>
+    <circle cx="124"  cy="59" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
+    <circle cx="134"  cy="53" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
+    <circle cx="145"  cy="47" r="6" fill="#F4C430" filter="url(#strong-glow)"/>
+    <circle cx="156"  cy="53" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
+    <circle cx="166"  cy="59" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
+    <ellipse cx="145" cy="43" rx="5" ry="7" fill="#F4C430" filter="url(#strong-glow)"/>
+  </svg>
+
+  <div id="spark-container" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></div>
+</div>
+
+<!-- ═══ MAIN SCROLL CONTENT ═══ -->
+<main>
+
+  <!-- 01 · HERO -->
+  <section id="s0" class="visible">
+    <span class="pre-label">Strategic B2B Execution</span>
+    <span class="om-symbol">ॐ</span>
+    <h1>Hanuman<br>Solutions</h1>
+    <p class="tagline">Where devotion meets unstoppable execution.</p>
+    <div class="divider"></div>
+    <p>I am the son of Vayu. I have crossed oceans, lifted mountains, and brought victory where defeat seemed certain. Now, we stand ready to automate your bottlenecks and build the solutions others deem impossible.</p>
+    <div class="chips">
+      <div class="chip">Data & Workflow Automation</div>
+      <div class="chip">VBA & Scripting</div>
+      <div class="chip">Rapid Prototyping</div>
+      <div class="chip">Custom B2B Tools</div>
+    </div>
+    <div class="ghost-num">01</div>
+  </section>
+
+  <!-- 02 · STRENGTH -->
+  <section id="s1">
+    <span class="pre-label">Our Muscle</span>
+    <h2>Mountains Were<br><span>Made to Move</span></h2>
+    <div class="divider"></div>
+    <p>When Lord Ram needed the Sanjeevani herb, I did not waste time identifying it. I brought the entire mountain. That is not stubbornness—that is an absolute commitment to the mission.</p>
+    <p>Every business bottleneck gets the full weight of our technical strength. No half-measures. No fragile code. Only heavy-lifting solutions that scale.</p>
+    <div class="chips">
+      <div class="chip">Robust Architectures</div>
+      <div class="chip">High-Performance Macros</div>
+      <div class="chip">Hardware Integrations</div>
+    </div>
+    <div class="ghost-num">02</div>
+  </section>
+
+  <!-- 03 · DEVOTION -->
+  <section id="s2">
+    <span class="pre-label">Our Philosophy</span>
+    <h2>Devotion Is<br><span>Our Strategy</span></h2>
+    <div class="divider"></div>
+    <p>I leapt across the ocean—not because I was ordered to—but because my heart demanded it. In business, devotion translates to relentless customer success.</p>
+    <p>Your operational challenges become our mission. We architect bespoke systems and physical prototypes with zero ego and pure execution focus.</p>
+    <div class="chips">
+      <div class="chip">100% Client Dedication</div>
+      <div class="chip">Agile Delivery</div>
+      <div class="chip">Continuous Optimization</div>
+    </div>
+    <div class="ghost-num">03</div>
+  </section>
+
+  <!-- 04 · WHAT WE DO -->
+  <section id="s3">
+    <span class="pre-label">Capabilities</span>
+    <h2>Name Your Lanka.<br><span>We'll Build the Bridge.</span></h2>
+    <div class="divider"></div>
+    <p>Lanka was guarded by armies across an impossible ocean. Every complex supply chain, messy data silo, or unbuilt prototype looks like Lanka—until we arrive.</p>
+    <p>From complex spreadsheet engineering to rapid 3D part fabrication, tell us your impossible.</p>
+    <div class="chips">
+      <div class="chip">📊 Automated Dashboards</div>
+      <div class="chip">⚙️ Process Automation</div>
+      <div class="chip">🛠 3D Prototyping</div>
+      <div class="chip">⚡ System Integrations</div>
+    </div>
+    <div class="ghost-num">04</div>
+  </section>
+
+  <!-- 05 · CTA -->
+  <section id="s4">
+    <span class="pre-label">Initiate Protocol</span>
+    <span class="om-symbol" style="font-size: 2.5rem;">🔱</span>
+    <h2>Jai Shri Ram.<br><span>Assign the Mission.</span></h2>
+    <div class="divider"></div>
+    <p>The tech ecosystem is vast. Whether you need the high-level AI strategy of ViaDecide, or the heavy-lifting, custom solutions of Hanuman, the pipeline is ready.</p>
+    <div class="contact-grid">
+      <input class="field" type="text" placeholder="Commander Name">
+      <input class="field" type="email" placeholder="Secure Comm Link (Email)">
+      <textarea class="field field-full" placeholder="Describe your operational bottleneck. No challenge too great."></textarea>
+    </div>
+    <button class="cta-btn">Initiate Deployment</button>
+    <div class="ghost-num">05</div>
+  </section>
+
+</main>
+
+<!-- Scroll hint -->
+<div id="scroll-hint">
+  <div class="sh-line"></div>
+  <span class="sh-text">SCROLL TO DESCEND</span>
+</div>
+
+<!-- Mantra bar -->
+<div id="mantra-bar">
+  <div class="mantra-track">
+    <span>🙏 JAI SHRI RAM</span><span class="mantra-sep">•</span>
+    <span>ॐ</span><span class="mantra-sep">•</span>
+    <span>JAI BAJRANG BALI</span><span class="mantra-sep">•</span>
+    <span>SANKAT MOCHAN</span><span class="mantra-sep">•</span>
+    <span>HANUMAN.SOLUTIONS</span><span class="mantra-sep">•</span>
+    <span>EVERY OBSTACLE SHALL FALL</span><span class="mantra-sep">•</span>
+    <span>🙏 JAI SHRI RAM</span><span class="mantra-sep">•</span>
+    <span>ॐ</span><span class="mantra-sep">•</span>
+    <span>JAI BAJRANG BALI</span><span class="mantra-sep">•</span>
+    <span>SANKAT MOCHAN</span><span class="mantra-sep">•</span>
+    <span>HANUMAN.SOLUTIONS</span><span class="mantra-sep">•</span>
+    <span>EVERY OBSTACLE SHALL FALL</span><span class="mantra-sep">•</span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ══════════════════════════════════════════
+// THREE.JS — DIVINE PARTICLE COSMOS
+// ══════════════════════════════════════════
+const canvas = document.getElementById('bg');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.z = 50;
+
+// Star field
+const starCount = 2000;
+const starPos = new Float32Array(starCount * 3);
+const starCol = new Float32Array(starCount * 3);
+
+for (let i = 0; i < starCount; i++) {
+  starPos[i*3]   = (Math.random()-0.5)*200;
+  starPos[i*3+1] = (Math.random()-0.5)*200;
+  starPos[i*3+2] = (Math.random()-0.5)*100;
+
+  const r = Math.random();
+  if (r < 0.3) { starCol[i*3]=0.95; starCol[i*3+1]=0.76; starCol[i*3+2]=0.18; }      // gold
+  else if (r < 0.6) { starCol[i*3]=1; starCol[i*3+1]=0.4; starCol[i*3+2]=0; }        // saffron
+  else { starCol[i*3]=0.8; starCol[i*3+1]=0.8; starCol[i*3+2]=0.8; }                 // dim white
+}
+
+const starGeom = new THREE.BufferGeometry();
+starGeom.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+starGeom.setAttribute('color', new THREE.BufferAttribute(starCol, 3));
+const starMat = new THREE.PointsMaterial({ size: 1, vertexColors: true, transparent: true, opacity: 0.6, sizeAttenuation: true });
+const stars = new THREE.Points(starGeom, starMat);
+scene.add(stars);
+
+// Ember drift
+const emberCount = 150;
+const ePos = new Float32Array(emberCount * 3);
+const eVel = new Float32Array(emberCount * 3);
+
+for (let i = 0; i < emberCount; i++) {
+  ePos[i*3]   = (Math.random()-0.5)*80;
+  ePos[i*3+1] = (Math.random()-0.5)*80;
+  ePos[i*3+2] = Math.random()*20 + 5;
+  eVel[i*3]   = (Math.random()-0.5)*0.02;
+  eVel[i*3+1] = Math.random()*0.05 + 0.02;
+  eVel[i*3+2] = 0;
+}
+
+const eGeom = new THREE.BufferGeometry();
+eGeom.setAttribute('position', new THREE.BufferAttribute(ePos, 3));
+const eMat = new THREE.PointsMaterial({ color: 0xFF6700, size: 2, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+const embers = new THREE.Points(eGeom, eMat);
+scene.add(embers);
+
+let scrollY = 0;
+let time = 0;
+let targetCamX = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  time += 0.003;
+
+  stars.rotation.y = time * 0.05;
+  stars.rotation.z = time * 0.02;
+
+  const ep = embers.geometry.attributes.position.array;
+  for (let i = 0; i < emberCount; i++) {
+    ep[i*3]   += eVel[i*3];
+    ep[i*3+1] += eVel[i*3+1];
+    if (ep[i*3+1] > 40) { ep[i*3+1] = -40; ep[i*3] = (Math.random()-0.5)*80; }
+  }
+  embers.geometry.attributes.position.needsUpdate = true;
+  embers.rotation.y = time * 0.02;
+
+  camera.position.x += (targetCamX - camera.position.x) * 0.05;
+  camera.position.y = -scrollY * 0.01 + Math.sin(time)*0.5;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// ══════════════════════════════════════════
+// SCROLL SYSTEM + HUD LOGIC
+// ══════════════════════════════════════════
+const sections   = document.querySelectorAll('section');
+const navDots    = document.querySelectorAll('.dot');
+const progressBar = document.getElementById('progress-bar');
+const scrollHint = document.getElementById('scroll-hint');
+const hud = document.getElementById('divine-hud');
+const hudContent = document.getElementById('hud-content');
+const hanumanSvg = document.getElementById('hanuman-svg');
+const sparkContainer = document.getElementById('spark-container');
+
+const directives = [
+  "SYSTEM_BOOT: Awaiting command. Ready to lift impossible loads.",
+  "LOG_ENTRY: Sanjeevani protocol initiated. Executing without hesitation.",
+  "STATUS: Devotion engine running at 100%. No obstacle detected.",
+  "SCAN_COMPLETE: Lanka identified. Architecting bridge deployment.",
+  "AWAITING_INPUT: Sankat Mochan systems online. Awaiting mission parameters. 🔱"
+];
+
+const hanumanClasses = ['state-0', 'state-1', 'state-2', 'state-3', 'state-4'];
+let currentIdx = -1;
+
+function switchSection(idx) {
+  if (idx === currentIdx) return;
+  currentIdx = idx;
+
+  hanumanSvg.className = '';
+  if (hanumanClasses[idx]) hanumanSvg.classList.add(hanumanClasses[idx]);
+
+  targetCamX = (idx % 2 === 0) ? -2 : 2;
+
+  hud.classList.remove('show');
+  setTimeout(() => {
+    hudContent.innerHTML = directives[idx];
+    hud.classList.add('show');
+  }, 400);
+
+  navDots.forEach((d,i) => d.classList.toggle('active', i === idx));
+  spawnSparks(idx === 4 ? 20 : 8);
+}
+
+function spawnSparks(count) {
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const s = document.createElement('div');
+      s.className = 'spark';
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 40 + Math.random() * 80;
+      s.style.setProperty('--dx', Math.cos(angle)*dist + 'px');
+      s.style.setProperty('--dy', Math.sin(angle)*dist + 'px');
+      s.style.setProperty('--dur', (0.5 + Math.random()*0.5) + 's');
+      s.style.left = '50%';
+      s.style.top  = '50%';
+      const size   = 2 + Math.random()*4;
+      s.style.width = size + 'px'; s.style.height = size + 'px';
+      s.style.background = Math.random() > 0.5 ? '#F4C430' : '#FF6700';
+      s.style.boxShadow  = `0 0 ${size*2}px ${s.style.background}`;
+      sparkContainer.appendChild(s);
+      setTimeout(() => s.remove(), 1200);
+    }, i * 30);
+  }
+}
+
+window.addEventListener('scroll', () => {
+  scrollY = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min((scrollY/total)*100, 100) + '%';
+
+  if (scrollY > 50) scrollHint.classList.add('gone');
+
+  sections.forEach((sec, i) => {
+    const r = sec.getBoundingClientRect();
+    // Trigger animations when section is near middle of viewport
+    if (r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.4) {
+      switchSection(i);
+    }
+    // Fade in section text
+    if (r.top < window.innerHeight * 0.85) {
+      sec.classList.add('visible');
+    }
+  });
+}, { passive: true });
+
+navDots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    sections[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+});
+
+setTimeout(() => { switchSection(0); sections[0].classList.add('visible'); }, 500);
+
+// Parallax effect on desktop only
+if (window.innerWidth > 768) {
+  document.addEventListener('mousemove', (e) => {
+    const cx = window.innerWidth/2;
+    const cy = window.innerHeight/2;
+    const dx = (e.clientX - cx) / cx;
+    const dy = (e.clientY - cy) / cy;
+    targetCamX = dx * 3;
+    const wrap = document.getElementById('hanuman-wrap');
+    wrap.style.transform = `perspective(1000px) rotateY(${dx*-4}deg) rotateX(${dy*2}deg)`;
+  });
+}
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
+
