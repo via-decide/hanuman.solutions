@@ -125,7 +125,7 @@
     50% { transform: translateY(-25px) scale(1.08); }
   }
 
-  /* ─── DIVINE HUD (Replaced Speech Bubble) ─── */
+  /* ─── DIVINE HUD ─── */
   #divine-hud {
     position: absolute;
     left: -200px; top: 55%;
@@ -331,6 +331,7 @@
     position: relative;
     overflow: hidden;
     margin-top: 24px;
+    width: fit-content;
   }
   .cta-btn::after {
     content: '';
@@ -349,7 +350,7 @@
   /* ─── CONTACT FIELDS ─── */
   .contact-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-    margin-top: 32px; max-width: 540px;
+    margin-top: 32px; max-width: 540px; width: 100%;
   }
   .field {
     background: rgba(10, 5, 2, 0.5);
@@ -471,6 +472,7 @@
     .ghost-num { font-size: 8rem; right: -1rem; }
     #scroll-hint { left: 3.5rem; bottom: 50px; }
     #nav-dots { left: 12px; }
+    .cta-btn { width: 100%; } /* Full width button on mobile */
   }
 </style>
 </head>
@@ -744,12 +746,26 @@
     <h2>Jai Shri Ram.<br><span>Assign the Mission.</span></h2>
     <div class="divider"></div>
     <p>The tech ecosystem is vast. Whether you need the high-level AI strategy of ViaDecide, or the heavy-lifting, custom solutions of Hanuman, the pipeline is ready.</p>
-    <div class="contact-grid">
-      <input class="field" type="text" placeholder="Commander Name">
-      <input class="field" type="email" placeholder="Secure Comm Link (Email)">
-      <textarea class="field field-full" placeholder="Describe your operational bottleneck. No challenge too great."></textarea>
-    </div>
-    <button class="cta-btn">Initiate Deployment</button>
+    
+    <!-- FormSubmit Integration -->
+    <form action="https://formsubmit.co/dharam@viadecide.com" method="POST" id="deployment-form">
+      <!-- Honeypot for spam bots -->
+      <input type="text" name="_honey" style="display:none">
+      <!-- Disable captcha for premium UX -->
+      <input type="hidden" name="_captcha" value="false">
+      <!-- Subject line format -->
+      <input type="hidden" name="_subject" value="New Mission Deployment - Hanuman Solutions">
+      <!-- Disable default Next page redirect to allow JS handling -->
+      <input type="hidden" name="_next" value="">
+
+      <div class="contact-grid">
+        <input class="field" type="text" name="Commander_Name" placeholder="Commander Name" required>
+        <input class="field" type="email" name="Email" placeholder="Secure Comm Link (Email)" required>
+        <textarea class="field field-full" name="Mission_Details" placeholder="Describe your operational bottleneck. No challenge too great." required></textarea>
+      </div>
+      <button type="submit" class="cta-btn" id="submit-btn">Initiate Deployment</button>
+    </form>
+    
     <div class="ghost-num">05</div>
   </section>
 
@@ -973,7 +989,61 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// ══════════════════════════════════════════
+// FORM SUBMISSION HANDLING (AJAX)
+// ══════════════════════════════════════════
+const form = document.getElementById('deployment-form');
+const submitBtn = document.getElementById('submit-btn');
+
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent default redirect to FormSubmit success page
+    
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = 'Transmitting...';
+    submitBtn.style.pointerEvents = 'none';
+    submitBtn.style.opacity = '0.8';
+
+    try {
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json' // Crucial to prevent redirect
+        }
+      });
+
+      if (response.ok) {
+        // Success State
+        submitBtn.innerHTML = 'Mission Received 🔱';
+        submitBtn.style.background = 'linear-gradient(135deg, #1A4D2E, #4F6F52)'; // Success Green
+        submitBtn.style.boxShadow = '0 8px 32px rgba(79, 111, 82, 0.4)';
+        form.reset(); // Clear form fields
+        
+        // Reset button after 5 seconds
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.style.background = '';
+          submitBtn.style.boxShadow = '';
+          submitBtn.style.pointerEvents = 'auto';
+          submitBtn.style.opacity = '1';
+        }, 5000);
+      } else {
+        throw new Error('Network response was not ok.');
+      }
+    } catch (error) {
+      // Error State
+      console.error(error);
+      submitBtn.innerHTML = 'Transmission Failed. Retry.';
+      submitBtn.style.pointerEvents = 'auto';
+      submitBtn.style.opacity = '1';
+    }
+  });
+}
 </script>
 </body>
 </html>
+
 
