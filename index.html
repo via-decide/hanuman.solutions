@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<script src="https://cdn.vercel-insights.com/v1/script.js"></script>
 <style>
   :root {
     --saffron: #FF6700;
@@ -85,348 +85,238 @@
     transition: opacity 0.5s ease;
   }
 
+  /* Divine Target Sun */
+  #divine-sun {
+    position: absolute;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, #FFFFFF 0%, #F4C430 40%, #FF6700 80%, transparent 100%);
+    border-radius: 50%;
+    top: -300px; right: 5%;
+    opacity: 0;
+    filter: blur(15px);
+    transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: -1;
+  }
+  
+  .state-1 #divine-sun { top: 5vh; right: 10%; opacity: 0.8; transform: scale(1.1); filter: blur(20px); }
+  .state-3 #divine-sun { top: 12vh; right: 35%; opacity: 1; transform: scale(1); filter: blur(8px); }
+
   #hanuman-svg {
-    width: min(80%, 450px);
+    width: min(90%, 550px);
     height: auto;
-    filter: drop-shadow(0 0 30px rgba(255, 103, 0, 0.3));
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
-    transform-origin: center 80%;
+    filter: drop-shadow(0 0 40px rgba(255, 103, 0, 0.25));
+    transition: filter 1s ease;
+    overflow: visible;
   }
 
-  /* Refined Ethereal Animations */
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-12px) rotate(0.5deg); }
+  /* ══════════════════════════════════════════
+     DIVINE PUPPET RIG (MATURE & MUSCULAR)
+     ══════════════════════════════════════════ */
+  
+  [id^="sw-"] {
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.3, 1); /* Heavy, powerful movements */
   }
-  @keyframes glow-pulse {
-    0%, 100% { filter: drop-shadow(0 0 25px rgba(255, 103, 0, 0.3)); }
-    50% { filter: drop-shadow(0 0 50px rgba(244, 196, 48, 0.5)); }
-  }
+  
+  [id^="aw-"] { transform-origin: inherit; }
 
-  #hanuman-svg.state-0 { animation: float 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
-  #hanuman-svg.state-1 { animation: float-tall 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
-  #hanuman-svg.state-2 { animation: float-bow 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
-  #hanuman-svg.state-3 { animation: float-point 6s ease-in-out infinite, glow-pulse 5s ease-in-out infinite; }
-  #hanuman-svg.state-4 { animation: float-triumph 5s ease-in-out infinite, glow-pulse 4s ease-in-out infinite; }
+  /* New Pivot Points for the 400x550 Canvas */
+  #sw-puppet { transform-origin: 200px 480px; }
+  #sw-tail   { transform-origin: 200px 450px; }
+  #sw-body   { transform-origin: 200px 380px; }
+  #sw-arm-L  { transform-origin: 105px 200px; }
+  #sw-arm-R  { transform-origin: 295px 200px; }
+  #sw-head   { transform-origin: 200px 170px; }
 
-  @keyframes float-tall {
-    0%, 100% { transform: translateY(-10px) scale(1.02); }
-    50% { transform: translateY(-20px) scale(1.04) rotate(-1deg); }
+  /* State 0: Meditating (Idle) */
+  .state-0 #sw-puppet { transform: translateY(0) rotate(0) scale(1); }
+  .state-0 #sw-tail   { transform: rotate(0); }
+  .state-0 #sw-body   { transform: rotate(0); }
+  .state-0 #sw-arm-L  { transform: rotate(0); }
+  .state-0 #sw-arm-R  { transform: rotate(0); }
+  .state-0 #sw-head   { transform: rotate(0); }
+
+  /* State 1: Power/Strength (Calm Levitation, deep breathing) */
+  .state-1 #sw-puppet { transform: translateY(-30px) scale(1.02); }
+  .state-1 #sw-tail   { transform: rotate(10deg); }
+  .state-1 #sw-body   { transform: rotate(0deg); }
+  .state-1 #sw-arm-L  { transform: rotate(0deg); }
+  .state-1 #sw-arm-R  { transform: rotate(0deg); }
+  .state-1 #sw-head   { transform: rotate(-5deg); }
+
+  /* State 2: Devotion (Deeply Bowed, grounding) */
+  .state-2 #sw-puppet { transform: translateY(10px) scale(0.98); }
+  .state-2 #sw-tail   { transform: rotate(-5deg); }
+  .state-2 #sw-body   { transform: rotate(5deg); }
+  .state-2 #sw-arm-L  { transform: rotate(5deg); }
+  .state-2 #sw-arm-R  { transform: rotate(-5deg); }
+  .state-2 #sw-head   { transform: rotate(12deg); }
+
+  /* State 3: Capabilities (Floating calmly) */
+  .state-3 #sw-puppet { transform: translateY(-20px) scale(1); }
+  .state-3 #sw-tail   { transform: rotate(5deg); }
+  .state-3 #sw-body   { transform: rotate(0deg); }
+  .state-3 #sw-arm-L  { transform: rotate(0deg); } /* Arms remain peaceful */
+  .state-3 #sw-arm-R  { transform: rotate(0deg); }
+  .state-3 #sw-head   { transform: rotate(-2deg); }
+
+  /* State 4: CTA (Triumphant Inner Focus) */
+  .state-4 #sw-puppet { transform: translateY(-15px) scale(1.05); }
+  .state-4 #sw-tail   { transform: rotate(8deg); }
+  .state-4 #sw-body   { transform: rotate(0deg); }
+  .state-4 #sw-arm-L  { transform: rotate(0deg); }
+  .state-4 #sw-arm-R  { transform: rotate(0deg); }
+  .state-4 #sw-head   { transform: rotate(0deg); }
+
+  /* Continuous Heavy Breathing Animations */
+  @keyframes breath-puppet { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+  @keyframes breath-tail   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(4deg);} }
+  @keyframes breath-body   { 0%,100%{transform:scaleY(1);} 50%{transform:scaleY(1.02);} }
+  @keyframes breath-armL   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(-2deg);} }
+  @keyframes breath-armR   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(2deg);} }
+  @keyframes breath-head   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(-2deg);} }
+  
+  @keyframes power-aura { 0%,100%{opacity:0.6; transform:scale(1);} 50%{opacity:1; transform:scale(1.05);} }
+
+  #aw-puppet { animation: breath-puppet 6s infinite ease-in-out; }
+  #aw-tail   { animation: breath-tail 5s infinite ease-in-out; }
+  #aw-body   { animation: breath-body 4s infinite ease-in-out; }
+  #aw-arm-L  { animation: breath-armL 4.5s infinite ease-in-out; }
+  #aw-arm-R  { animation: breath-armR 5s infinite ease-in-out; }
+  #aw-head   { animation: breath-head 6.5s infinite ease-in-out; }
+
+  .state-1 #aw-puppet { animation: breath-puppet 2s infinite ease-in-out; } /* Faster breathing when powered up */
+
+  /* Facial Expressions (Blinking) */
+  @keyframes blink { 
+    0%, 96%, 100% { transform: scaleY(1); } 
+    98% { transform: scaleY(0.1); } 
   }
-  @keyframes float-bow {
-    0%, 100% { transform: translateY(5px) rotate(3deg) scale(0.98); }
-    50% { transform: translateY(-5px) rotate(2deg) scale(0.99); }
-  }
-  @keyframes float-point {
-    0%, 100% { transform: translateY(-5px) rotate(-2deg); }
-    50% { transform: translateY(-15px) rotate(-1deg) scale(1.02); }
-  }
-  @keyframes float-triumph {
-    0%, 100% { transform: translateY(-15px) scale(1.05); }
-    50% { transform: translateY(-25px) scale(1.08); }
-  }
+  #h-eyes { transform-origin: 200px 125px; animation: blink 5s infinite; }
 
   /* ─── DIVINE HUD ─── */
   #divine-hud {
-    position: absolute;
-    left: -200px; top: 55%;
-    transform: translateY(-50%) translateX(20px);
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
-    border-radius: 8px;
-    padding: 20px 24px;
-    width: 320px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    position: absolute; left: -200px; top: 55%; transform: translateY(-50%) translateX(20px);
+    background: var(--surface); border: 1px solid var(--surface-border); border-radius: 8px;
+    padding: 20px 24px; width: 320px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 103, 0, 0.05);
-    opacity: 0;
-    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    opacity: 0; transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none; display: flex; flex-direction: column; gap: 8px;
   }
-  
   #divine-hud::before {
-    content: '';
-    position: absolute; top: 0; left: 0; width: 2px; height: 100%;
+    content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%;
     background: linear-gradient(to bottom, transparent, var(--saffron), var(--gold), transparent);
   }
-
-  #divine-hud.show {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
+  #divine-hud.show { opacity: 1; transform: translateY(-50%) translateX(0); }
   
   .hud-header {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--saffron);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--saffron);
+    letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;
   }
   .hud-indicator {
     width: 6px; height: 6px; background: var(--gold); border-radius: 50%;
-    box-shadow: 0 0 8px var(--gold);
-    animation: blink 2s infinite;
+    box-shadow: 0 0 8px var(--gold); animation: blink-fast 2s infinite;
   }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @keyframes blink-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  .hud-text {
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: var(--text-main);
-    line-height: 1.6;
-    font-style: italic;
-  }
+  .hud-text { font-family: var(--font-sans); font-size: 0.95rem; font-weight: 300; color: var(--text-main); line-height: 1.6; font-style: italic; }
 
   /* ─── MAIN CONTENT ─── */
-  main {
-    position: relative; z-index: 5;
-    width: 50vw; 
-    padding: 0 4rem 0 6rem;
-  }
-
+  main { position: relative; z-index: 5; width: 50vw; padding: 0 4rem 0 6rem; }
   section {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 6rem 0;
-    position: relative;
-    opacity: 0;
-    transform: translateY(40px);
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 0; position: relative; opacity: 0; transform: translateY(40px);
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  section.visible { opacity: 1; transform: translateY(0); }
 
-  /* Typography */
   .pre-label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 4px;
-    color: var(--saffron);
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    display: flex; align-items: center; gap: 12px;
-    opacity: 0.8;
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 4px; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; opacity: 0.8;
   }
-  .pre-label::before {
-    content: '';
-    display: block; width: 40px; height: 1px;
-    background: var(--saffron);
-  }
+  .pre-label::before { content: ''; display: block; width: 40px; height: 1px; background: var(--saffron); }
 
   .om-symbol {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    color: var(--saffron);
-    text-shadow: 0 0 30px var(--saffron-glow);
-    display: block;
-    margin-bottom: 16px;
-    line-height: 1;
+    font-family: var(--font-display); font-size: 3.5rem; color: var(--saffron);
+    text-shadow: 0 0 30px var(--saffron-glow); display: block; margin-bottom: 16px; line-height: 1;
   }
 
   h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 900;
-    line-height: 1.1;
-    background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 40%, var(--saffron) 80%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 24px;
-    text-shadow: 0 4px 30px rgba(255, 103, 0, 0.15);
+    font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900;
+    line-height: 1.1; background: linear-gradient(135deg, #FFFFFF 0%, var(--gold) 40%, var(--saffron) 80%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 24px; text-shadow: 0 4px 30px rgba(255, 103, 0, 0.15);
   }
 
-  h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 3.5vw, 3.2rem);
-    font-weight: 700;
-    color: #FFF;
-    margin-bottom: 24px;
-    line-height: 1.15;
-  }
-  h2 span {
-    color: var(--gold);
-  }
+  h2 { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 700; color: #FFF; margin-bottom: 24px; line-height: 1.15; }
+  h2 span { color: var(--gold); }
 
-  .tagline {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--gold);
-    margin-bottom: 32px;
-    line-height: 1.6;
-  }
+  .tagline { font-size: 1.25rem; font-weight: 500; color: var(--gold); margin-bottom: 32px; line-height: 1.6; }
+  p { font-size: 1.1rem; font-weight: 300; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; max-width: 540px; }
+  .divider { width: 60px; height: 2px; background: linear-gradient(90deg, var(--saffron), transparent); margin: 32px 0; }
 
-  p {
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1.8;
-    margin-bottom: 20px;
-    max-width: 540px;
-  }
-
-  .divider {
-    width: 60px; height: 2px;
-    background: linear-gradient(90deg, var(--saffron), transparent);
-    margin: 32px 0;
-  }
-
-  /* Big ghost number */
   .ghost-num {
-    position: absolute;
-    right: 0; top: 50%;
-    transform: translateY(-50%);
-    font-family: var(--font-display);
-    font-size: 12rem; font-weight: 900;
-    color: rgba(255, 103, 0, 0.03);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    z-index: -1;
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    font-family: var(--font-display); font-size: 12rem; font-weight: 900;
+    color: rgba(255, 103, 0, 0.03); line-height: 1; pointer-events: none; user-select: none; z-index: -1;
   }
 
-  /* Tech Chips */
   .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; max-width: 540px; }
   .chip {
-    padding: 8px 16px;
-    border: 1px solid var(--surface-border);
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--text-main);
-    background: var(--surface);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
+    padding: 8px 16px; border: 1px solid var(--surface-border); border-radius: 4px;
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-main);
+    background: var(--surface); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all 0.3s ease;
   }
   .chip:hover {
-    border-color: var(--gold);
-    background: rgba(244, 196, 48, 0.1);
-    color: var(--gold);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 103, 0, 0.2);
+    border-color: var(--gold); background: rgba(244, 196, 48, 0.1); color: var(--gold);
+    transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 103, 0, 0.2);
   }
 
-  /* CTA Button */
   .cta-btn {
     display: inline-flex; align-items: center; justify-content: center;
-    padding: 18px 48px;
-    background: linear-gradient(135deg, var(--saffron), #CC4400);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border: none; border-radius: 4px;
+    padding: 18px 48px; background: linear-gradient(135deg, var(--saffron), #CC4400);
+    color: #fff; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; border: none; border-radius: 4px;
     box-shadow: 0 8px 32px var(--saffron-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
-    margin-top: 24px;
-    width: fit-content;
+    cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative; overflow: hidden; margin-top: 24px; width: fit-content;
   }
   .cta-btn::after {
-    content: '';
-    position: absolute; top: 0; left: -100%;
-    width: 50%; height: 100%;
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transform: skewX(-20deg);
-    transition: left 0.6s ease;
+    transform: skewX(-20deg); transition: left 0.6s ease;
   }
-  .cta-btn:hover { 
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(255, 103, 0, 0.5);
-  }
+  .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(255, 103, 0, 0.5); }
   .cta-btn:hover::after { left: 150%; }
 
-  /* ─── CONTACT FIELDS ─── */
-  .contact-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-    margin-top: 32px; max-width: 540px; width: 100%;
-  }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; max-width: 540px; width: 100%; }
   .field {
-    background: rgba(10, 5, 2, 0.5);
-    border: 1px solid var(--surface-border);
-    border-radius: 4px;
-    padding: 16px;
-    font-family: var(--font-sans);
-    font-size: 1rem; color: #fff;
-    outline: none;
-    transition: all 0.3s ease;
-    width: 100%;
-    backdrop-filter: blur(8px);
+    background: rgba(10, 5, 2, 0.5); border: 1px solid var(--surface-border); border-radius: 4px;
+    padding: 16px; font-family: var(--font-sans); font-size: 1rem; color: #fff; outline: none;
+    transition: all 0.3s ease; width: 100%; backdrop-filter: blur(8px);
   }
   .field::placeholder { color: rgba(255, 255, 255, 0.3); }
-  .field:focus {
-    border-color: var(--saffron);
-    box-shadow: 0 0 0 1px var(--saffron), 0 0 20px rgba(255, 103, 0, 0.15);
-    background: rgba(20, 10, 5, 0.8);
-  }
+  .field:focus { border-color: var(--saffron); box-shadow: 0 0 0 1px var(--saffron), 0 0 20px rgba(255, 103, 0, 0.15); background: rgba(20, 10, 5, 0.8); }
   .field-full { grid-column: 1 / -1; resize: vertical; min-height: 120px; }
 
-  /* ─── SCROLL INDICATOR ─── */
-  #scroll-hint {
-    position: fixed; bottom: 40px; left: 6rem;
-    z-index: 50;
-    display: flex; align-items: center; gap: 16px;
-    transition: opacity 0.5s ease;
-  }
+  #scroll-hint { position: fixed; bottom: 40px; left: 6rem; z-index: 50; display: flex; align-items: center; gap: 16px; transition: opacity 0.5s ease; }
   #scroll-hint.gone { opacity: 0; pointer-events: none; }
-  .sh-line {
-    width: 40px; height: 1px;
-    background: var(--surface-border);
-    position: relative; overflow: hidden;
-  }
-  .sh-line::after {
-    content: ''; position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: var(--gold);
-    animation: sh-anim 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
+  .sh-line { width: 40px; height: 1px; background: var(--surface-border); position: relative; overflow: hidden; }
+  .sh-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--gold); animation: sh-anim 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
   @keyframes sh-anim { to { left: 100%; } }
-  .sh-text {
-    font-family: var(--font-mono);
-    font-size: 0.65rem; letter-spacing: 4px; color: var(--text-muted);
-  }
+  .sh-text { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 4px; color: var(--text-muted); }
 
-  /* ─── MANTRA MARQUEE ─── */
   #mantra-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(10, 5, 0, 0.6);
-    border-top: 1px solid var(--surface-border);
-    padding: 8px 0; z-index: 150;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    overflow: hidden;
+    position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 5, 0, 0.6);
+    border-top: 1px solid var(--surface-border); padding: 8px 0; z-index: 150;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); overflow: hidden;
   }
-  .mantra-track {
-    display: inline-flex; gap: 0; white-space: nowrap;
-    animation: marquee 30s linear infinite;
-  }
-  .mantra-track span {
-    font-family: var(--font-mono);
-    font-size: 0.65rem; letter-spacing: 3px;
-    color: var(--text-muted);
-    padding: 0 24px;
-    text-transform: uppercase;
-  }
+  .mantra-track { display: inline-flex; gap: 0; white-space: nowrap; animation: marquee 30s linear infinite; }
+  .mantra-track span { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 3px; color: var(--text-muted); padding: 0 24px; text-transform: uppercase; }
   .mantra-sep { color: var(--saffron) !important; }
   @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-  /* ─── DIVINE SPARKS ─── */
   .spark {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
+    position: absolute; border-radius: 50%; pointer-events: none;
     animation: spark-fly var(--dur) cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
   @keyframes spark-fly {
@@ -434,7 +324,6 @@
     100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
   }
 
-  /* ─── RESPONSIVE DESIGN (MOBILE FIRST OVERRIDES) ─── */
   @media (max-width: 1024px) {
     main { width: 60vw; padding: 0 3rem 0 5rem; }
     #hanuman-wrap { width: 40vw; }
@@ -442,38 +331,17 @@
   }
 
   @media (max-width: 768px) {
-    /* Stack layout */
     main { width: 100vw; padding: 0 1.5rem 6rem 3.5rem; }
-    
-    /* Hanuman moves to background */
-    #hanuman-wrap { 
-      width: 100vw; height: 100vh; 
-      opacity: 0.15; /* Subtle watermark */
-      z-index: 0;
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-    #hanuman-svg { 
-      width: 120%; max-width: none; 
-      transform: translate(20%, 20%); /* Peek from bottom right */
-    }
-    
-    /* HUD adjusts */
-    #divine-hud {
-      position: fixed;
-      top: auto; bottom: 60px; left: 1rem; right: 1rem;
-      width: auto;
-      transform: translateY(20px);
-    }
+    #hanuman-wrap { width: 100vw; height: 100vh; opacity: 0.2; z-index: 0; justify-content: flex-end; align-items: flex-end; }
+    #hanuman-svg { width: 140%; max-width: none; transform: translate(15%, 15%); }
+    #divine-hud { position: fixed; top: auto; bottom: 60px; left: 1rem; right: 1rem; width: auto; transform: translateY(20px); }
     #divine-hud.show { transform: translateY(0); }
     #divine-hud::before { width: 100%; height: 2px; top: -1px; left: 0; background: linear-gradient(to right, transparent, var(--saffron), transparent); }
-
-    /* Forms & Utilities */
     .contact-grid { grid-template-columns: 1fr; }
     .ghost-num { font-size: 8rem; right: -1rem; }
     #scroll-hint { left: 3.5rem; bottom: 50px; }
     #nav-dots { left: 12px; }
-    .cta-btn { width: 100%; } /* Full width button on mobile */
+    .cta-btn { width: 100%; }
   }
 </style>
 </head>
@@ -482,7 +350,6 @@
 <canvas id="bg"></canvas>
 <div id="progress-bar"></div>
 
-<!-- Nav dots -->
 <div id="nav-dots">
   <div class="dot active" data-i="0"></div>
   <div class="dot" data-i="1"></div>
@@ -493,191 +360,284 @@
 
 <!-- ═══ HANUMAN & HUD ═══ -->
 <div id="hanuman-wrap">
+  <div id="divine-sun"></div>
   <div id="divine-hud">
-    <div class="hud-header">
-      <div class="hud-indicator"></div>
-      System Directive
-    </div>
+    <div class="hud-header"><div class="hud-indicator"></div>System Directive</div>
     <div class="hud-text" id="hud-content">Initializing divine protocols...</div>
   </div>
 
-  <svg id="hanuman-svg" viewBox="0 0 290 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- MATURE, MUSCULAR HANUMAN SVG -->
+  <svg id="hanuman-svg" viewBox="0 0 400 550" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <radialGradient id="aura" cx="50%" cy="40%" r="50%">
-        <stop offset="0%" stop-color="#F4C430" stop-opacity="0.35"/>
-        <stop offset="60%" stop-color="#FF6700" stop-opacity="0.1"/>
-        <stop offset="100%" stop-color="#FF6700" stop-opacity="0"/>
+      <!-- Base Glowing Auras -->
+      <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#00A2A8" stop-opacity="0.4"/> <!-- Teal/Turquoise aura matching image -->
+        <stop offset="60%" stop-color="#006666" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
       </radialGradient>
-      <radialGradient id="mace-shine" cx="35%" cy="30%" r="65%">
-        <stop offset="0%" stop-color="#FFFDE0"/>
-        <stop offset="45%" stop-color="#F4C430"/>
-        <stop offset="100%" stop-color="#A07800"/>
+      
+      <!-- Powerful Dark Brown Skin Gradients -->
+      <radialGradient id="skin-chest" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#6B4226"/>
+        <stop offset="80%" stop-color="#4A2A18"/>
+        <stop offset="100%" stop-color="#2D160C"/>
       </radialGradient>
-      <radialGradient id="face-grad" cx="50%" cy="40%" r="55%">
-        <stop offset="0%" stop-color="#F07000"/>
-        <stop offset="100%" stop-color="#C04500"/>
-      </radialGradient>
-      <radialGradient id="body-grad" cx="40%" cy="30%" r="65%">
-        <stop offset="0%" stop-color="#F06020"/>
-        <stop offset="100%" stop-color="#BB4000"/>
-      </radialGradient>
-      <filter id="glow-filter">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="strong-glow">
-        <feGaussianBlur stdDeviation="5" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
+      <linearGradient id="skin-arm" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#3A1F10"/>
+        <stop offset="50%" stop-color="#6B4226"/>
+        <stop offset="100%" stop-color="#2D160C"/>
+      </linearGradient>
+
+      <!-- Saffron Attire -->
       <linearGradient id="dhoti-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#F4C430"/>
-        <stop offset="100%" stop-color="#CC9900"/>
+        <stop offset="0%" stop-color="#FF8C00"/>
+        <stop offset="60%" stop-color="#CC5500"/>
+        <stop offset="100%" stop-color="#8B3A00"/>
       </linearGradient>
-      <linearGradient id="crown-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#FFFAAA"/>
-        <stop offset="40%" stop-color="#F4C430"/>
-        <stop offset="100%" stop-color="#AA7700"/>
+      <linearGradient id="shawl-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#FFA500"/>
+        <stop offset="50%" stop-color="#FFD700"/>
+        <stop offset="100%" stop-color="#FF8C00"/>
       </linearGradient>
+
+      <!-- Grey/White Hair & Beard -->
+      <linearGradient id="beard-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="40%" stop-color="#AAB0B5"/>
+        <stop offset="100%" stop-color="#555B60"/>
+      </linearGradient>
+
+      <!-- Divination Filters -->
+      <filter id="glow-filter"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="strong-glow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
 
-    <!-- OUTER DIVINE AURA -->
-    <circle cx="145" cy="155" r="112" fill="url(#aura)" opacity="0.8"/>
-    <circle cx="145" cy="155" r="102" fill="none" stroke="url(#crown-grad)" stroke-width="1" opacity="0.45" stroke-dasharray="6 10"/>
-    <circle cx="145" cy="155" r="92" fill="none" stroke="#F4C430" stroke-width="0.5" opacity="0.25"/>
+    <!-- TEAL AURA (matching reference painting background) -->
+    <circle cx="200" cy="275" r="220" fill="url(#aura)" id="power-aura-bg" style="animation: power-aura 4s infinite"/>
 
-    <!-- ── TAIL ── (behind everything) -->
-    <path d="M158,390 Q198,358 222,295 Q248,228 264,170 Q278,118 268,75 Q260,50 242,62" stroke="#993300" stroke-width="22" fill="none" stroke-linecap="round"/>
-    <path d="M158,390 Q198,358 222,295 Q248,228 264,170 Q278,118 268,75 Q260,50 242,62" stroke="#DD5500" stroke-width="14" fill="none" stroke-linecap="round"/>
-    <path d="M158,390 Q198,358 222,295 Q248,228 264,170 Q278,118 268,75 Q260,50 242,62" stroke="rgba(255,140,0,0.35)" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <!-- Tail flame tip -->
-    <ellipse cx="242" cy="55" rx="17" ry="21" fill="#CC3300"/>
-    <ellipse cx="242" cy="49" rx="11" ry="15" fill="#FF6600"/>
-    <ellipse cx="242" cy="44" rx="6" ry="10" fill="#F4C430" filter="url(#glow-filter)"/>
-    <ellipse cx="242" cy="41" rx="3" ry="6" fill="#FFFFFF" opacity="0.7"/>
+    <!-- FULL PUPPET MASTER WRAPPER -->
+    <g id="sw-puppet">
+      <g id="aw-puppet">
 
-    <!-- ── LEGS ── -->
-    <path d="M115,355 Q105,400 108,440" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
-    <path d="M170,355 Q182,400 180,440" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
-    <ellipse cx="110" cy="445" rx="24" ry="11" fill="#A03800"/>
-    <ellipse cx="178" cy="445" rx="24" ry="11" fill="#A03800"/>
-    <path d="M95,438 Q110,432 125,438" stroke="#F4C430" stroke-width="2.5" fill="none"/>
-    <path d="M163,438 Q178,432 193,438" stroke="#F4C430" stroke-width="2.5" fill="none"/>
+        <!-- ── TAIL RIG (Massive, Textured Rope) ── -->
+        <g id="sw-tail">
+          <g id="aw-tail">
+            <!-- Tail Base Shadow -->
+            <path d="M 180,430 C 80,400 30,250 80,100 C 120,-10 280,0 320,50" fill="none" stroke="#2D160C" stroke-width="26" stroke-linecap="round"/>
+            <!-- Tail Main -->
+            <path d="M 180,430 C 80,400 30,250 80,100 C 120,-10 280,0 320,50" fill="none" stroke="#6B4226" stroke-width="20" stroke-linecap="round"/>
+            <!-- Tail Rope Texture (Braided look) -->
+            <path d="M 180,430 C 80,400 30,250 80,100 C 120,-10 280,0 320,50" fill="none" stroke="#4A2A18" stroke-width="20" stroke-dasharray="6 8" stroke-linecap="round"/>
+            <path d="M 180,430 C 80,400 30,250 80,100 C 120,-10 280,0 320,50" fill="none" stroke="#8A5A38" stroke-width="6" stroke-dasharray="10 15" opacity="0.6"/>
+            <!-- Tail Tuft (White/Grey Hair) -->
+            <path d="M 310,40 C 330,30 360,40 370,60 C 350,70 330,65 315,60 C 340,75 360,85 360,95 C 340,90 320,80 310,70 Z" fill="url(#beard-grad)"/>
+          </g>
+        </g>
 
-    <!-- ── DHOTI ── -->
-    <path d="M95,308 Q100,365 108,408 L180,408 Q188,365 195,308 Z" fill="url(#dhoti-grad)"/>
-    <path d="M120,308 L132,408 Q145,418 158,408 L170,308 Z" fill="#DDA800" opacity="0.7"/>
-    <rect x="90" y="304" width="110" height="13" rx="5" fill="#AA8800"/>
-    <rect x="92" y="306" width="106" height="9" rx="4" fill="#F4C430"/>
-    <circle cx="145" cy="310" r="5" fill="#FF4400"/>
-    <circle cx="145" cy="310" r="3" fill="#F4C430"/>
+        <!-- ── STATIC LEGS (Lotus/Padmasana) ── -->
+        <g id="h-legs">
+          <!-- Back layer fold -->
+          <path d="M 150,450 C 100,500 50,520 60,540 C 150,560 250,560 340,540 C 350,520 300,500 250,450 Z" fill="#8B3A00"/>
+          
+          <!-- Right Leg (Folded inward) -->
+          <path d="M 200,430 C 280,430 380,450 380,510 C 380,550 280,550 200,530 C 150,520 180,480 200,430 Z" fill="url(#dhoti-grad)" stroke="#FFB347" stroke-width="2"/>
+          <!-- Right foot sole peeking out -->
+          <ellipse cx="160" cy="510" rx="15" ry="8" fill="#4A2A18" transform="rotate(-15, 160, 510)"/>
 
-    <!-- ── BODY / TORSO ── -->
-    <ellipse cx="145" cy="270" rx="56" ry="76" fill="url(#body-grad)"/>
-    <path d="M118,240 Q145,255 172,240" stroke="rgba(180,60,0,0.5)" stroke-width="2" fill="none"/>
-    <ellipse cx="145" cy="285" rx="28" ry="22" fill="rgba(150,45,0,0.3)"/>
-    <path d="M105,228 Q145,260 178,232 Q188,225 192,232 Q200,245 188,258" stroke="#F4C430" stroke-width="2.5" fill="none" opacity="0.85"/>
+          <!-- Left Leg (Folded over right) -->
+          <path d="M 200,430 C 120,430 20,450 20,510 C 20,550 120,550 200,530 C 250,520 220,480 200,430 Z" fill="url(#dhoti-grad)" stroke="#FFB347" stroke-width="2"/>
+          <!-- Left foot sole peeking out -->
+          <ellipse cx="240" cy="510" rx="15" ry="8" fill="#4A2A18" transform="rotate(15, 240, 510)"/>
+          
+          <!-- Dhoti Folds & Center drape -->
+          <path d="M 180,440 C 190,480 210,480 220,440 C 210,490 190,490 180,440 Z" fill="#FFD700" opacity="0.8"/>
+          <path d="M 50,510 C 100,530 150,530 200,520" fill="none" stroke="#CC5500" stroke-width="4"/>
+          <path d="M 350,510 C 300,530 250,530 200,520" fill="none" stroke="#CC5500" stroke-width="4"/>
+        </g>
 
-    <!-- ── LEFT ARM ── -->
-    <path d="M93,244 Q62,272 42,305 Q34,322 46,336" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
-    <ellipse cx="50" cy="343" rx="21" ry="17" fill="#C04500"/>
-    <path d="M38,332 L28,312" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
-    <path d="M43,328 L34,307" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
-    <path d="M50,326 L44,304" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
-    <path d="M57,328 L54,306" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
-    <path d="M63,333 L64,314" stroke="#C04500" stroke-width="9" stroke-linecap="round"/>
-    <rect x="55" y="278" width="28" height="10" rx="5" fill="#F4C430"/>
-    <rect x="57" y="280" width="24" height="6" rx="3" fill="#FFEC60"/>
+        <!-- ── UPPER BODY RIG (Massive Torso) ── -->
+        <g id="sw-body">
+          <g id="aw-body">
+            
+            <!-- Waistband -->
+            <rect x="150" y="420" width="100" height="25" rx="5" fill="#FFD700"/>
+            <rect x="155" y="425" width="90" height="15" rx="3" fill="#CC5500"/>
 
-    <!-- ── RIGHT ARM ── -->
-    <path d="M197,244 Q222,260 232,286" stroke="#C04500" stroke-width="30" fill="none" stroke-linecap="round"/>
-    <ellipse cx="235" cy="296" rx="17" ry="14" fill="#C04500"/>
-    <rect x="207" y="260" width="28" height="10" rx="5" fill="#F4C430"/>
-    <rect x="209" y="262" width="24" height="6" rx="3" fill="#FFEC60"/>
+            <!-- Torso Base (Broad V-Taper) -->
+            <path d="M 150,425 C 130,320 80,220 100,180 L 300,180 C 320,220 270,320 250,425 Z" fill="url(#skin-chest)"/>
+            
+            <!-- 8-Pack Abs (Deep definition) -->
+            <!-- Row 1 -->
+            <rect x="168" y="270" width="28" height="30" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <rect x="204" y="270" width="28" height="30" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <!-- Row 2 -->
+            <rect x="165" y="305" width="32" height="32" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <rect x="203" y="305" width="32" height="32" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <!-- Row 3 -->
+            <rect x="162" y="342" width="36" height="34" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <rect x="202" y="342" width="36" height="34" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <!-- Row 4 -->
+            <rect x="165" y="380" width="34" height="30" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
+            <rect x="201" y="380" width="34" height="30" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
 
-    <!-- ── MACE (Gada) ── -->
-    <rect x="239" y="182" width="11" height="125" rx="5" fill="#7A5800" transform="rotate(12,244,244)"/>
-    <rect x="241" y="184" width="7" height="121" rx="4" fill="#A07A20" transform="rotate(12,244,244)"/>
-    <rect x="239" y="250" width="11" height="6" rx="3" fill="#F4C430" transform="rotate(12,244,277)"/>
-    <rect x="239" y="278" width="11" height="6" rx="3" fill="#F4C430" transform="rotate(12,244,281)"/>
-    <circle cx="258" cy="170" r="32" fill="url(#mace-shine)" filter="url(#glow-filter)"/>
-    <circle cx="258" cy="170" r="25" fill="#F4C430" opacity="0.45"/>
-    <circle cx="258" cy="170" r="16" fill="rgba(255,255,220,0.7)"/>
-    <circle cx="258" cy="138" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle cx="258" cy="202" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle cx="226" cy="170" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle cx="290" cy="170" r="6" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle cx="235" cy="147" r="5" fill="#F4C430"/>
-    <circle cx="281" cy="147" r="5" fill="#F4C430"/>
-    <circle cx="235" cy="193" r="5" fill="#F4C430"/>
-    <circle cx="281" cy="193" r="5" fill="#F4C430"/>
+            <!-- Massive Pectorals -->
+            <!-- Left Pec -->
+            <path d="M 198,180 C 160,180 110,190 100,230 C 100,270 160,280 198,260 Z" fill="#6B4226" stroke="#2D160C" stroke-width="4"/>
+            <!-- Right Pec -->
+            <path d="M 202,180 C 240,180 290,190 300,230 C 300,270 240,280 202,260 Z" fill="#6B4226" stroke="#2D160C" stroke-width="4"/>
+            
+            <!-- Pec highlights -->
+            <path d="M 130,210 C 150,200 180,200 190,210" fill="none" stroke="#8A5A38" stroke-width="3" stroke-linecap="round"/>
+            <path d="M 270,210 C 250,200 220,200 210,210" fill="none" stroke="#8A5A38" stroke-width="3" stroke-linecap="round"/>
 
-    <!-- ── HEAD & NECK ── -->
-    <rect x="128" y="192" width="34" height="36" rx="14" fill="#C04500"/>
-    <path d="M112,220 Q145,238 178,220" stroke="#F4C430" stroke-width="2.5" fill="none"/>
-    <circle cx="120" cy="224" r="4.5" fill="#FF6B00"/>
-    <circle cx="131" cy="229" r="4.5" fill="#F4C430"/>
-    <circle cx="145" cy="231" r="5"   fill="#FF4400"/>
-    <circle cx="159" cy="229" r="4.5" fill="#F4C430"/>
-    <circle cx="170" cy="224" r="4.5" fill="#FF6B00"/>
-    <ellipse cx="145" cy="235" rx="7" ry="9" fill="#F4C430"/>
-    <ellipse cx="145" cy="235" rx="4" ry="6" fill="#FF4400"/>
-    
-    <ellipse cx="145" cy="148" rx="50" ry="54" fill="url(#face-grad)"/>
-    <ellipse cx="96" cy="148" rx="15" ry="20" fill="#C04500"/>
-    <ellipse cx="96" cy="148" rx="9"  ry="13" fill="#8B3000"/>
-    <ellipse cx="194" cy="148" rx="15" ry="20" fill="#C04500"/>
-    <ellipse cx="194" cy="148" rx="9"  ry="13" fill="#8B3000"/>
-    <ellipse cx="145" cy="164" rx="24" ry="20" fill="#B03800"/>
+            <!-- ── LEFT ARM RIG (Huge Biceps & Bracers) ── -->
+            <g id="sw-arm-L">
+              <g id="aw-arm-L">
+                <!-- Deltoid -->
+                <circle cx="105" cy="200" r="35" fill="url(#skin-arm)" stroke="#2D160C" stroke-width="3"/>
+                <!-- Upper Arm (Bicep/Tricep) -->
+                <path d="M 80,180 C 30,240 40,290 60,330 C 90,340 120,310 135,210 Z" fill="url(#skin-arm)" stroke="#2D160C" stroke-width="3"/>
+                <!-- Forearm angled inward to rest on lap -->
+                <path d="M 55,320 C 50,380 90,440 140,480 C 160,460 140,410 100,320 Z" fill="url(#skin-arm)" stroke="#2D160C" stroke-width="3"/>
+                <!-- Muscle definitions -->
+                <path d="M 70,240 C 90,260 100,280 100,300" fill="none" stroke="#3A1F10" stroke-width="3"/>
+                <path d="M 75,370 C 95,400 115,420 125,430" fill="none" stroke="#3A1F10" stroke-width="3"/>
+                
+                <!-- Silver Wrist Bracer -->
+                <rect x="100" y="445" width="40" height="15" rx="4" fill="#E0E5E9" transform="rotate(-35, 120, 450)" stroke="#747D84" stroke-width="2"/>
+                <rect x="98" y="450" width="44" height="5" fill="#FFFFFF" transform="rotate(-35, 120, 450)" opacity="0.6"/>
 
-    <!-- ── EYES & DETAILS ── -->
-    <ellipse cx="128" cy="140" rx="12" ry="13" fill="#FFF8F0"/>
-    <ellipse cx="162" cy="140" rx="12" ry="13" fill="#FFF8F0"/>
-    <ellipse cx="129" cy="141" rx="8"  ry="9"  fill="#8B4000"/>
-    <ellipse cx="163" cy="141" rx="8"  ry="9"  fill="#8B4000"/>
-    <circle cx="130" cy="142" r="5" fill="#0A0300"/>
-    <circle cx="164" cy="142" r="5" fill="#0A0300"/>
-    <circle cx="130" cy="142" r="2.5" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle cx="164" cy="142" r="2.5" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle cx="127" cy="139" r="1.8" fill="white"/>
-    <circle cx="161" cy="139" r="1.8" fill="white"/>
-    <path d="M114,130 Q126,122 136,128" stroke="#6B1A00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <path d="M154,128 Q164,122 176,130" stroke="#6B1A00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <ellipse cx="145" cy="156" rx="9" ry="7" fill="#A03000"/>
-    <circle cx="140" cy="158" r="3.5" fill="#701500"/>
-    <circle cx="150" cy="158" r="3.5" fill="#701500"/>
-    <path d="M130,172 Q145,182 160,172" stroke="#701500" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <ellipse cx="145" cy="126" rx="6"  ry="10" fill="#CC0000"/>
-    <ellipse cx="145" cy="124" rx="3.5" ry="6" fill="#F4C430" filter="url(#glow-filter)"/>
-    <circle  cx="145" cy="120" r="2" fill="#FF6600"/>
+                <!-- Rudraksha Armband (Bicep) -->
+                <path d="M 50,260 C 70,275 100,275 120,250" fill="none" stroke="#4A2511" stroke-width="8" stroke-dasharray="8 4" stroke-linecap="round"/>
 
-    <!-- ── CROWN ── -->
-    <rect x="103" y="95" width="84" height="14" rx="5" fill="#AA7700"/>
-    <rect x="105" y="97" width="80" height="10" rx="4" fill="#F4C430"/>
-    <circle cx="120" cy="102" r="3.5" fill="#FF2200"/>
-    <circle cx="135" cy="102" r="3.5" fill="#00AAFF" opacity="0.8"/>
-    <circle cx="145" cy="102" r="4"   fill="#FF2200"/>
-    <circle cx="155" cy="102" r="3.5" fill="#00AAFF" opacity="0.8"/>
-    <circle cx="170" cy="102" r="3.5" fill="#FF2200"/>
-    <polygon points="113,96  124,58  135,96" fill="url(#crown-grad)"/>
-    <polygon points="125,96  134,52  143,96" fill="#F4C430"/>
-    <polygon points="138,96  145,46  152,96" fill="url(#crown-grad)" filter="url(#glow-filter)"/>
-    <polygon points="147,96  156,52  165,96" fill="#F4C430"/>
-    <polygon points="155,96  166,58  177,96" fill="url(#crown-grad)"/>
-    <circle cx="124"  cy="59" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
-    <circle cx="134"  cy="53" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
-    <circle cx="145"  cy="47" r="6" fill="#F4C430" filter="url(#strong-glow)"/>
-    <circle cx="156"  cy="53" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
-    <circle cx="166"  cy="59" r="5" fill="#FF2200" filter="url(#glow-filter)"/>
-    <ellipse cx="145" cy="43" rx="5" ry="7" fill="#F4C430" filter="url(#strong-glow)"/>
+                <!-- Hand resting in lap -->
+                <circle cx="150" cy="485" r="15" fill="#5C3820"/>
+                <path d="M 140,490 C 150,495 160,495 170,490" fill="none" stroke="#3A1F10" stroke-width="2"/>
+              </g>
+            </g>
+
+            <!-- ── RIGHT ARM RIG ── -->
+            <g id="sw-arm-R">
+              <g id="aw-arm-R">
+                <!-- Deltoid -->
+                <circle cx="295" cy="200" r="35" fill="url(#skin-arm)" stroke="#2D160C" stroke-width="3"/>
+                <!-- Upper Arm -->
+                <path d="M 320,180 C 370,240 360,290 340,330 C 310,340 280,310 265,210 Z" fill="url(#skin-arm)" stroke="#2D160C" stroke-width="3"/>
+                <!-- Forearm -->
+                <path d="M 345,320 C 350,380 310,440 260,480 C 240,460 260,410 300,320 Z" fill="url(#skin-arm)" stroke="#2D160C" stroke-width="3"/>
+                <!-- Muscle definitions -->
+                <path d="M 330,240 C 310,260 300,280 300,300" fill="none" stroke="#3A1F10" stroke-width="3"/>
+                <path d="M 325,370 C 305,400 285,420 275,430" fill="none" stroke="#3A1F10" stroke-width="3"/>
+                
+                <!-- Silver Wrist Bracer -->
+                <rect x="260" y="445" width="40" height="15" rx="4" fill="#E0E5E9" transform="rotate(35, 280, 450)" stroke="#747D84" stroke-width="2"/>
+                <rect x="258" y="450" width="44" height="5" fill="#FFFFFF" transform="rotate(35, 280, 450)" opacity="0.6"/>
+
+                <!-- Rudraksha Armband (Bicep) -->
+                <path d="M 350,260 C 330,275 300,275 280,250" fill="none" stroke="#4A2511" stroke-width="8" stroke-dasharray="8 4" stroke-linecap="round"/>
+
+                <!-- Hand resting in lap -->
+                <circle cx="250" cy="485" r="15" fill="#5C3820"/>
+                <path d="M 260,490 C 250,495 240,495 230,490" fill="none" stroke="#3A1F10" stroke-width="2"/>
+              </g>
+            </g>
+
+            <!-- Saffron Shawl (Angavastram) draped over shoulders with "RAM RAM" texture -->
+            <!-- Left Drape -->
+            <path d="M 120,170 C 90,220 80,300 110,400 C 130,380 120,280 150,180 Z" fill="url(#shawl-grad)" stroke="#CC5500" stroke-width="2"/>
+            <text x="95" y="280" font-size="8" fill="#A03A00" font-weight="bold" transform="rotate(-15, 95, 280)">राम</text>
+            <text x="105" y="320" font-size="8" fill="#A03A00" font-weight="bold" transform="rotate(-10, 105, 320)">राम</text>
+            <text x="100" y="360" font-size="8" fill="#A03A00" font-weight="bold" transform="rotate(-20, 100, 360)">राम</text>
+
+            <!-- Right Drape -->
+            <path d="M 280,170 C 310,220 320,300 290,400 C 270,380 280,280 250,180 Z" fill="url(#shawl-grad)" stroke="#CC5500" stroke-width="2"/>
+            <text x="290" y="280" font-size="8" fill="#A03A00" font-weight="bold" transform="rotate(15, 290, 280)">राम</text>
+            <text x="280" y="320" font-size="8" fill="#A03A00" font-weight="bold" transform="rotate(10, 280, 320)">राम</text>
+            <text x="285" y="360" font-size="8" fill="#A03A00" font-weight="bold" transform="rotate(20, 285, 360)">राम</text>
+
+            <!-- Long Rudraksha Mala (Necklace) -->
+            <path d="M 160,180 C 120,280 160,400 200,400 C 240,400 280,280 240,180" fill="none" stroke="#4A2511" stroke-width="12" stroke-dasharray="12 6" stroke-linecap="round" filter="url(#glow-filter)"/>
+            
+          </g>
+        </g> <!-- End Body Rig -->
+
+        <!-- ── HEAD RIG (Majestic, Bearded, Intense) ── -->
+        <g id="sw-head">
+          <g id="aw-head">
+            
+            <!-- Flowing Back Hair -->
+            <path d="M 160,120 C 100,180 120,250 150,280 C 170,250 150,180 180,150 Z" fill="url(#beard-grad)"/>
+            <path d="M 240,120 C 300,180 280,250 250,280 C 230,250 250,180 220,150 Z" fill="url(#beard-grad)"/>
+
+            <!-- Face Base (Strong, Square Jaw) -->
+            <path d="M 160,100 C 160,50 240,50 240,100 C 250,160 230,200 200,210 C 170,200 150,160 160,100 Z" fill="#5C3820"/>
+            
+            <!-- Deep shading on cheeks -->
+            <path d="M 160,130 C 170,160 180,180 200,190 C 220,180 230,160 240,130 C 230,180 170,180 160,130 Z" fill="#3A1F10" opacity="0.6"/>
+
+            <!-- Magnificent Grey Beard -->
+            <path d="M 155,160 C 110,220 140,320 200,340 C 260,320 290,220 245,160 C 230,200 170,200 155,160 Z" fill="url(#beard-grad)" filter="url(#glow-filter)"/>
+            <!-- Beard texture lines -->
+            <path d="M 170,180 C 160,240 180,300 200,320" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.5"/>
+            <path d="M 230,180 C 240,240 220,300 200,320" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.5"/>
+            <path d="M 190,200 C 190,250 195,300 200,330" fill="none" stroke="#555B60" stroke-width="3" opacity="0.4"/>
+            <path d="M 210,200 C 210,250 205,300 200,330" fill="none" stroke="#555B60" stroke-width="3" opacity="0.4"/>
+
+            <!-- Strong Nose -->
+            <path d="M 195,110 L 190,150 L 210,150 L 205,110 Z" fill="#4A2A18"/>
+            <path d="M 190,150 C 190,160 210,160 210,150" fill="none" stroke="#2D160C" stroke-width="3"/>
+
+            <!-- Serene Eyes Group -->
+            <g id="h-eyes">
+              <!-- Calm, curved eyebrows -->
+              <path d="M 165,120 Q 180,112 195,120" fill="none" stroke="#E0E5E9" stroke-width="5" stroke-linecap="round"/>
+              <path d="M 235,120 Q 220,112 205,120" fill="none" stroke="#E0E5E9" stroke-width="5" stroke-linecap="round"/>
+              
+              <!-- Eye Sockets (Dark) -->
+              <ellipse cx="178" cy="128" rx="12" ry="6" fill="#2D160C"/>
+              <ellipse cx="222" cy="128" rx="12" ry="6" fill="#2D160C"/>
+              
+              <!-- Sclera (White) -->
+              <ellipse cx="178" cy="129" rx="10" ry="4" fill="#FFFFFF"/>
+              <ellipse cx="222" cy="129" rx="10" ry="4" fill="#FFFFFF"/>
+              
+              <!-- Glowing Golden Irises -->
+              <circle cx="178" cy="129" r="3.5" fill="#FFD700" filter="url(#glow-filter)"/>
+              <circle cx="222" cy="129" r="3.5" fill="#FFD700" filter="url(#glow-filter)"/>
+              <circle cx="178" cy="129" r="1.5" fill="#000000"/>
+              <circle cx="222" cy="129" r="1.5" fill="#000000"/>
+              
+              <!-- Gentle Smile -->
+              <path d="M 190,165 Q 200,172 210,165" fill="none" stroke="#1A0D07" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+
+            <!-- Divine Tilak (Forehead Marking) -->
+            <path d="M 190,95 C 190,115 210,115 210,95" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+            <rect x="198" y="90" width="4" height="15" fill="#FF2200" rx="2" filter="url(#glow-filter)"/>
+
+            <!-- Top Knot (Jata) -->
+            <ellipse cx="200" cy="55" rx="20" ry="25" fill="url(#beard-grad)"/>
+            <path d="M 185,55 C 185,30 215,30 215,55" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.6"/>
+
+            <!-- Saffron Ribbon tying the hair -->
+            <rect x="180" y="65" width="40" height="10" rx="3" fill="#FF8C00"/>
+            <!-- Ribbon tails flowing in the wind -->
+            <path d="M 215,70 C 250,60 280,80 320,50 C 300,70 260,80 215,75 Z" fill="#FF8C00" filter="url(#glow-filter)"/>
+            <path d="M 215,75 C 240,80 270,100 310,80 C 290,95 250,90 215,80 Z" fill="#FFA500"/>
+
+          </g>
+        </g> <!-- End Head Rig -->
+
+      </g>
+    </g> <!-- End Puppet Master -->
+
   </svg>
-
   <div id="spark-container" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></div>
 </div>
 
 <!-- ═══ MAIN SCROLL CONTENT ═══ -->
 <main>
 
-  <!-- 01 · HERO -->
   <section id="s0" class="visible">
     <span class="pre-label">Strategic B2B Execution</span>
     <span class="om-symbol">ॐ</span>
@@ -694,7 +654,6 @@
     <div class="ghost-num">01</div>
   </section>
 
-  <!-- 02 · STRENGTH -->
   <section id="s1">
     <span class="pre-label">Our Muscle</span>
     <h2>Mountains Were<br><span>Made to Move</span></h2>
@@ -709,7 +668,6 @@
     <div class="ghost-num">02</div>
   </section>
 
-  <!-- 03 · DEVOTION -->
   <section id="s2">
     <span class="pre-label">Our Philosophy</span>
     <h2>Devotion Is<br><span>Our Strategy</span></h2>
@@ -724,7 +682,6 @@
     <div class="ghost-num">03</div>
   </section>
 
-  <!-- 04 · WHAT WE DO -->
   <section id="s3">
     <span class="pre-label">Capabilities</span>
     <h2>Name Your Lanka.<br><span>We'll Build the Bridge.</span></h2>
@@ -740,7 +697,6 @@
     <div class="ghost-num">04</div>
   </section>
 
-  <!-- 05 · CTA -->
   <section id="s4">
     <span class="pre-label">Initiate Protocol</span>
     <span class="om-symbol" style="font-size: 2.5rem;">🔱</span>
@@ -748,15 +704,10 @@
     <div class="divider"></div>
     <p>The tech ecosystem is vast. Whether you need the high-level AI strategy of ViaDecide, or the heavy-lifting, custom solutions of Hanuman, the pipeline is ready.</p>
     
-    <!-- FormSubmit Integration -->
     <form action="https://formsubmit.co/dharam@viadecide.com" method="POST" id="deployment-form">
-      <!-- Honeypot for spam bots -->
       <input type="text" name="_honey" style="display:none">
-      <!-- Disable captcha for premium UX -->
       <input type="hidden" name="_captcha" value="false">
-      <!-- Subject line format -->
       <input type="hidden" name="_subject" value="New Mission Deployment - Hanuman Solutions">
-      <!-- Disable default Next page redirect to allow JS handling -->
       <input type="hidden" name="_next" value="">
 
       <div class="contact-grid">
@@ -772,13 +723,11 @@
 
 </main>
 
-<!-- Scroll hint -->
 <div id="scroll-hint">
   <div class="sh-line"></div>
   <span class="sh-text">SCROLL TO DESCEND</span>
 </div>
 
-<!-- Mantra bar -->
 <div id="mantra-bar">
   <div class="mantra-track">
     <span>🙏 JAI SHRI RAM</span><span class="mantra-sep">•</span>
@@ -822,7 +771,7 @@ for (let i = 0; i < starCount; i++) {
 
   const r = Math.random();
   if (r < 0.3) { starCol[i*3]=0.95; starCol[i*3+1]=0.76; starCol[i*3+2]=0.18; }      // gold
-  else if (r < 0.6) { starCol[i*3]=1; starCol[i*3+1]=0.4; starCol[i*3+2]=0; }        // saffron
+  else if (r < 0.6) { starCol[i*3]=0.0; starCol[i*3+1]=0.6; starCol[i*3+2]=0.6; }        // teal/turquoise
   else { starCol[i*3]=0.8; starCol[i*3+1]=0.8; starCol[i*3+2]=0.8; }                 // dim white
 }
 
@@ -843,7 +792,7 @@ for (let i = 0; i < emberCount; i++) {
   ePos[i*3+1] = (Math.random()-0.5)*80;
   ePos[i*3+2] = Math.random()*20 + 5;
   eVel[i*3]   = (Math.random()-0.5)*0.02;
-  eVel[i*3+1] = Math.random()*0.05 + 0.02;
+  eVel[i*3+1] = Math.random()*0.05 + 0.02; 
   eVel[i*3+2] = 0;
 }
 
@@ -857,17 +806,25 @@ let scrollY = 0;
 let time = 0;
 let targetCamX = 0;
 
+let targetEmberSpeed = 0.05;
+let currentEmberSpeed = 0.05;
+let targetStarSpeed = 0.05;
+let currentStarSpeed = 0.05;
+
 function animate() {
   requestAnimationFrame(animate);
   time += 0.003;
 
-  stars.rotation.y = time * 0.05;
-  stars.rotation.z = time * 0.02;
+  currentEmberSpeed += (targetEmberSpeed - currentEmberSpeed) * 0.05;
+  currentStarSpeed += (targetStarSpeed - currentStarSpeed) * 0.05;
+
+  stars.rotation.y = time * currentStarSpeed;
+  stars.rotation.z = time * (currentStarSpeed * 0.4);
 
   const ep = embers.geometry.attributes.position.array;
   for (let i = 0; i < emberCount; i++) {
     ep[i*3]   += eVel[i*3];
-    ep[i*3+1] += eVel[i*3+1];
+    ep[i*3+1] += eVel[i*3+1] + currentEmberSpeed; 
     if (ep[i*3+1] > 40) { ep[i*3+1] = -40; ep[i*3] = (Math.random()-0.5)*80; }
   }
   embers.geometry.attributes.position.needsUpdate = true;
@@ -893,10 +850,10 @@ const hanumanSvg = document.getElementById('hanuman-svg');
 const sparkContainer = document.getElementById('spark-container');
 
 const directives = [
-  "SYSTEM_BOOT: Awaiting command. Ready to lift impossible loads.",
-  "LOG_ENTRY: Sanjeevani protocol initiated. Executing without hesitation.",
-  "STATUS: Devotion engine running at 100%. No obstacle detected.",
-  "SCAN_COMPLETE: Lanka identified. Architecting bridge deployment.",
+  "SYSTEM_BOOT: Deep meditation established. Inner strength at maximum.",
+  "LOG_ENTRY: Power unlocked. Levitating with immovable calm.",
+  "STATUS: Deep devotion channel open. Architecting structural stability.",
+  "SCAN_COMPLETE: Target acquired. Channeling immense, peaceful force.",
   "AWAITING_INPUT: Sankat Mochan systems online. Awaiting mission parameters. 🔱"
 ];
 
@@ -909,6 +866,17 @@ function switchSection(idx) {
 
   hanumanSvg.className = '';
   if (hanumanClasses[idx]) hanumanSvg.classList.add(hanumanClasses[idx]);
+
+  if (idx === 1) { 
+    targetEmberSpeed = 0.15; /* Calm, steady rise */
+    targetStarSpeed = 0.08;
+  } else if (idx === 3) { 
+    targetEmberSpeed = 0.1;
+    targetStarSpeed = 0.06;
+  } else { 
+    targetEmberSpeed = 0.05;
+    targetStarSpeed = 0.05;
+  }
 
   targetCamX = (idx % 2 === 0) ? -2 : 2;
 
@@ -953,11 +921,9 @@ window.addEventListener('scroll', () => {
 
   sections.forEach((sec, i) => {
     const r = sec.getBoundingClientRect();
-    // Trigger animations when section is near middle of viewport
     if (r.top <= window.innerHeight * 0.6 && r.bottom >= window.innerHeight * 0.4) {
       switchSection(i);
     }
-    // Fade in section text
     if (r.top < window.innerHeight * 0.85) {
       sec.classList.add('visible');
     }
@@ -972,7 +938,6 @@ navDots.forEach((dot, i) => {
 
 setTimeout(() => { switchSection(0); sections[0].classList.add('visible'); }, 500);
 
-// Parallax effect on desktop only
 if (window.innerWidth > 768) {
   document.addEventListener('mousemove', (e) => {
     const cx = window.innerWidth/2;
@@ -991,16 +956,13 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// ══════════════════════════════════════════
-// FORM SUBMISSION HANDLING (AJAX)
-// ══════════════════════════════════════════
+// Form Submission
 const form = document.getElementById('deployment-form');
 const submitBtn = document.getElementById('submit-btn');
 
 if (form) {
   form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent default redirect to FormSubmit success page
-    
+    e.preventDefault();
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = 'Transmitting...';
     submitBtn.style.pointerEvents = 'none';
@@ -1009,21 +971,14 @@ if (form) {
     try {
       const formData = new FormData(form);
       const response = await fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json' // Crucial to prevent redirect
-        }
+        method: 'POST', body: formData, headers: { 'Accept': 'application/json' }
       });
 
       if (response.ok) {
-        // Success State
         submitBtn.innerHTML = 'Mission Received 🔱';
-        submitBtn.style.background = 'linear-gradient(135deg, #1A4D2E, #4F6F52)'; // Success Green
+        submitBtn.style.background = 'linear-gradient(135deg, #1A4D2E, #4F6F52)';
         submitBtn.style.boxShadow = '0 8px 32px rgba(79, 111, 82, 0.4)';
-        form.reset(); // Clear form fields
-        
-        // Reset button after 5 seconds
+        form.reset();
         setTimeout(() => {
           submitBtn.innerHTML = originalText;
           submitBtn.style.background = '';
@@ -1031,11 +986,8 @@ if (form) {
           submitBtn.style.pointerEvents = 'auto';
           submitBtn.style.opacity = '1';
         }, 5000);
-      } else {
-        throw new Error('Network response was not ok.');
-      }
+      } else throw new Error('Network error');
     } catch (error) {
-      // Error State
       console.error(error);
       submitBtn.innerHTML = 'Transmission Failed. Retry.';
       submitBtn.style.pointerEvents = 'auto';
@@ -1046,5 +998,6 @@ if (form) {
 </script>
 </body>
 </html>
+
 
 
