@@ -6,12 +6,12 @@
   function formatEvent(event) {
     const time = new Date(event.timestamp).toISOString().slice(11, 19);
     const type = String(event.attack_type || event.type || 'bot_scanner').replaceAll('_', ' ');
-    const source = String(event.source || 'unknown');
+    const action = String(event.action || 'blocked');
     return `
       <article class="feed-item">
         <div class="feed-time">${time}</div>
         <div class="feed-title">${type}</div>
-        <div class="feed-meta">Target: ${event.site} • IP: ${event.ip} • Source: ${source}</div>
+        <div class="feed-meta">Target: ${event.site} • Action: ${action} • Source: ${event.source || 'unknown'}</div>
       </article>
     `;
   }

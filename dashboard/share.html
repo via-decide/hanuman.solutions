@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanuman Public Telemetry Snapshot</title>
+  <style>
+    body { margin: 0; background: #050911; color: #e2ecf9; font-family: Inter, system-ui, sans-serif; }
+    main { max-width: 860px; margin: 40px auto; padding: 22px; border: 1px solid rgba(139,161,184,.2); border-radius: 14px; background: #0e1624; }
+    h1 { margin-top: 0; }
+    pre { white-space: pre-wrap; font: 15px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; background: #08101a; border: 1px solid rgba(139,161,184,.2); border-radius: 12px; padding: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Hanuman Security Telemetry</h1>
+    <p>Public snapshot from the live telemetry dashboard.</p>
+    <pre id="snapshot">No snapshot provided.</pre>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const snapshot = params.get('snapshot');
+    if (snapshot) document.getElementById('snapshot').textContent = snapshot;
+  </script>
+</body>
+</html>
