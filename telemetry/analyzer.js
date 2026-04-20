@@ -1,77 +1,85 @@
 (function (global) {
   'use strict';
 
-  function summarize(events) {
-    const now = Date.now();
-    const startOfDay = new Date();
-    startOfDay.setUTCHours(0, 0, 0, 0);
-
-    const stats = {
-      total: events.length,
-      blocked: 0,
-      attacksToday: 0,
-      topCountries: {},
-      sites: {}
-    };
-
-    for (const event of events) {
-      if (event.action === 'blocked') stats.blocked += 1;
-      if (new Date(event.timestamp).getTime() >= startOfDay.getTime()) stats.attacksToday += 1;
-
-      stats.topCountries[event.country] = (stats.topCountries[event.country] || 0) + 1;
-
-      if (!stats.sites[event.site]) {
-        stats.sites[event.site] = {
-          blockedToday: 0,
-          lastThreat: null,
-          status: 'Protected'
-        };
-      }
-
-      const siteStats = stats.sites[event.site];
-      if (event.action === 'blocked' && new Date(event.timestamp).getTime() >= startOfDay.getTime()) {
-        siteStats.blockedToday += 1;
-      }
-      if (!siteStats.lastThreat || new Date(event.timestamp).getTime() > new Date(siteStats.lastThreat.timestamp).getTime()) {
-        siteStats.lastThreat = event;
-      }
-    }
-
-    stats.topCountriesSorted = Object.entries(stats.topCountries)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([country, count]) => ({ country, count }));
-
-    stats.protectedSites = Object.keys(stats.sites).length;
-    stats.threatSignatures = new Set(events.map((event) => event.type)).size;
-    stats.generatedAt = new Date(now).toISOString();
-
-    return stats;
+  function calculateAttackCounts(events) {
+    return events.reduce((acc, event) => {
+      const type = event.attack_type || event.type || 'bot_scanner';
+      acc.total += 1;
+      if (event.action === 'blocked') acc.blocked += 1;
+      acc.byType[type] = (acc.byType[type] || 0) + 1;
+      return acc;
+    }, { total: 0, blocked: 0, byType: {} });
   }
 
-  function byMinute(events, lookbackMinutes) {
-    const output = [];
-    const now = Date.now();
-    const minute = 60 * 1000;
+  function groupByCountry(events) {
+    return events.reduce((acc, event) => {
+      const code = event.country || 'UN';
+      acc[code] = (acc[code] || 0) + 1;
+      return acc;
+    }, {});
+  }
 
-    for (let i = lookbackMinutes - 1; i >= 0; i -= 1) {
-      const bucketStart = now - (i * minute);
-      const bucketEnd = bucketStart + minute;
-      const count = events.filter((event) => {
-        const ts = new Date(event.timestamp).getTime();
-        return ts >= bucketStart && ts < bucketEnd;
-      }).length;
-      output.push({
-        label: new Date(bucketStart).toISOString().slice(11, 16),
-        count
-      });
+  function detectBotClusters(events) {
+    const clusterMap = events.reduce((acc, event) => {
+      const key = `${event.ip || '0.0.0.0'}::${event.site || 'unknown'}`;
+      if (!acc[key]) {
+        acc[key] = { key, ip: event.ip || '0.0.0.0', site: event.site || 'unknown', attacks: 0, attackTypes: {} };
+      }
+      const cluster = acc[key];
+      const type = event.attack_type || event.type || 'bot_scanner';
+      cluster.attacks += 1;
+      cluster.attackTypes[type] = (cluster.attackTypes[type] || 0) + 1;
+      return acc;
+    }, {});
+
+    return Object.values(clusterMap)
+      .filter((cluster) => cluster.attacks >= 2)
+      .sort((a, b) => b.attacks - a.attacks)
+      .slice(0, 10);
+  }
+
+  function generateThreatStats(events, protectedSites) {
+    const counts = calculateAttackCounts(events);
+    const countries = groupByCountry(events);
+    const clusters = detectBotClusters(events);
+    const siteStats = {};
+
+    for (const site of protectedSites) {
+      siteStats[site] = { status: 'Protected', blockedToday: 0, lastDetectedThreat: 'No threats detected' };
     }
 
-    return output;
+    const todayStart = new Date();
+    todayStart.setUTCHours(0, 0, 0, 0);
+
+    for (const event of events) {
+      const site = event.site || 'unknown-site';
+      if (!siteStats[site]) {
+        siteStats[site] = { status: 'Protected', blockedToday: 0, lastDetectedThreat: 'No threats detected' };
+      }
+      const ts = new Date(event.timestamp).getTime();
+      if (event.action === 'blocked' && ts >= todayStart.getTime()) {
+        siteStats[site].blockedToday += 1;
+      }
+      const label = (event.attack_type || event.type || 'bot_scanner').replaceAll('_', ' ');
+      siteStats[site].lastDetectedThreat = label;
+    }
+
+    return {
+      protectedSites: Object.keys(siteStats).length,
+      honeypotsActive: 5,
+      threatPatternsDetected: Object.keys(counts.byType).length,
+      totalAttacksBlocked: counts.blocked,
+      counts,
+      countries,
+      botClusters: clusters,
+      siteStats
+    };
   }
 
   global.HanumanAnalyzer = {
-    summarize,
-    byMinute
+    calculateAttackCounts,
+    groupByCountry,
+    detectBotClusters,
+    generateThreatStats
   };
 })(window);

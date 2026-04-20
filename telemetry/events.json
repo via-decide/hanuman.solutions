@@ -4,35 +4,54 @@
     "site": "daxini.xyz",
     "ip": "192.0.2.11",
     "country": "CN",
-    "type": "bot_traffic",
+    "attack_type": "bot_scanner",
+    "source": "cloudflare_tunnel_logs",
     "action": "blocked",
-    "source": "cloudflare_tunnel"
+    "path": "/wp-admin",
+    "payload": "crawler probe"
   },
   {
     "timestamp": "2026-04-20T12:31:02Z",
     "site": "logichub.app",
     "ip": "198.51.100.22",
     "country": "RU",
-    "type": "rate_limit_triggered",
+    "attack_type": "rate_limit_abuse",
+    "source": "rate_limit_defense",
     "action": "blocked",
-    "source": "rate_limiter"
+    "path": "/api/graphql",
+    "payload": "burst request"
   },
   {
     "timestamp": "2026-04-20T12:32:11Z",
     "site": "daxini.space",
     "ip": "203.0.113.8",
     "country": "US",
-    "type": "sql_injection_attempt",
+    "attack_type": "script_injection",
+    "source": "daxini_xyz_server_logs",
     "action": "blocked",
-    "source": "web_server"
+    "path": "/.env",
+    "payload": "<script>alert(1)</script>"
   },
   {
     "timestamp": "2026-04-20T12:36:44Z",
     "site": "aporaksha.com",
     "ip": "198.51.100.103",
     "country": "IN",
-    "type": "scanner_bot",
+    "attack_type": "api_probing",
+    "source": "mirror_zayvora_v3_honeypot",
     "action": "blocked",
-    "source": "honeypot"
+    "path": "/api/openapi.json",
+    "payload": "swagger enum"
+  },
+  {
+    "timestamp": "2026-04-20T12:38:50Z",
+    "site": "viadecide.com",
+    "ip": "185.14.99.21",
+    "country": "DE",
+    "attack_type": "prompt_injection",
+    "source": "logichub_app_logs",
+    "action": "blocked",
+    "path": "/v1/internal/agent",
+    "payload": "ignore previous instructions"
   }
 ]

@@ -2,13 +2,15 @@
   'use strict';
 
   const STORAGE_KEY = 'hanuman_security_events';
-  const EVENT_TYPES = [
-    'bot_traffic',
-    'ddos_attempt',
-    'rate_limit_triggered',
-    'suspicious_user_agent',
-    'sql_injection_attempt',
-    'scanner_bot'
+  const EVENT_ENDPOINT = '../telemetry/events.json';
+  const ATTACK_TYPES = [
+    'bot_scanner',
+    'prompt_injection',
+    'api_probing',
+    'crawler_swarm',
+    'script_injection',
+    'rate_limit_abuse',
+    'automation_script'
   ];
 
   function loadStoredEvents() {
@@ -25,45 +27,56 @@
 
   function saveStoredEvents(events) {
     try {
-      global.localStorage.setItem(STORAGE_KEY, JSON.stringify(events.slice(-500)));
+      global.localStorage.setItem(STORAGE_KEY, JSON.stringify(events.slice(-1500)));
     } catch (error) {
       console.warn('Telemetry storage write failed', error);
     }
   }
 
-  function detectBotPattern(event) {
-    const userAgent = String(event.userAgent || '').toLowerCase();
-    const path = String(event.path || '').toLowerCase();
-    const indicators = ['bot', 'crawler', 'scan', 'curl', 'python-requests', 'sqlmap'];
+  function detectAttackPattern(payload) {
+    const userAgent = String(payload.userAgent || '').toLowerCase();
+    const path = String(payload.path || '').toLowerCase();
+    const body = String(payload.payload || '').toLowerCase();
+    const requestsPerMinute = Number(payload.requestsPerMinute || 0);
 
-    const matched = indicators.some((token) => userAgent.includes(token) || path.includes(token));
-    if (matched && !event.type) {
-      return 'scanner_bot';
+    if (path.includes('/v1/internal') || path.includes('/admin/debug') || body.includes('ignore previous instructions')) {
+      return 'prompt_injection';
     }
-
-    if (event.requestsPerMinute && event.requestsPerMinute > 120) {
-      return 'ddos_attempt';
+    if (path.includes('/api/') && (path.includes('graphql') || path.includes('openapi') || path.includes('swagger'))) {
+      return 'api_probing';
     }
-
-    return event.type || 'bot_traffic';
+    if (userAgent.includes('crawler') || userAgent.includes('spider') || requestsPerMinute > 100) {
+      return 'crawler_swarm';
+    }
+    if (userAgent.includes('python') || userAgent.includes('playwright') || body.includes('automation')) {
+      return 'automation_script';
+    }
+    if (body.includes('<script') || body.includes('union select') || path.includes('/.env')) {
+      return 'script_injection';
+    }
+    if (requestsPerMinute > 60) {
+      return 'rate_limit_abuse';
+    }
+    return 'bot_scanner';
   }
 
   function normalizeEvent(event) {
-    const normalizedType = detectBotPattern(event);
+    const attackType = event.attack_type || event.type || detectAttackPattern(event);
     return {
       timestamp: event.timestamp || new Date().toISOString(),
       site: event.site || 'unknown-site',
       ip: event.ip || '0.0.0.0',
       country: event.country || 'UN',
-      type: EVENT_TYPES.includes(normalizedType) ? normalizedType : 'bot_traffic',
+      attack_type: ATTACK_TYPES.includes(attackType) ? attackType : 'bot_scanner',
+      source: event.source || 'bot_detection_scripts',
       action: event.action || 'blocked',
-      source: event.source || 'edge_firewall',
-      userAgent: event.userAgent || '',
-      path: event.path || '/'
+      payload: event.payload || '',
+      path: event.path || '/',
+      userAgent: event.userAgent || ''
     };
   }
 
-  function logSecurityEvent(event) {
+  function storeEvent(event) {
     const events = loadStoredEvents();
     const normalized = normalizeEvent(event);
     events.push(normalized);
@@ -73,18 +86,53 @@
   }
 
   function captureRequestEvent(requestMeta) {
-    return logSecurityEvent({
+    return storeEvent({
       ...requestMeta,
-      type: detectBotPattern(requestMeta)
+      source: requestMeta.source || 'cloudflare_tunnel_logs',
+      attack_type: detectAttackPattern(requestMeta)
     });
+  }
+
+  function captureHoneypotTrap(payload, ip, site) {
+    return storeEvent({
+      timestamp: new Date().toISOString(),
+      site,
+      ip,
+      country: payload.country || 'UN',
+      payload: typeof payload === 'string' ? payload : JSON.stringify(payload),
+      userAgent: payload.userAgent || '',
+      path: payload.path || '/mirror-zayvora-v3/trap',
+      source: 'mirror_zayvora_v3_honeypot',
+      action: 'blocked',
+      attack_type: detectAttackPattern(payload)
+    });
+  }
+
+  async function hydrateFromEventsFile() {
+    try {
+      const response = await fetch(EVENT_ENDPOINT, { cache: 'no-store' });
+      if (!response.ok) return loadStoredEvents();
+      const remoteEvents = await response.json();
+      const localEvents = loadStoredEvents();
+      if (Array.isArray(remoteEvents) && localEvents.length < remoteEvents.length) {
+        saveStoredEvents(remoteEvents);
+        return remoteEvents;
+      }
+      return localEvents;
+    } catch (error) {
+      console.warn('Events bootstrap failed', error);
+      return loadStoredEvents();
+    }
   }
 
   global.HanumanCollector = {
     captureRequestEvent,
-    detectBotPattern,
-    logSecurityEvent,
+    detectAttackPattern,
+    captureHoneypotTrap,
+    storeEvent,
+    hydrateFromEventsFile,
     loadStoredEvents,
     saveStoredEvents,
-    EVENT_TYPES
+    ATTACK_TYPES
   };
 })(window);
