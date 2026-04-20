@@ -6,10 +6,11 @@
   const ATTACK_TYPES = [
     'bot_scanner',
     'prompt_injection',
-    'api_probing',
     'crawler_swarm',
+    'rate_limit_triggered',
+    'honeypot_capture',
+    'api_probing',
     'script_injection',
-    'rate_limit_abuse',
     'automation_script'
   ];
 
@@ -55,13 +56,31 @@
       return 'script_injection';
     }
     if (requestsPerMinute > 60) {
-      return 'rate_limit_abuse';
+      return 'rate_limit_triggered';
     }
     return 'bot_scanner';
   }
 
+
+  function resolveAttackType(event) {
+    const sourceType = event.attack_type || event.type || detectAttackPattern(event);
+    if (sourceType === 'rate_limit_abuse') return 'rate_limit_triggered';
+    if (sourceType === 'scanner_payloads' || sourceType === 'fake_api_endpoint_hits') return 'bot_scanner';
+    if (sourceType === 'crawler_loops') return 'crawler_swarm';
+    if (sourceType === 'prompt_injection_attempts') return 'prompt_injection';
+    if (String(event.source || '').includes('honeypot')) return 'honeypot_capture';
+    return sourceType;
+  }
+
+  function mapMiddlewareReasons(event) {
+    const reasons = Array.isArray(event.reasons) ? event.reasons : [];
+    if (reasons.includes('prompt_injection')) return 'prompt_injection';
+    if (reasons.includes('rate_limit_abuse')) return 'rate_limit_triggered';
+    if (reasons.some((reason) => reason.startsWith('bot:'))) return 'bot_scanner';
+    return resolveAttackType(event);
+  }
   function normalizeEvent(event) {
-    const attackType = event.attack_type || event.type || detectAttackPattern(event);
+    const attackType = mapMiddlewareReasons(event);
     return {
       timestamp: event.timestamp || new Date().toISOString(),
       site: event.site || 'unknown-site',
@@ -90,6 +109,15 @@
       ...requestMeta,
       source: requestMeta.source || 'cloudflare_tunnel_logs',
       attack_type: detectAttackPattern(requestMeta)
+    });
+  }
+
+
+  function captureMiddlewareEvent(middlewareEvent) {
+    return storeEvent({
+      ...middlewareEvent,
+      source: middlewareEvent.source || 'hanuman_middleware',
+      attack_type: mapMiddlewareReasons(middlewareEvent)
     });
   }
 
@@ -129,6 +157,7 @@
     captureRequestEvent,
     detectAttackPattern,
     captureHoneypotTrap,
+    captureMiddlewareEvent,
     storeEvent,
     hydrateFromEventsFile,
     loadStoredEvents,
