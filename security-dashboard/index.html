@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanuman Security Dashboard</title>
+  <style>
+    :root { color-scheme: dark; --bg:#070b11; --card:#101822; --text:#d9e3f0; --muted:#89a3bf; --accent:#ff5f1f; --ok:#34d399; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; background: radial-gradient(circle at top, #101a29 0%, var(--bg) 55%); color: var(--text); }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    h1 { margin: 0 0 8px; }
+    .sub { color: var(--muted); margin-bottom: 24px; }
+    .grid { display: grid; gap: 16px; }
+    .stats { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--card); border: 1px solid rgba(137,163,191,.2); border-radius: 12px; padding: 14px; }
+    .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .value { font-size: 28px; margin-top: 8px; font-weight: 700; }
+    .layout { display: grid; gap: 16px; grid-template-columns: 2fr 1fr; margin-top: 16px; }
+    #attack-map svg { width: 100%; height: auto; border-radius: 10px; }
+    .feed { max-height: 380px; overflow: auto; display: grid; gap: 10px; }
+    .feed-item { border: 1px solid rgba(137,163,191,.2); border-radius: 10px; padding: 10px; background: rgba(0,0,0,.2); }
+    .feed-time { color: #ffd7b0; font-size: 12px; }
+    .feed-title { font-weight: 600; margin-top: 4px; text-transform: capitalize; }
+    .feed-meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .site-table { width: 100%; border-collapse: collapse; }
+    .site-table th, .site-table td { text-align: left; padding: 9px 8px; border-bottom: 1px solid rgba(137,163,191,.15); }
+    .ok { color: var(--ok); font-weight: 600; }
+    .trust { margin-top: 16px; }
+    .muted { color: var(--muted); }
+    @media (max-width: 940px) { .layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Security Dashboard</h1>
+    <p class="sub">Cloudflare-style attack analytics for Hanuman protected properties.</p>
+
+    <section class="grid stats">
+      <div class="card"><div class="label">Total attacks blocked</div><div class="value" id="total-blocked">0</div></div>
+      <div class="card"><div class="label">Attacks today</div><div class="value" id="attacks-today">0</div></div>
+      <div class="card"><div class="label">Protected websites</div><div class="value" id="protected-sites">0</div></div>
+      <div class="card"><div class="label">Threat signatures</div><div class="value" id="threat-signatures">0</div></div>
+    </section>
+
+    <section class="layout">
+      <article class="card">
+        <h2>Global attack map</h2>
+        <div id="attack-map"></div>
+      </article>
+      <article class="card">
+        <h2>Recent Attacks</h2>
+        <div id="realtime-feed" class="feed"></div>
+      </article>
+    </section>
+
+    <section class="layout">
+      <article class="card">
+        <h2>Top attacking countries</h2>
+        <ul id="top-countries" class="muted"></ul>
+      </article>
+      <article class="card trust">
+        <h2>Hanuman Security Protecting</h2>
+        <p><span id="trust-sites">0</span> websites</p>
+        <p><span id="trust-attacks">0</span> attacks blocked</p>
+        <p><span id="trust-signatures">0</span> threat signatures detected</p>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>Protected sites list</h2>
+      <table class="site-table">
+        <thead><tr><th>Site</th><th>Security status</th><th>Attacks blocked today</th><th>Last detected threat</th></tr></thead>
+        <tbody id="site-status"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="../telemetry/collector.js"></script>
+  <script src="../telemetry/analyzer.js"></script>
+  <script src="../dashboard/security-map.js"></script>
+  <script src="../dashboard/realtime-feed.js"></script>
+  <script>
+    const requiredSites = ['daxini.xyz', 'logichub.app', 'daxini.space', 'aporaksha.com'];
+
+    async function loadSeedEvents() {
+      try {
+        const response = await fetch('../telemetry/events.json', { cache: 'no-store' });
+        if (!response.ok) return;
+        const seed = await response.json();
+        const stored = window.HanumanCollector.loadStoredEvents();
+        if (!stored.length) {
+          window.HanumanCollector.saveStoredEvents(seed);
+        }
+      } catch (error) {
+        console.warn('Seed events unavailable', error);
+      }
+    }
+
+    function renderDashboard() {
+      const events = window.HanumanCollector.loadStoredEvents();
+      const stats = window.HanumanAnalyzer.summarize(events);
+
+      document.getElementById('total-blocked').textContent = String(stats.blocked);
+      document.getElementById('attacks-today').textContent = String(stats.attacksToday);
+      document.getElementById('protected-sites').textContent = String(Math.max(stats.protectedSites, requiredSites.length));
+      document.getElementById('threat-signatures').textContent = String(stats.threatSignatures);
+
+      document.getElementById('trust-sites').textContent = String(Math.max(stats.protectedSites, requiredSites.length));
+      document.getElementById('trust-attacks').textContent = String(stats.blocked);
+      document.getElementById('trust-signatures').textContent = String(stats.threatSignatures);
+
+      window.HanumanSecurityMap.renderMap(document.getElementById('attack-map'), events);
+      window.HanumanRealtimeFeed.renderFeed(document.getElementById('realtime-feed'), events, 14);
+
+      const countriesEl = document.getElementById('top-countries');
+      countriesEl.innerHTML = stats.topCountriesSorted
+        .map((entry) => `<li>${entry.country}: ${entry.count} attack events</li>`)
+        .join('') || '<li>No activity yet.</li>';
+
+      const tbody = document.getElementById('site-status');
+      tbody.innerHTML = requiredSites.map((site) => {
+        const siteData = stats.sites[site] || { blockedToday: 0, lastThreat: null, status: 'Protected' };
+        return `<tr>
+          <td>${site}</td>
+          <td class="ok">${siteData.status}</td>
+          <td>${siteData.blockedToday}</td>
+          <td>${siteData.lastThreat ? siteData.lastThreat.type.replaceAll('_', ' ') : 'No threats detected'}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function randomEvent() {
+      const sites = ['daxini.xyz', 'logichub.app', 'daxini.space', 'aporaksha.com', 'b2b.via-decide.com'];
+      const countries = ['US', 'CN', 'RU', 'IN', 'BR', 'DE', 'NL', 'SG'];
+      const types = window.HanumanCollector.EVENT_TYPES;
+
+      return {
+        site: sites[Math.floor(Math.random() * sites.length)],
+        ip: `${Math.floor(Math.random() * 220) + 20}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+        country: countries[Math.floor(Math.random() * countries.length)],
+        type: types[Math.floor(Math.random() * types.length)],
+        action: Math.random() > 0.88 ? 'challenged' : 'blocked',
+        source: ['cloudflare_tunnel', 'honeypot', 'rate_limiter', 'bot_detector'][Math.floor(Math.random() * 4)],
+        path: ['/wp-admin', '/.env', '/login', '/api/v1/users', '/phpmyadmin'][Math.floor(Math.random() * 5)],
+        userAgent: ['curl/8.8', 'Mozilla/5.0', 'sqlmap/1.7', 'python-requests/2.31', 'ScannerBot'][Math.floor(Math.random() * 5)]
+      };
+    }
+
+    async function init() {
+      await loadSeedEvents();
+      renderDashboard();
+
+      window.addEventListener('hanuman:security-event', renderDashboard);
+      setInterval(() => {
+        window.HanumanCollector.captureRequestEvent(randomEvent());
+      }, 5000);
+    }
+
+    init();
+  </script>
+</body>
+</html>

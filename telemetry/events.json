@@ -1,0 +1,38 @@
+[
+  {
+    "timestamp": "2026-04-20T12:30:22Z",
+    "site": "daxini.xyz",
+    "ip": "192.0.2.11",
+    "country": "CN",
+    "type": "bot_traffic",
+    "action": "blocked",
+    "source": "cloudflare_tunnel"
+  },
+  {
+    "timestamp": "2026-04-20T12:31:02Z",
+    "site": "logichub.app",
+    "ip": "198.51.100.22",
+    "country": "RU",
+    "type": "rate_limit_triggered",
+    "action": "blocked",
+    "source": "rate_limiter"
+  },
+  {
+    "timestamp": "2026-04-20T12:32:11Z",
+    "site": "daxini.space",
+    "ip": "203.0.113.8",
+    "country": "US",
+    "type": "sql_injection_attempt",
+    "action": "blocked",
+    "source": "web_server"
+  },
+  {
+    "timestamp": "2026-04-20T12:36:44Z",
+    "site": "aporaksha.com",
+    "ip": "198.51.100.103",
+    "country": "IN",
+    "type": "scanner_bot",
+    "action": "blocked",
+    "source": "honeypot"
+  }
+]
