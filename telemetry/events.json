@@ -15,7 +15,7 @@
     "site": "logichub.app",
     "ip": "198.51.100.22",
     "country": "RU",
-    "attack_type": "rate_limit_abuse",
+    "attack_type": "rate_limit_triggered",
     "source": "rate_limit_defense",
     "action": "blocked",
     "path": "/api/graphql",

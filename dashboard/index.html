@@ -42,9 +42,9 @@
     </section>
 
     <section class="grid status-grid">
-      <article class="card"><div class="label">Protected sites</div><div class="value" id="protected-sites">0</div></article>
-      <article class="card"><div class="label">Total attacks blocked</div><div class="value" id="total-blocked">0</div></article>
-      <article class="card"><div class="label">Honeypots active</div><div class="value" id="honeypots-active">0</div></article>
+      <article class="card"><div class="label">Live attacks</div><div class="value" id="live-attacks">0</div></article>
+      <article class="card"><div class="label">Blocked IPs</div><div class="value" id="blocked-ips">0</div></article>
+      <article class="card"><div class="label">Honeypot captures</div><div class="value" id="honeypot-captures">0</div></article>
       <article class="card"><div class="label">Threat patterns detected</div><div class="value" id="threat-patterns">0</div></article>
     </section>
 
@@ -88,6 +88,8 @@
   </main>
 
   <script src="../telemetry/collector.js"></script>
+  <script src="../telemetry/event-collector.js"></script>
+  <script src="../telemetry/event-stream.js"></script>
   <script src="../telemetry/analyzer.js"></script>
   <script src="../telemetry/honeypot-handler.js"></script>
   <script src="./realtime-feed.js"></script>
@@ -104,9 +106,10 @@
 
     function renderDashboard(events) {
       const stats = window.HanumanAnalyzer.generateThreatStats(events, PROTECTED_SITES);
-      document.getElementById('protected-sites').textContent = String(stats.protectedSites);
-      document.getElementById('total-blocked').textContent = String(stats.totalAttacksBlocked);
-      document.getElementById('honeypots-active').textContent = String(stats.honeypotsActive);
+      const streamMetrics = window.HanumanEventStream.getDashboardMetrics(events);
+      document.getElementById('live-attacks').textContent = String(streamMetrics.liveAttacks);
+      document.getElementById('blocked-ips').textContent = String(streamMetrics.blockedIps);
+      document.getElementById('honeypot-captures').textContent = String(streamMetrics.honeypotCaptures);
       document.getElementById('threat-patterns').textContent = String(stats.threatPatternsDetected);
 
       document.getElementById('trust-sites').textContent = String(stats.protectedSites);
