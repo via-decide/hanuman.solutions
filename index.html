@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hanuman.Solutions — Divine Digital Power & Heavy Lifting</title>
+<title>Hanuman.Solutions — We debug and fix production system failures</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -279,6 +279,7 @@
     box-shadow: 0 8px 32px var(--saffron-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative; overflow: hidden; margin-top: 24px; width: fit-content;
+    text-decoration: none;
   }
   .cta-btn::after {
     content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
@@ -323,6 +324,32 @@
     0%   { transform: translate(0,0) scale(1); opacity: 1; }
     100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
   }
+
+  /* ─── PROOF BLOCKS ─── */
+  .proof-blocks { display: flex; flex-direction: column; gap: 18px; margin-top: 24px; max-width: 540px; }
+  .proof-block {
+    background: var(--surface); border: 1px solid var(--surface-border); border-left: 3px solid var(--saffron);
+    border-radius: 4px; padding: 18px 20px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .proof-block:hover { border-color: var(--gold); border-left-color: var(--gold); transform: translateX(2px); }
+  .proof-line { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-main); line-height: 1.7; }
+  .proof-line + .proof-line { margin-top: 4px; }
+  .proof-line .proof-label {
+    display: inline-block; min-width: 96px; color: var(--saffron); text-transform: uppercase;
+    letter-spacing: 1px; font-size: 0.7rem; font-weight: 600;
+  }
+  .proof-line.proof-result .proof-label { color: var(--gold); }
+  .proof-line.proof-result { color: var(--gold); font-weight: 500; }
+
+  /* ─── DIRECT CONTACT LINKS ─── */
+  .contact-direct { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; margin-bottom: 8px; }
+  .contact-direct a {
+    font-family: var(--font-mono); font-size: 0.85rem; color: var(--gold);
+    text-decoration: none; border-bottom: 1px solid rgba(244, 196, 48, 0.3);
+    padding-bottom: 2px; transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  .contact-direct a:hover { color: #FFFFFF; border-bottom-color: var(--gold); }
 
   @media (max-width: 1024px) {
     main { width: 60vw; padding: 0 3rem 0 5rem; }
@@ -639,85 +666,110 @@
 <main>
 
   <section id="s0" class="visible">
-    <span class="pre-label">Strategic B2B Execution</span>
+    <span class="pre-label">Production System Repair</span>
     <span class="om-symbol">ॐ</span>
     <h1>Hanuman<br>Solutions</h1>
-    <p class="tagline">Where devotion meets unstoppable execution.</p>
+    <p class="tagline">We debug and fix production system failures &mdash; infra, AI pipelines, automation.</p>
     <div class="divider"></div>
-    <p>I am the son of Vayu. I have crossed oceans, lifted mountains, and brought victory where defeat seemed certain. Now, we stand ready to automate your bottlenecks and build the solutions others deem impossible.</p>
+    <p><strong style="color:var(--text-main);">Turnaround: 24&ndash;48 hours.</strong> Diagnosis in 12 hours. Send the broken system, get a working one back.</p>
     <div class="chips">
-      <div class="chip">Data & Workflow Automation</div>
-      <div class="chip">VBA & Scripting</div>
-      <div class="chip">Rapid Prototyping</div>
-      <div class="chip">Custom B2B Tools</div>
+      <div class="chip">Infra outages</div>
+      <div class="chip">AI pipeline failures</div>
+      <div class="chip">Auth / token bridges</div>
+      <div class="chip">Automation breakage</div>
+      <div class="chip">Monitoring &amp; recovery</div>
     </div>
+    <a href="#s4" class="cta-btn">Send your issue → Get diagnosis in 12h</a>
     <div class="ghost-num">01</div>
   </section>
 
   <section id="s1">
-    <span class="pre-label">Our Muscle</span>
-    <h2>Mountains Were<br><span>Made to Move</span></h2>
+    <span class="pre-label">Proof / Real Fixes</span>
+    <h2>Real systems.<br><span>Real fixes.</span></h2>
     <div class="divider"></div>
-    <p>When Lord Ram needed the Sanjeevani herb, I did not waste time identifying it. I brought the entire mountain. That is not stubbornness—that is an absolute commitment to the mission.</p>
-    <p>Every business bottleneck gets the full weight of our technical strength. No half-measures. No fragile code. Only heavy-lifting solutions that scale.</p>
-    <div class="chips">
-      <div class="chip">Robust Architectures</div>
-      <div class="chip">High-Performance Macros</div>
-      <div class="chip">Hardware Integrations</div>
+    <p>No mock examples. Each block below is a production failure we received, diagnosed, and shipped a fix for.</p>
+
+    <div class="proof-blocks">
+      <div class="proof-block">
+        <div class="proof-line"><span class="proof-label">Problem</span>daxini.xyz returning 503</div>
+        <div class="proof-line"><span class="proof-label">Root cause</span>application layer failure (not tunnel)</div>
+        <div class="proof-line"><span class="proof-label">Fix</span>isolated layer, corrected service flow</div>
+        <div class="proof-line proof-result"><span class="proof-label">Result</span>stable 200 response</div>
+      </div>
+
+      <div class="proof-block">
+        <div class="proof-line"><span class="proof-label">Problem</span>pipeline execution failed with 401</div>
+        <div class="proof-line"><span class="proof-label">Root cause</span>auth not propagated in bridge layer</div>
+        <div class="proof-line"><span class="proof-label">Fix</span>fixed token binding across execution pipeline</div>
+        <div class="proof-line proof-result"><span class="proof-label">Result</span>execution completed successfully</div>
+      </div>
+
+      <div class="proof-block">
+        <div class="proof-line"><span class="proof-label">Problem</span>no system monitoring</div>
+        <div class="proof-line"><span class="proof-label">Fix</span>built Telegram supervisor bot</div>
+        <div class="proof-line proof-result"><span class="proof-label">Result</span>real-time alerts + auto recovery</div>
+      </div>
     </div>
+
     <div class="ghost-num">02</div>
   </section>
 
   <section id="s2">
-    <span class="pre-label">Our Philosophy</span>
-    <h2>Devotion Is<br><span>Our Strategy</span></h2>
+    <span class="pre-label">How it works</span>
+    <h2>Send → Diagnose<br><span>→ Fix → Verify</span></h2>
     <div class="divider"></div>
-    <p>I leapt across the ocean—not because I was ordered to—but because my heart demanded it. In business, devotion translates to relentless customer success.</p>
-    <p>Your operational challenges become our mission. We architect bespoke systems and physical prototypes with zero ego and pure execution focus.</p>
+    <p>You send the broken system with access details and error logs. We return a clean handoff.</p>
+    <p><strong style="color:var(--text-main);">12h:</strong> root cause + fix plan. <strong style="color:var(--text-main);">24&ndash;48h:</strong> deployed, tested, verified. Logs handed back.</p>
     <div class="chips">
-      <div class="chip">100% Client Dedication</div>
-      <div class="chip">Agile Delivery</div>
-      <div class="chip">Continuous Optimization</div>
+      <div class="chip">12h diagnosis</div>
+      <div class="chip">24–48h fix</div>
+      <div class="chip">Logs handed back</div>
+      <div class="chip">No retainer</div>
     </div>
     <div class="ghost-num">03</div>
   </section>
 
   <section id="s3">
     <span class="pre-label">Capabilities</span>
-    <h2>Name Your Lanka.<br><span>We'll Build the Bridge.</span></h2>
+    <h2>What we<br><span>fix and build.</span></h2>
     <div class="divider"></div>
-    <p>Lanka was guarded by armies across an impossible ocean. Every complex supply chain, messy data silo, or unbuilt prototype looks like Lanka—until we arrive.</p>
-    <p>From complex spreadsheet engineering to rapid 3D part fabrication, tell us your impossible.</p>
+    <p>Production outages. Broken AI pipelines. Auth and token bridges that silently drop. Automation that dies on edge cases. Missing monitoring. Internal tools that need to ship this week.</p>
+    <p>If it's running in production and behaving wrong, send it over.</p>
     <div class="chips">
-      <div class="chip">📊 Automated Dashboards</div>
-      <div class="chip">⚙️ Process Automation</div>
-      <div class="chip">🛠 3D Prototyping</div>
-      <div class="chip">⚡ System Integrations</div>
+      <div class="chip">Infra debugging</div>
+      <div class="chip">AI pipeline repair</div>
+      <div class="chip">Auth bridges</div>
+      <div class="chip">Monitoring bots</div>
+      <div class="chip">Internal tools</div>
     </div>
     <div class="ghost-num">04</div>
   </section>
 
   <section id="s4">
-    <span class="pre-label">Initiate Protocol</span>
+    <span class="pre-label">Contact</span>
     <span class="om-symbol" style="font-size: 2.5rem;">🔱</span>
-    <h2>Jai Shri Ram.<br><span>Assign the Mission.</span></h2>
+    <h2>Have a<br><span>broken system?</span></h2>
     <div class="divider"></div>
-    <p>The tech ecosystem is vast. Whether you need the high-level AI strategy of ViaDecide, or the heavy-lifting, custom solutions of Hanuman, the pipeline is ready.</p>
-    
+    <p>Send details &rarr; get diagnosis in 12 hours. Include the error, the system, and how urgent it is.</p>
+
+    <div class="contact-direct">
+      <a href="mailto:dharam@viadecide.com?subject=Broken%20system%20-%20need%20diagnosis">dharam@viadecide.com</a>
+    </div>
+
     <form action="https://formsubmit.co/dharam@viadecide.com" method="POST" id="deployment-form">
       <input type="text" name="_honey" style="display:none">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_subject" value="New Mission Deployment - Hanuman Solutions">
+      <input type="hidden" name="_subject" value="Broken system - diagnosis request (Hanuman.Solutions)">
       <input type="hidden" name="_next" value="">
 
       <div class="contact-grid">
-        <input class="field" type="text" name="Commander_Name" placeholder="Commander Name" required>
-        <input class="field" type="email" name="Email" placeholder="Secure Comm Link (Email)" required>
-        <textarea class="field field-full" name="Mission_Details" placeholder="Describe your operational bottleneck. No challenge too great." required></textarea>
+        <input class="field" type="text" name="Name" placeholder="Your name" required>
+        <input class="field" type="email" name="Email" placeholder="Email" required>
+        <textarea class="field field-full" name="Issue_Details" placeholder="What's broken? Include error messages, the system involved, and how urgent it is." required></textarea>
       </div>
-      <button type="submit" class="cta-btn" id="submit-btn">Initiate Deployment</button>
+      <button type="submit" class="cta-btn" id="submit-btn">Send issue → Get diagnosis in 12h</button>
     </form>
-    
+
     <div class="ghost-num">05</div>
   </section>
 
@@ -730,18 +782,16 @@
 
 <div id="mantra-bar">
   <div class="mantra-track">
-    <span>🙏 JAI SHRI RAM</span><span class="mantra-sep">•</span>
-    <span>ॐ</span><span class="mantra-sep">•</span>
-    <span>JAI BAJRANG BALI</span><span class="mantra-sep">•</span>
-    <span>SANKAT MOCHAN</span><span class="mantra-sep">•</span>
+    <span>JAI SHRI RAM</span><span class="mantra-sep">•</span>
     <span>HANUMAN.SOLUTIONS</span><span class="mantra-sep">•</span>
-    <span>EVERY OBSTACLE SHALL FALL</span><span class="mantra-sep">•</span>
-    <span>🙏 JAI SHRI RAM</span><span class="mantra-sep">•</span>
-    <span>ॐ</span><span class="mantra-sep">•</span>
-    <span>JAI BAJRANG BALI</span><span class="mantra-sep">•</span>
-    <span>SANKAT MOCHAN</span><span class="mantra-sep">•</span>
+    <span>DEBUG · FIX · DELIVER</span><span class="mantra-sep">•</span>
+    <span>12H DIAGNOSIS</span><span class="mantra-sep">•</span>
+    <span>24–48H TURNAROUND</span><span class="mantra-sep">•</span>
+    <span>JAI SHRI RAM</span><span class="mantra-sep">•</span>
     <span>HANUMAN.SOLUTIONS</span><span class="mantra-sep">•</span>
-    <span>EVERY OBSTACLE SHALL FALL</span><span class="mantra-sep">•</span>
+    <span>DEBUG · FIX · DELIVER</span><span class="mantra-sep">•</span>
+    <span>12H DIAGNOSIS</span><span class="mantra-sep">•</span>
+    <span>24–48H TURNAROUND</span><span class="mantra-sep">•</span>
   </div>
 </div>
 
@@ -850,11 +900,11 @@ const hanumanSvg = document.getElementById('hanuman-svg');
 const sparkContainer = document.getElementById('spark-container');
 
 const directives = [
-  "SYSTEM_BOOT: Deep meditation established. Inner strength at maximum.",
-  "LOG_ENTRY: Power unlocked. Levitating with immovable calm.",
-  "STATUS: Deep devotion channel open. Architecting structural stability.",
-  "SCAN_COMPLETE: Target acquired. Channeling immense, peaceful force.",
-  "AWAITING_INPUT: Sankat Mochan systems online. Awaiting mission parameters. 🔱"
+  "SYSTEM_BOOT: Repair pipeline online. Awaiting broken systems.",
+  "LOG_ENTRY: Real fixes loaded. Production failures diagnosed and shipped.",
+  "STATUS: Workflow active — Send → Diagnose → Fix → Verify.",
+  "SCAN_COMPLETE: Capability matrix ready. Infra, AI, auth, automation.",
+  "AWAITING_INPUT: Send your issue. Diagnosis in 12 hours. 🔱"
 ];
 
 const hanumanClasses = ['state-0', 'state-1', 'state-2', 'state-3', 'state-4'];
@@ -975,7 +1025,7 @@ if (form) {
       });
 
       if (response.ok) {
-        submitBtn.innerHTML = 'Mission Received 🔱';
+        submitBtn.innerHTML = 'Received — diagnosis within 12h 🔱';
         submitBtn.style.background = 'linear-gradient(135deg, #1A4D2E, #4F6F52)';
         submitBtn.style.boxShadow = '0 8px 32px rgba(79, 111, 82, 0.4)';
         form.reset();
@@ -989,7 +1039,7 @@ if (form) {
       } else throw new Error('Network error');
     } catch (error) {
       console.error(error);
-      submitBtn.innerHTML = 'Transmission Failed. Retry.';
+      submitBtn.innerHTML = 'Send failed — retry';
       submitBtn.style.pointerEvents = 'auto';
       submitBtn.style.opacity = '1';
     }
