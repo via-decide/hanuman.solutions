@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hanuman.Solutions Intake</title>
+<style>
+body{margin:0;background:#0A0502;color:#F2E8DE;font-family:Arial,sans-serif;display:flex;justify-content:center;padding:40px 16px}
+.wrap{width:100%;max-width:680px}.row{display:flex;flex-direction:column;gap:6px;margin:0 0 14px}
+input,textarea,select,button{background:#140a05;border:1px solid rgba(255,103,0,.25);color:#fff;padding:12px;border-radius:4px}
+textarea{min-height:110px;resize:vertical}button{background:#FF6700;border:none;font-weight:700;cursor:pointer}
+.note{font-size:.9rem;color:#F4C430;margin:4px 0}.small{font-size:.86rem;color:#A89F95}
+</style>
+</head>
+<body>
+<main class="wrap" id="app">
+  <h1 style="margin-top:0">System Intake</h1>
+  <form id="intake-form">
+    <div class="row"><label>System URL (required)</label><input required name="system_url"></div>
+    <div class="row"><label>What broke</label><textarea name="what_broke"></textarea></div>
+    <div class="row"><label>Error logs / link</label><textarea name="logs"></textarea></div>
+    <div class="row"><label>When it broke</label><input name="when_broke"></div>
+    <div class="row"><label>Urgency (P0/P1/P2)</label><select name="urgency"><option>P0</option><option>P1</option><option>P2</option></select></div>
+    <div class="row"><label>Access method</label><input name="access_method"></div>
+    <div class="row"><label>Budget (required)</label><input required name="budget"></div>
+    <p class="note">You will be charged for diagnosis.</p>
+    <p class="small">For security: do NOT send credentials here.</p>
+    <button type="submit">Create Ticket</button>
+  </form>
+</main>
+<script>
+document.getElementById('intake-form').addEventListener('submit',function(e){e.preventDefault();document.getElementById('app').innerHTML='<h1>Received.</h1><p>Diagnosis within 12 hours.</p>';});
+</script>
+</body>
+</html>

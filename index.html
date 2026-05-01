@@ -344,6 +344,9 @@
 
   /* ─── DIRECT CONTACT LINKS ─── */
   .contact-direct { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; margin-bottom: 8px; }
+  .micro-list{margin:10px 0 12px 18px;color:var(--text-muted);font-family:var(--font-mono);font-size:.82rem;line-height:1.8;}
+  .hard-filter{font-family:var(--font-mono);font-size:.8rem;color:var(--gold);line-height:1.7;margin:12px 0 6px;max-width:540px;}
+  .cta-sub{font-family:var(--font-mono);font-size:.75rem;letter-spacing:1px;color:var(--text-muted);margin-top:10px;}
   .contact-direct a {
     font-family: var(--font-mono); font-size: 0.85rem; color: var(--gold);
     text-decoration: none; border-bottom: 1px solid rgba(244, 196, 48, 0.3);
@@ -718,8 +721,7 @@
     <span class="pre-label">How it works</span>
     <h2>Send → Diagnose<br><span>→ Fix → Verify</span></h2>
     <div class="divider"></div>
-    <p>You send the broken system with access details and error logs. We return a clean handoff.</p>
-    <p><strong style="color:var(--text-main);">12h:</strong> root cause + fix plan. <strong style="color:var(--text-main);">24&ndash;48h:</strong> deployed, tested, verified. Logs handed back.</p>
+    <p>Send → include logs + access. Diagnose → root cause (12h). Fix → deployed (24–48h). Verify → logs returned.</p>
     <div class="chips">
       <div class="chip">12h diagnosis</div>
       <div class="chip">24–48h fix</div>
@@ -750,25 +752,16 @@
     <span class="om-symbol" style="font-size: 2.5rem;">🔱</span>
     <h2>Have a<br><span>broken system?</span></h2>
     <div class="divider"></div>
-    <p>Send details &rarr; get diagnosis in 12 hours. Include the error, the system, and how urgent it is.</p>
+    <p class="hard-filter">If it's not breaking, don’t send it.<br>If it's costing you time or money → send it.</p>
+    <p style="margin-bottom:6px;">Include:</p>
+    <ul class="micro-list"><li>system URL</li><li>error / logs</li><li>urgency</li></ul>
+    <a href="/intake" class="cta-btn">Send Broken System</a>
+    <div class="cta-sub">Get diagnosis in 12h</div>
 
     <div class="contact-direct">
-      <a href="mailto:dharam@viadecide.com?subject=Broken%20system%20-%20need%20diagnosis">dharam@viadecide.com</a>
+      <a href="/intake">Open intake form</a>
+      <a href="mailto:dharam@viadecide.com?subject=Broken%20system%20-%20need%20diagnosis">dharam@viadecide.com (fallback)</a>
     </div>
-
-    <form action="https://formsubmit.co/dharam@viadecide.com" method="POST" id="deployment-form">
-      <input type="text" name="_honey" style="display:none">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_subject" value="Broken system - diagnosis request (Hanuman.Solutions)">
-      <input type="hidden" name="_next" value="">
-
-      <div class="contact-grid">
-        <input class="field" type="text" name="Name" placeholder="Your name" required>
-        <input class="field" type="email" name="Email" placeholder="Email" required>
-        <textarea class="field field-full" name="Issue_Details" placeholder="What's broken? Include error messages, the system involved, and how urgent it is." required></textarea>
-      </div>
-      <button type="submit" class="cta-btn" id="submit-btn">Send issue → Get diagnosis in 12h</button>
-    </form>
 
     <div class="ghost-num">05</div>
   </section>
@@ -1006,48 +999,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Form Submission
-const form = document.getElementById('deployment-form');
-const submitBtn = document.getElementById('submit-btn');
 
-if (form) {
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = 'Transmitting...';
-    submitBtn.style.pointerEvents = 'none';
-    submitBtn.style.opacity = '0.8';
-
-    try {
-      const formData = new FormData(form);
-      const response = await fetch(form.action, {
-        method: 'POST', body: formData, headers: { 'Accept': 'application/json' }
-      });
-
-      if (response.ok) {
-        submitBtn.innerHTML = 'Received — diagnosis within 12h 🔱';
-        submitBtn.style.background = 'linear-gradient(135deg, #1A4D2E, #4F6F52)';
-        submitBtn.style.boxShadow = '0 8px 32px rgba(79, 111, 82, 0.4)';
-        form.reset();
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText;
-          submitBtn.style.background = '';
-          submitBtn.style.boxShadow = '';
-          submitBtn.style.pointerEvents = 'auto';
-          submitBtn.style.opacity = '1';
-        }, 5000);
-      } else throw new Error('Network error');
-    } catch (error) {
-      console.error(error);
-      submitBtn.innerHTML = 'Send failed — retry';
-      submitBtn.style.pointerEvents = 'auto';
-      submitBtn.style.opacity = '1';
-    }
-  });
-}
 </script>
 </body>
 </html>
-
-
-
