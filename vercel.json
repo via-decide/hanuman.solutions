@@ -7,6 +7,14 @@
     {
       "src": "/intake",
       "dest": "/intake.html"
+    },
+    {
+      "src": "/sovereignty",
+      "dest": "/sovereignty/index.html"
+    },
+    {
+      "src": "/adoption",
+      "dest": "/adoption/index.html"
     }
   ]
 }
