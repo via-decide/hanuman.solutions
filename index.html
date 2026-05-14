@@ -794,6 +794,8 @@
 // ══════════════════════════════════════════
 // THREE.JS — DIVINE PARTICLE COSMOS
 // ══════════════════════════════════════════
+if (!window.THREE) { document.getElementById('bg').style.display='none'; console.warn('Three.js unavailable; running static mode.'); }
+if (window.THREE) {
 const canvas = document.getElementById('bg');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -1000,6 +1002,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+}
 
 </script>
 </body>
