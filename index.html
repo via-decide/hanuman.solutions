@@ -683,6 +683,7 @@
       <div class="chip">Monitoring &amp; recovery</div>
     </div>
     <a href="#s4" class="cta-btn">Send your issue → Get diagnosis in 12h</a>
+    <p class="cta-sub"><a href="/sovereignty">Sovereignty</a> · <a href="/adoption">Adoption Path</a></p>
     <div class="ghost-num">01</div>
   </section>
 
@@ -793,6 +794,8 @@
 // ══════════════════════════════════════════
 // THREE.JS — DIVINE PARTICLE COSMOS
 // ══════════════════════════════════════════
+if (!window.THREE) { document.getElementById('bg').style.display='none'; console.warn('Three.js unavailable; running static mode.'); }
+if (window.THREE) {
 const canvas = document.getElementById('bg');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -999,6 +1002,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+}
 
 </script>
 </body>
