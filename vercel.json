@@ -1,20 +1,21 @@
 {
-  "routes": [
+  "version": 2,
+  "cleanUrls": true,
+  "headers": [
     {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
     },
     {
-      "src": "/intake",
-      "dest": "/intake.html"
-    },
-    {
-      "src": "/sovereignty",
-      "dest": "/sovereignty/index.html"
-    },
-    {
-      "src": "/adoption",
-      "dest": "/adoption/index.html"
+      "source": "/(.*)\\.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, s-maxage=86400, stale-while-revalidate" }
+      ]
     }
+  ],
+  "rewrites": [
+    { "source": "/((?!assets/|.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
   ]
 }
