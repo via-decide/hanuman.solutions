@@ -758,12 +758,12 @@
     <p class="hard-filter">If it's not breaking, don’t send it.<br>If it's costing you time or money → send it.</p>
     <p style="margin-bottom:6px;">Include:</p>
     <ul class="micro-list"><li>system URL</li><li>error / logs</li><li>urgency</li></ul>
-    <a href="/intake" class="cta-btn">Send Broken System</a>
+    <a href="/intake" class="cta-btn" id="cta-consultation" onclick="if(window.HanumanAnalytics){HanumanAnalytics.consultationRequested({service_interest:'production-system-repair',source:'cta-button'})}">Send Broken System</a>
     <div class="cta-sub">Get diagnosis in 12h</div>
 
     <div class="contact-direct">
-      <a href="/intake">Open intake form</a>
-      <a href="mailto:dharam@viadecide.com?subject=Broken%20system%20-%20need%20diagnosis">dharam@viadecide.com (fallback)</a>
+      <a href="/intake" onclick="if(window.HanumanAnalytics){HanumanAnalytics.contactSubmitted({trigger:'intake-link'})}">Open intake form</a>
+      <a href="mailto:dharam@viadecide.com?subject=Broken%20system%20-%20need%20diagnosis" id="email-link" onclick="if(window.HanumanAnalytics){HanumanAnalytics.emailClicked('dharam@viadecide.com')}">dharam@viadecide.com (fallback)</a>
     </div>
 
     <div class="ghost-num">05</div>
@@ -791,6 +791,7 @@
   </div>
 </div>
 
+<script src="/analytics/analytics_service.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 // ══════════════════════════════════════════
@@ -985,6 +986,46 @@ navDots.forEach((dot, i) => {
 });
 
 setTimeout(() => { switchSection(0); sections[0].classList.add('visible'); }, 500);
+
+// ══════════════════════════════════════════
+// LEAD ANALYTICS — SECTION TRACKING
+// ══════════════════════════════════════════
+const SECTION_SERVICE_MAP = {
+  's1': 'real-fixes-case-studies',
+  's2': 'how-it-works',
+  's3': 'capabilities',
+  's4': 'contact'
+};
+
+const _trackedSections = new Set();
+
+window.addEventListener('scroll', () => {
+  if (!window.HanumanAnalytics) return;
+  sections.forEach((sec) => {
+    const id = sec.id;
+    const r  = sec.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.7 && r.bottom > 0 && !_trackedSections.has(id)) {
+      _trackedSections.add(id);
+      if (id === 's4') {
+        HanumanAnalytics.contactOpened({ from_section: 'scroll', trigger: 'viewport' });
+      } else if (SECTION_SERVICE_MAP[id]) {
+        HanumanAnalytics.serviceView(SECTION_SERVICE_MAP[id], { section: id });
+      }
+    }
+  });
+}, { passive: true });
+
+// Hero CTA also tracks service view
+document.querySelector('.cta-btn')?.addEventListener('click', () => {
+  if (window.HanumanAnalytics) {
+    HanumanAnalytics.contactOpened({ trigger: 'hero-cta' });
+  }
+});
+
+// Analytics init (page_view + returning_visitor check)
+if (window.HanumanAnalytics) {
+  HanumanAnalytics.init();
+}
 
 if (window.innerWidth > 768) {
   document.addEventListener('mousemove', (e) => {

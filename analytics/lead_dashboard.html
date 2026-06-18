@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hanuman.Solutions — Lead Analytics Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #FF6700;
+    --gold: #F4C430;
+    --crimson: #DC143C;
+    --bg: #050302;
+    --surface: rgba(18, 10, 4, 0.85);
+    --surface-2: rgba(28, 16, 6, 0.7);
+    --border: rgba(255, 103, 0, 0.18);
+    --border-2: rgba(255, 103, 0, 0.08);
+    --text: #F2E8DE;
+    --muted: #8A7F76;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --fm: 'JetBrains Mono', monospace;
+    --fs: 'Outfit', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--fs);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── GRID LAYOUT ── */
+  .app { display: grid; grid-template-rows: 56px 1fr; min-height: 100vh; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5, 3, 2, 0.9);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 10px; }
+  .topbar-logo { font-family: var(--fm); font-size: 0.7rem; color: var(--saffron); letter-spacing: 3px; text-transform: uppercase; }
+  .topbar-tag { font-family: var(--fm); font-size: 0.6rem; padding: 2px 8px; border: 1px solid var(--border); border-radius: 2px; color: var(--muted); letter-spacing: 2px; }
+  .live-indicator { display: flex; align-items: center; gap: 6px; font-family: var(--fm); font-size: 0.65rem; color: var(--green); }
+  .live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ── MAIN ── */
+  main { padding: 24px; display: flex; flex-direction: column; gap: 24px; max-width: 1440px; margin: 0 auto; width: 100%; }
+
+  /* ── SECTION LABEL ── */
+  .section-label { font-family: var(--fm); font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--saffron); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--saffron); }
+
+  /* ── KPI GRID ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 18px;
+    display: flex; flex-direction: column; gap: 6px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.2s ease;
+  }
+  .kpi-card:hover { border-color: var(--saffron); transform: translateY(-1px); }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--saffron); opacity: 0.4; }
+  .kpi-card.accent::before { opacity: 1; background: linear-gradient(90deg, var(--saffron), var(--gold)); }
+  .kpi-label { font-family: var(--fm); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .kpi-value { font-family: var(--fm); font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .kpi-card.accent .kpi-value { color: var(--gold); }
+  .kpi-delta { font-family: var(--fm); font-size: 0.7rem; color: var(--green); }
+  .kpi-delta.negative { color: var(--red); }
+
+  /* ── FUNNEL VISUALIZATION ── */
+  .funnel-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .funnel-section { grid-template-columns: 1fr; } }
+
+  .funnel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+  }
+  .funnel-title { font-family: var(--fm); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--saffron); margin-bottom: 20px; }
+
+  .funnel-stages { display: flex; flex-direction: column; gap: 0; }
+  .funnel-stage { position: relative; }
+  .funnel-bar-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .funnel-bar {
+    height: 36px; border-radius: 3px;
+    background: linear-gradient(90deg, rgba(255,103,0,0.35), rgba(255,103,0,0.1));
+    border: 1px solid rgba(255,103,0,0.3);
+    display: flex; align-items: center; padding: 0 12px;
+    font-family: var(--fm); font-size: 0.75rem; color: var(--text);
+    position: relative; overflow: hidden; transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+    min-width: 80px;
+  }
+  .funnel-bar.top { background: linear-gradient(90deg, rgba(255,103,0,0.6), rgba(255,103,0,0.3)); border-color: var(--saffron); }
+  .funnel-bar.bottom { background: linear-gradient(90deg, rgba(244,196,48,0.5), rgba(244,196,48,0.2)); border-color: var(--gold); }
+
+  .funnel-meta { font-family: var(--fm); font-size: 0.65rem; color: var(--muted); margin-bottom: 2px; }
+  .funnel-count { font-weight: 700; color: var(--text); }
+  .funnel-rate { color: var(--gold); }
+
+  .funnel-arrow {
+    text-align: center; font-family: var(--fm); font-size: 0.65rem;
+    color: var(--muted); padding: 2px 0 2px 20px; display: flex; align-items: center; gap: 8px;
+  }
+  .funnel-arrow::before { content: '↓'; color: var(--saffron); font-size: 0.9rem; }
+  .dropoff-badge { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); border-radius: 3px; padding: 1px 6px; font-size: 0.6rem; color: var(--red); }
+
+  /* ── INTENT HEATMAP ── */
+  .intent-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .intent-event { font-family: var(--fm); font-size: 0.72rem; color: var(--text); min-width: 200px; }
+  .intent-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+  .intent-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--saffron), var(--gold)); transition: width 0.8s ease; }
+  .intent-score-label { font-family: var(--fm); font-size: 0.68rem; color: var(--gold); min-width: 40px; text-align: right; }
+
+  /* ── TOP SERVICES TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--fm); font-size: 0.75rem; }
+  thead th {
+    text-align: left; padding: 10px 14px;
+    font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border-2); transition: background 0.2s; }
+  tbody tr:hover { background: rgba(255,103,0,0.04); }
+  tbody td { padding: 10px 14px; color: var(--text); }
+  .tag-high { color: var(--green); }
+  .tag-med  { color: var(--yellow); }
+  .tag-low  { color: var(--red); }
+
+  /* ── ENGAGEMENT STRIP ── */
+  .engagement-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .eng-card {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 18px 16px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .eng-icon { font-size: 1.6rem; }
+  .eng-body { display: flex; flex-direction: column; gap: 2px; }
+  .eng-label { font-family: var(--fm); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .eng-val { font-family: var(--fm); font-size: 1.4rem; font-weight: 700; color: var(--text); }
+
+  /* ── EMPTY STATE ── */
+  .empty { font-family: var(--fm); font-size: 0.75rem; color: var(--muted); text-align: center; padding: 40px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-logo">Hanuman.Solutions</span>
+      <span class="topbar-tag">LEAD ANALYTICS v1</span>
+    </div>
+    <div class="live-indicator">
+      <div class="live-dot"></div>
+      LIVE · <span id="last-refresh">—</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── KPI ROW ── -->
+    <section>
+      <div class="section-label">Lead Generation KPIs · Last 30 Days</div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Visitors</div>
+          <div class="kpi-value" id="kpi-visitors">—</div>
+          <div class="kpi-delta" id="kpi-visitors-d"></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Service Views</div>
+          <div class="kpi-value" id="kpi-service-views">—</div>
+          <div class="kpi-delta" id="kpi-sv-rate"></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Contact Opens</div>
+          <div class="kpi-value" id="kpi-contact-opens">—</div>
+          <div class="kpi-delta" id="kpi-co-rate"></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Contact Submissions</div>
+          <div class="kpi-value" id="kpi-contact-subs">—</div>
+        </div>
+        <div class="kpi-card accent">
+          <div class="kpi-label">Consultation Requests</div>
+          <div class="kpi-value" id="kpi-consultations">—</div>
+          <div class="kpi-delta" id="kpi-lead-rate"></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Proposal Downloads</div>
+          <div class="kpi-value" id="kpi-proposals">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Returning Visitors</div>
+          <div class="kpi-value" id="kpi-returning">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FUNNEL VIEWS ── -->
+    <section class="funnel-section">
+
+      <!-- Primary Funnel -->
+      <div class="funnel-card">
+        <div class="funnel-title">Primary Funnel — Service Discovery</div>
+        <div class="funnel-stages" id="primary-funnel">
+          <div class="empty">Loading funnel data…</div>
+        </div>
+      </div>
+
+      <!-- Secondary Funnel -->
+      <div class="funnel-card">
+        <div class="funnel-title">Secondary Funnel — Case Study Path</div>
+        <div class="funnel-stages" id="secondary-funnel">
+          <div class="empty">Loading funnel data…</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── INTENT SCORE BREAKDOWN ── -->
+    <section>
+      <div class="section-label">Intent Score Weights</div>
+      <div id="intent-heatmap">
+        <!-- rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ── TOP SERVICES ── -->
+    <section>
+      <div class="section-label">Top Services by Lead Conversion</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Service Page</th>
+              <th>Views</th>
+              <th>Unique Viewers</th>
+              <th>Consultations Generated</th>
+              <th>Conversion Rate</th>
+            </tr>
+          </thead>
+          <tbody id="top-services-table">
+            <tr><td colspan="5" class="empty">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── ENGAGEMENT ── -->
+    <section>
+      <div class="section-label">Engagement & Intent Signals</div>
+      <div class="engagement-strip">
+        <div class="eng-card">
+          <div class="eng-icon">📧</div>
+          <div class="eng-body">
+            <div class="eng-label">Email Clicks</div>
+            <div class="eng-val" id="eng-email">—</div>
+          </div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-icon">💬</div>
+          <div class="eng-body">
+            <div class="eng-label">WhatsApp Clicks</div>
+            <div class="eng-val" id="eng-whatsapp">—</div>
+          </div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-icon">🔁</div>
+          <div class="eng-body">
+            <div class="eng-label">Returning Visitors</div>
+            <div class="eng-val" id="eng-returning">—</div>
+          </div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-icon">📄</div>
+          <div class="eng-body">
+            <div class="eng-label">Proposal Downloads</div>
+            <div class="eng-val" id="eng-proposals">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LEAD SOURCE TABLE ── -->
+    <section>
+      <div class="section-label">Lead Sources</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Visitors</th>
+              <th>Service Views</th>
+              <th>Contact Opens</th>
+              <th>Consultation Requests</th>
+              <th>Lead CVR%</th>
+            </tr>
+          </thead>
+          <tbody id="lead-sources-table">
+            <tr><td colspan="6" class="empty">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// HANUMAN LEAD DASHBOARD — v1
+// Reads from localStorage (same as analytics_service.js)
+// and computes all metrics client-side.
+// In production: swap fetch calls to the SQL API output.
+// ══════════════════════════════════════════════════════
+
+const STORAGE_KEY = 'hanuman_lead_events';
+
+const INTENT_WEIGHTS = {
+  consultation_requested: 10,
+  contact_submitted:       8,
+  whatsapp_clicked:        5,
+  email_clicked:           5,
+  proposal_downloaded:     4,
+  returning_visitor:       3,
+  contact_opened:          2,
+  service_view:            1,
+  page_view:               0
+};
+
+function loadEvents() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (_) { return []; }
+}
+
+function periodEvents(events, days = 30) {
+  const cutoff = Date.now() - (days * 86400000);
+  return events.filter(e => new Date(e.created_at).getTime() >= cutoff);
+}
+
+function countUnique(events, eventName, key = 'visitor_id') {
+  return new Set(events.filter(e => e.event_name === eventName).map(e => e[key])).size;
+}
+
+function count(events, eventName) {
+  return events.filter(e => e.event_name === eventName).length;
+}
+
+function pct(numerator, denominator) {
+  if (!denominator) return '0%';
+  return (100 * numerator / denominator).toFixed(1) + '%';
+}
+
+function renderKPIs(events) {
+  const visitors      = countUnique(events, 'page_view');
+  const serviceViews  = countUnique(events, 'service_view');
+  const contactOpens  = countUnique(events, 'contact_opened');
+  const contactSubs   = count(events, 'contact_submitted');
+  const consultations = count(events, 'consultation_requested');
+  const proposals     = count(events, 'proposal_downloaded');
+  const returning     = count(events, 'returning_visitor');
+
+  document.getElementById('kpi-visitors').textContent    = visitors;
+  document.getElementById('kpi-service-views').textContent = serviceViews;
+  document.getElementById('kpi-contact-opens').textContent = contactOpens;
+  document.getElementById('kpi-contact-subs').textContent  = contactSubs;
+  document.getElementById('kpi-consultations').textContent = consultations;
+  document.getElementById('kpi-proposals').textContent     = proposals;
+  document.getElementById('kpi-returning').textContent     = returning;
+
+  document.getElementById('kpi-sv-rate').textContent   = 'Rate: ' + pct(serviceViews, visitors);
+  document.getElementById('kpi-co-rate').textContent   = 'Rate: ' + pct(contactOpens, serviceViews);
+  document.getElementById('kpi-lead-rate').textContent = 'Lead CVR: ' + pct(consultations, visitors);
+
+  // Engagement
+  document.getElementById('eng-email').textContent     = count(events, 'email_clicked');
+  document.getElementById('eng-whatsapp').textContent  = count(events, 'whatsapp_clicked');
+  document.getElementById('eng-returning').textContent = returning;
+  document.getElementById('eng-proposals').textContent = proposals;
+
+  return { visitors, serviceViews, contactOpens, consultations, returning };
+}
+
+function renderFunnelStage(label, count, total, isFirst, dropoff) {
+  const ratio = total > 0 ? (count / total) : 0;
+  const width  = Math.max(20, Math.round(ratio * 100));
+  const cls    = isFirst ? 'top' : (ratio > 0.5 ? '' : 'bottom');
+
+  let html = '';
+  if (!isFirst && dropoff != null) {
+    html += `<div class="funnel-arrow">
+      <span class="dropoff-badge">−${dropoff}% drop</span>
+    </div>`;
+  }
+  html += `<div class="funnel-stage">
+    <div class="funnel-bar-wrap">
+      <div class="funnel-bar ${cls}" style="width:${width}%">
+        <span class="funnel-count">${count}</span>
+      </div>
+    </div>
+    <div class="funnel-meta">${label} <span class="funnel-rate">(${pct(count, total)})</span></div>
+  </div>`;
+  return html;
+}
+
+function renderPrimaryFunnel(events) {
+  const visitors     = countUnique(events, 'page_view');
+  const svcViews     = countUnique(events, 'service_view');
+  const contactOpens = countUnique(events, 'contact_opened');
+  const consultations = count(events, 'consultation_requested');
+
+  const d1 = visitors > 0 ? (100 - Math.round(100 * svcViews / visitors)) : 0;
+  const d2 = svcViews > 0 ? (100 - Math.round(100 * contactOpens / svcViews)) : 0;
+  const d3 = contactOpens > 0 ? (100 - Math.round(100 * consultations / contactOpens)) : 0;
+
+  const el = document.getElementById('primary-funnel');
+  el.innerHTML = [
+    renderFunnelStage('Visitors',         visitors,     visitors,     true,  null),
+    renderFunnelStage('Service Views',    svcViews,     visitors,     false, d1),
+    renderFunnelStage('Contact Opens',    contactOpens, svcViews,     false, d2),
+    renderFunnelStage('Consultation Req', consultations,contactOpens, false, d3)
+  ].join('');
+}
+
+function renderSecondaryFunnel(events) {
+  const visitors   = countUnique(events, 'page_view');
+  // Approximate case study views as page_views on s1 / proof sections
+  const caseViews  = events.filter(e => e.event_name === 'page_view' &&
+    ((e.metadata && e.metadata.section === 's1') ||
+     (e.page_slug && (e.page_slug.includes('proof') || e.page_slug.includes('case'))))).length || 0;
+  const contactOpens   = countUnique(events, 'contact_opened');
+  const consultations  = count(events, 'consultation_requested');
+
+  const d1 = visitors > 0    ? (100 - Math.round(100 * caseViews / visitors)) : 0;
+  const d2 = caseViews > 0   ? (100 - Math.round(100 * contactOpens / Math.max(caseViews, 1))) : 0;
+  const d3 = contactOpens > 0 ? (100 - Math.round(100 * consultations / contactOpens)) : 0;
+
+  const el = document.getElementById('secondary-funnel');
+  el.innerHTML = [
+    renderFunnelStage('Visitors',         visitors,    visitors,    true,  null),
+    renderFunnelStage('Case Study Views', caseViews,   visitors,    false, d1),
+    renderFunnelStage('Contact Opens',    contactOpens,Math.max(caseViews,1), false, d2),
+    renderFunnelStage('Consultation Req', consultations, contactOpens, false, d3)
+  ].join('');
+}
+
+function renderIntentHeatmap() {
+  const entries = Object.entries(INTENT_WEIGHTS).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(...entries.map(e => e[1])) || 1;
+
+  const container = document.getElementById('intent-heatmap');
+  container.innerHTML = entries.map(([event, score]) => `
+    <div class="intent-row">
+      <div class="intent-event">${event.replace(/_/g, ' ')}</div>
+      <div class="intent-bar-bg">
+        <div class="intent-bar-fill" style="width:${Math.max(4, (score / max) * 100)}%"></div>
+      </div>
+      <div class="intent-score-label">+${score}</div>
+    </div>
+  `).join('');
+}
+
+function renderTopServices(events) {
+  const bySlug = {};
+  events.filter(e => e.event_name === 'service_view').forEach(e => {
+    const slug = e.page_slug || '/';
+    if (!bySlug[slug]) bySlug[slug] = { views: 0, viewers: new Set(), consultations: 0 };
+    bySlug[slug].views++;
+    bySlug[slug].viewers.add(e.visitor_id);
+  });
+
+  // Count consultations per visitor, then attribute to their last service_view slug
+  const consult_visitors = new Set(events.filter(e => e.event_name === 'consultation_requested').map(e => e.visitor_id));
+  events.filter(e => e.event_name === 'service_view').forEach(e => {
+    if (consult_visitors.has(e.visitor_id) && bySlug[e.page_slug]) {
+      bySlug[e.page_slug].consultations++;
+    }
+  });
+
+  const sorted = Object.entries(bySlug).sort((a, b) => b[1].consultations - a[1].consultations || b[1].views - a[1].views);
+
+  const tbody = document.getElementById('top-services-table');
+  if (!sorted.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">No service_view events yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = sorted.slice(0, 10).map(([slug, d]) => {
+    const uniq = d.viewers.size;
+    const cvr  = uniq > 0 ? (100 * d.consultations / uniq).toFixed(1) : '0.0';
+    const cls  = parseFloat(cvr) >= 20 ? 'tag-high' : parseFloat(cvr) >= 5 ? 'tag-med' : 'tag-low';
+    return `<tr>
+      <td>${slug}</td>
+      <td>${d.views}</td>
+      <td>${uniq}</td>
+      <td>${d.consultations}</td>
+      <td class="${cls}">${cvr}%</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderLeadSources(events) {
+  const bySrc = {};
+  events.forEach(e => {
+    const src = (e.metadata && e.metadata.source) ? e.metadata.source : 'direct';
+    if (!bySrc[src]) bySrc[src] = { visitors: new Set(), svc: 0, contact: 0, consult: 0 };
+    bySrc[src].visitors.add(e.visitor_id);
+    if (e.event_name === 'service_view')           bySrc[src].svc++;
+    if (e.event_name === 'contact_opened')         bySrc[src].contact++;
+    if (e.event_name === 'consultation_requested') bySrc[src].consult++;
+  });
+
+  const sorted = Object.entries(bySrc).sort((a, b) => b[1].consult - a[1].consult);
+  const tbody  = document.getElementById('lead-sources-table');
+
+  if (!sorted.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No source data yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = sorted.map(([src, d]) => {
+    const v   = d.visitors.size;
+    const cvr = v > 0 ? (100 * d.consult / v).toFixed(1) : '0.0';
+    const cls = parseFloat(cvr) >= 10 ? 'tag-high' : parseFloat(cvr) >= 2 ? 'tag-med' : 'tag-low';
+    return `<tr>
+      <td>${src}</td>
+      <td>${v}</td>
+      <td>${d.svc}</td>
+      <td>${d.contact}</td>
+      <td>${d.consult}</td>
+      <td class="${cls}">${cvr}%</td>
+    </tr>`;
+  }).join('');
+}
+
+function render() {
+  const all    = loadEvents();
+  const events = periodEvents(all, 30);
+
+  document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
+
+  renderKPIs(events);
+  renderPrimaryFunnel(events);
+  renderSecondaryFunnel(events);
+  renderIntentHeatmap();
+  renderTopServices(events);
+  renderLeadSources(events);
+}
+
+// Initial render + auto-refresh every 30s
+render();
+setInterval(render, 30000);
+
+// Also refresh on incoming live events
+window.addEventListener('hanuman:lead-event', render);
+</script>
+</body>
+</html>

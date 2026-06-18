@@ -1,0 +1,123 @@
+{
+  "analytics_version": "v1",
+  "schema_version": "2026-06-18",
+  "product": "hanuman.solutions",
+  "kpi": "lead_generation",
+  "event_registry": {
+    "engagement_events": [
+      {
+        "name": "page_view",
+        "description": "Any page loaded by the visitor",
+        "intent_tier": "low",
+        "intent_score": 0,
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["source", "referrer", "section"]
+      },
+      {
+        "name": "service_view",
+        "description": "Visitor explicitly views a service section (infra-debugging, AI pipeline repair, etc.)",
+        "intent_tier": "medium",
+        "intent_score": 1,
+        "required_metadata": ["page_slug", "service_name"],
+        "optional_metadata": ["source", "section_id"]
+      },
+      {
+        "name": "contact_opened",
+        "description": "Visitor scrolls to or navigates to the contact section (s4)",
+        "intent_tier": "medium",
+        "intent_score": 2,
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["trigger", "from_section"]
+      },
+      {
+        "name": "proposal_downloaded",
+        "description": "Visitor downloads a service proposal PDF",
+        "intent_tier": "high",
+        "intent_score": 4,
+        "required_metadata": ["page_slug", "proposal_name"],
+        "optional_metadata": ["source"]
+      }
+    ],
+    "lead_events": [
+      {
+        "name": "contact_submitted",
+        "description": "Visitor submits the contact/intake form",
+        "intent_tier": "high",
+        "intent_score": 8,
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["service_interest", "urgency"]
+      },
+      {
+        "name": "consultation_requested",
+        "description": "Visitor explicitly requests a consultation via CTA or form",
+        "intent_tier": "high",
+        "intent_score": 10,
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["service_interest", "source", "urgency"]
+      },
+      {
+        "name": "email_clicked",
+        "description": "Visitor clicks the email address link",
+        "intent_tier": "high",
+        "intent_score": 5,
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["email_address"]
+      },
+      {
+        "name": "whatsapp_clicked",
+        "description": "Visitor clicks the WhatsApp contact link",
+        "intent_tier": "high",
+        "intent_score": 5,
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["phone_number"]
+      }
+    ],
+    "retention_events": [
+      {
+        "name": "returning_visitor",
+        "description": "Visitor who last visited more than 24 hours ago returns",
+        "intent_tier": "retention",
+        "intent_score": 3,
+        "trigger_condition": "last_seen_at < now - 86400000",
+        "required_metadata": ["page_slug"],
+        "optional_metadata": ["visit_count", "days_since_last_visit"]
+      }
+    ]
+  },
+  "intent_score_weights": {
+    "consultation_requested": 10,
+    "contact_submitted": 8,
+    "whatsapp_clicked": 5,
+    "email_clicked": 5,
+    "proposal_downloaded": 4,
+    "returning_visitor": 3,
+    "contact_opened": 2,
+    "service_view": 1,
+    "page_view": 0
+  },
+  "funnel_definitions": {
+    "primary_funnel": {
+      "label": "Service Discovery Funnel",
+      "stages": ["page_view", "service_view", "contact_opened", "consultation_requested"],
+      "primary_metric": "lead_conversion_rate",
+      "formula": "consultation_requested / page_view (unique visitors)"
+    },
+    "secondary_funnel": {
+      "label": "Case Study Conversion Funnel",
+      "stages": ["page_view (proof section)", "contact_opened", "consultation_requested"],
+      "primary_metric": "case_study_conversion_rate",
+      "formula": "consultation_requested / case_study_view"
+    }
+  },
+  "api_endpoint": "POST /api/analytics/event",
+  "api_payload_schema": {
+    "event": "string (required, must match event_registry)",
+    "visitorId": "string (required, UUID or fingerprint)",
+    "sessionId": "string (required)",
+    "pageSlug": "string (required, current path)",
+    "metadata": "object (optional, event-specific fields)"
+  },
+  "storage": "localStorage key: hanuman_lead_events",
+  "flush_endpoint": "POST /api/analytics/event",
+  "flush_strategy": "queue + flush on idle or page unload"
+}
