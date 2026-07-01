@@ -47,9 +47,22 @@ function sanitize(str, maxLen = 256) {
 
 module.exports = async (req, res) => {
   // CORS
-  const ALLOWED_ORIGINS = ['https://hanuman.solutions', 'https://www.hanuman.solutions'];
+  const ALLOWED_ORIGINS = [
+    'https://hanuman.solutions',
+    'https://www.hanuman.solutions',
+    'https://daxini.xyz',
+    'https://www.daxini.xyz',
+    'https://aporaksha.com',
+    'https://www.aporaksha.com',
+    'https://logichub.app',
+    'https://www.logichub.app',
+    'https://daxini.space',
+    'https://www.daxini.space',
+    'https://viadecide.com',
+    'https://www.viadecide.com'
+  ];
   const origin = req.headers.origin || '';
-  if (ALLOWED_ORIGINS.includes(origin)) {
+  if (ALLOWED_ORIGINS.includes(origin) || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
