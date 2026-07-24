@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Form Validation — Hanuman.Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  body { font-family: 'Outfit', sans-serif; }
+  .font-brand { font-family: 'Cinzel Decorative', serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body class="min-h-screen bg-[#0A0502] text-[#F2E8DE] antialiased">
+<header class="border-b border-[#FF6700]/20 bg-[#0A0502]/90 backdrop-blur sticky top-0 z-50">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
+    <a href="/states/index.html" class="text-xs font-mono text-[#A89F95] hover:text-[#FF6700] flex items-center gap-1.5 transition-colors">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Outage States
+    </a>
+    <span class="font-mono text-xs text-[#FF6700]">State 09 / Form Validation</span>
+  </div>
+</header>
+
+<main class="mx-auto max-w-xl px-4 py-12">
+  <div class="mb-8">
+    <div class="inline-flex items-center gap-2 font-mono text-xs text-[#FF6700] bg-[#FF6700]/10 border border-[#FF6700]/20 px-2.5 py-0.5 rounded mb-2">
+      <i data-lucide="list-checks" class="w-3.5 h-3.5"></i> Live Outage Ticket Validation
+    </div>
+    <h1 class="font-brand text-2xl font-bold text-white">Report Production Incident</h1>
+    <p class="text-[#A89F95] text-xs mt-1">Submit system crash logs or stack trace details for emergency Hanuman triage.</p>
+  </div>
+
+  <form id="incidentForm" novalidate class="rounded-xl border border-[#FF6700]/20 bg-[#140a05] p-6 shadow-2xl space-y-5">
+    
+    <!-- Severity -->
+    <div>
+      <label for="severity" class="block text-xs font-mono text-[#A89F95] mb-1">Incident Severity Level <span class="text-[#f87171]">*</span></label>
+      <select id="severity" class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2 text-sm text-white focus:border-[#FF6700] focus:outline-none transition-colors">
+        <option value="">Select severity level...</option>
+        <option value="sev1">SEV-1 Critical Production Outage</option>
+        <option value="sev2">SEV-2 High Degradation / Memory Leak</option>
+        <option value="sev3">SEV-3 Deadlock / Race Condition</option>
+        <option value="sev4">SEV-4 Non-blocking System Failure</option>
+      </select>
+      <p id="severityError" class="hidden text-xs text-[#f87171] mt-1.5 flex items-center gap-1">
+        <i data-lucide="alert-circle" class="w-3 h-3"></i> Please select a valid severity level.
+      </p>
+    </div>
+
+    <!-- Ticket ID -->
+    <div>
+      <div class="flex justify-between items-center mb-1">
+        <label for="ticketId" class="block text-xs font-mono text-[#A89F95]">Incident Ticket ID <span class="text-[#f87171]">*</span></label>
+        <span class="text-[10px] font-mono text-[#A89F95]">Format: INC-XXXX</span>
+      </div>
+      <input type="text" id="ticketId" placeholder="INC-7003"
+        class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2 text-sm text-white font-mono placeholder-[#4e5368] focus:border-[#FF6700] focus:outline-none transition-colors" />
+      <p id="ticketIdError" class="hidden text-xs text-[#f87171] mt-1.5 flex items-center gap-1">
+        <i data-lucide="alert-circle" class="w-3 h-3"></i> Ticket ID must match INC- followed by 4 digits (e.g. INC-7003).
+      </p>
+    </div>
+
+    <!-- Service Title -->
+    <div>
+      <label for="serviceTitle" class="block text-xs font-mono text-[#A89F95] mb-1">Failing Service / Incident Title <span class="text-[#f87171]">*</span></label>
+      <input type="text" id="serviceTitle" placeholder="e.g. Auth Gateway Redis Socket Timeout & Mutex Deadlock"
+        class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2 text-sm text-white placeholder-[#4e5368] focus:border-[#FF6700] focus:outline-none transition-colors" />
+      <p id="serviceTitleError" class="hidden text-xs text-[#f87171] mt-1.5 flex items-center gap-1">
+        <i data-lucide="alert-circle" class="w-3 h-3"></i> Service title must be at least 5 characters long.
+      </p>
+    </div>
+
+    <!-- On-Call Email -->
+    <div>
+      <label for="email" class="block text-xs font-mono text-[#A89F95] mb-1">Lead On-Call Email <span class="text-[#f87171]">*</span></label>
+      <input type="email" id="email" placeholder="oncall@hanuman.solutions"
+        class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2 text-sm text-white placeholder-[#4e5368] focus:border-[#FF6700] focus:outline-none transition-colors" />
+      <p id="emailError" class="hidden text-xs text-[#f87171] mt-1.5 flex items-center gap-1">
+        <i data-lucide="alert-circle" class="w-3 h-3"></i> Please enter a valid on-call email address.
+      </p>
+    </div>
+
+    <!-- Environment -->
+    <div>
+      <label for="environment" class="block text-xs font-mono text-[#A89F95] mb-1">Target Environment <span class="text-[#f87171]">*</span></label>
+      <select id="environment" class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2 text-sm text-white focus:border-[#FF6700] focus:outline-none transition-colors">
+        <option value="">Select target environment...</option>
+        <option value="k8s">Production Kubernetes Cluster</option>
+        <option value="edge">Edge Gateway Nodes</option>
+        <option value="gpu">Bare-Metal GPU Cluster</option>
+        <option value="db">Relational / Key-Value Database Mesh</option>
+      </select>
+      <p id="environmentError" class="hidden text-xs text-[#f87171] mt-1.5 flex items-center gap-1">
+        <i data-lucide="alert-circle" class="w-3 h-3"></i> Please select a valid target environment.
+      </p>
+    </div>
+
+    <!-- Stack Trace -->
+    <div>
+      <div class="flex justify-between items-center mb-1">
+        <label for="stackTrace" class="block text-xs font-mono text-[#A89F95]">Stack Trace / Error Excerpt <span class="text-[#f87171]">*</span></label>
+        <span class="text-[10px] font-mono text-[#A89F95]">Min 25 chars</span>
+      </div>
+      <textarea id="stackTrace" rows="3" placeholder="Paste error traceback or kernel syslog snippet here..."
+        class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2 text-xs font-mono text-white placeholder-[#4e5368] focus:border-[#FF6700] focus:outline-none transition-colors"></textarea>
+      <p id="stackTraceError" class="hidden text-xs text-[#f87171] mt-1.5 flex items-center gap-1">
+        <i data-lucide="alert-circle" class="w-3 h-3"></i> Must be at least 25 characters containing an error keyword (Error, Exception, Fatal, Crash, Fail).
+      </p>
+    </div>
+
+    <!-- Success Message Container -->
+    <div id="formSuccess" class="hidden rounded-lg border border-[#34d399]/30 bg-[#34d399]/10 p-3 text-xs text-[#34d399] flex items-center gap-2">
+      <i data-lucide="check-circle" class="w-4 h-4 shrink-0"></i>
+      <span>Validation passed! Dispatching Hanuman debug unit for triage...</span>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#FF6700] px-4 py-2.5 text-sm font-semibold text-[#0A0502] hover:bg-[#ff8547] transition-colors shadow-lg shadow-[#FF6700]/20">
+      <i data-lucide="siren" class="w-4 h-4"></i> Validate & Dispatch Debug Squad
+    </button>
+  </form>
+</main>
+
+<script>
+  lucide.createIcons();
+
+  const form = document.getElementById('incidentForm');
+  const severity = document.getElementById('severity');
+  const ticketId = document.getElementById('ticketId');
+  const serviceTitle = document.getElementById('serviceTitle');
+  const email = document.getElementById('email');
+  const environment = document.getElementById('environment');
+  const stackTrace = document.getElementById('stackTrace');
+  const formSuccess = document.getElementById('formSuccess');
+
+  function validateField(field, errorEl, isInvalidCondition) {
+    if (isInvalidCondition) {
+      field.classList.add('border-[#f87171]');
+      field.classList.remove('border-[#FF6700]/20');
+      errorEl.classList.remove('hidden');
+      return false;
+    } else {
+      field.classList.remove('border-[#f87171]');
+      field.classList.add('border-[#FF6700]/20');
+      errorEl.classList.add('hidden');
+      return true;
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const isSeverityValid = validateField(severity, document.getElementById('severityError'), !severity.value);
+    const isTicketValid = validateField(ticketId, document.getElementById('ticketIdError'), !/^INC-\d{4}$/.test(ticketId.value.trim()));
+    const isTitleValid = validateField(serviceTitle, document.getElementById('serviceTitleError'), serviceTitle.value.trim().length < 5);
+    const isEmailValid = validateField(email, document.getElementById('emailError'), !/^\S+@\S+\.\S+$/.test(email.value.trim()));
+    const isEnvValid = validateField(environment, document.getElementById('environmentError'), !environment.value);
+    const traceVal = stackTrace.value.trim();
+    const isTraceValid = validateField(stackTrace, document.getElementById('stackTraceError'), traceVal.length < 25 || !/(error|exception|fatal|crash|fail|deadlock)/i.test(traceVal));
+
+    if (isSeverityValid && isTicketValid && isTitleValid && isEmailValid && isEnvValid && isTraceValid) {
+      formSuccess.classList.remove('hidden');
+      setTimeout(() => {
+        window.location.href = '/states/success.html';
+      }, 1200);
+    } else {
+      formSuccess.classList.add('hidden');
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Slow Network — Hanuman.Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  body { font-family: 'Outfit', sans-serif; }
+  .font-brand { font-family: 'Cinzel Decorative', serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body class="min-h-screen bg-[#0A0502] text-[#F2E8DE] antialiased">
+<header class="border-b border-[#FF6700]/20 bg-[#0A0502]/90 backdrop-blur sticky top-0 z-50">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
+    <a href="/states/index.html" class="text-xs font-mono text-[#A89F95] hover:text-[#FF6700] flex items-center gap-1.5 transition-colors">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Outage States
+    </a>
+    <span class="font-mono text-xs text-[#F4C430]">State 05 / Slow Log Streaming</span>
+  </div>
+</header>
+<main class="mx-auto max-w-2xl px-4 py-16">
+  <div class="mb-8 rounded-xl border border-[#F4C430]/30 bg-[#F4C430]/10 p-4 flex items-start gap-3">
+    <i data-lucide="signal-low" class="w-5 h-5 text-[#F4C430] shrink-0 mt-0.5"></i>
+    <div>
+      <div class="text-sm font-semibold text-white">Degraded Log Stream Speed (RTT: 2100ms)</div>
+      <div class="text-xs text-[#A89F95] mt-0.5">Live syslog streaming throttled. Switching debug console to High-Priority Fatal Error Telemetry Filter.</div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-[#FF6700]/20 bg-[#140a05] p-6 text-center">
+    <div class="inline-flex h-16 w-16 items-center justify-center rounded-xl bg-[#0A0502] text-[#F4C430] mb-4 border border-[#FF6700]/20">
+      <i data-lucide="filter" class="w-8 h-8"></i>
+    </div>
+    <h2 class="font-brand text-xl font-bold text-white mb-2">High-Priority Error Filter Active</h2>
+    <p class="text-[#A89F95] text-sm max-w-md mx-auto mb-6">
+      Filtering out debug trace noise to stream critical stack traces over high-latency connections.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <button class="inline-flex items-center gap-2 rounded-lg bg-[#FF6700] px-4 py-2 text-sm font-semibold text-[#0A0502] hover:bg-[#ff8547] transition-colors">
+        <i data-lucide="activity" class="w-4 h-4"></i> Stream Raw Fatal Logs
+      </button>
+    </div>
+  </div>
+</main>
+<script>lucide.createIcons();</script>
+</body>
+</html>

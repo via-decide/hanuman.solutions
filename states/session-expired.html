@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Session Expired — Hanuman.Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  body { font-family: 'Outfit', sans-serif; }
+  .font-brand { font-family: 'Cinzel Decorative', serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body class="min-h-screen bg-[#0A0502] text-[#F2E8DE] antialiased">
+<header class="border-b border-[#FF6700]/20 bg-[#0A0502]/90 backdrop-blur sticky top-0 z-50">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
+    <a href="/states/index.html" class="text-xs font-mono text-[#A89F95] hover:text-[#FF6700] flex items-center gap-1.5 transition-colors">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Outage States
+    </a>
+    <span class="font-mono text-xs text-[#F4C430]">State 08 / Session Expired</span>
+  </div>
+</header>
+<main class="mx-auto max-w-md px-4 py-16">
+  <div class="rounded-xl border border-[#FF6700]/20 bg-[#140a05] p-6 shadow-2xl text-center">
+    <div class="inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-[#F4C430]/30 bg-[#F4C430]/10 mb-4 text-[#F4C430]">
+      <i data-lucide="clock-alert" class="w-8 h-8"></i>
+    </div>
+    <h1 class="font-brand text-xl font-bold text-white mb-2">On-Call Token Expired</h1>
+    <p class="text-[#A89F95] text-xs mb-6">
+      Your emergency response session lease timed out after 12 hours. Enter your on-call passkey to re-authorize live incident control.
+    </p>
+
+    <form onsubmit="event.preventDefault(); alert('Emergency session re-authenticated!');" class="space-y-4 text-left">
+      <div>
+        <label class="block text-xs font-mono text-[#A89F95] mb-1">On-Call Emergency Key</label>
+        <input type="password" placeholder="hanuman_sec_••••••••" class="w-full rounded-lg border border-[#FF6700]/20 bg-[#0A0502] px-3.5 py-2.5 text-xs text-white font-mono placeholder-[#4e5368] focus:border-[#FF6700] focus:outline-none" required />
+      </div>
+      <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#FF6700] px-4 py-2.5 text-sm font-semibold text-[#0A0502] hover:bg-[#ff8547] transition-colors">
+        <i data-lucide="shield-check" class="w-4 h-4"></i> Re-verify Emergency Session
+      </button>
+    </form>
+  </div>
+</main>
+<script>lucide.createIcons();</script>
+</body>
+</html>

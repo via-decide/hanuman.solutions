@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UI States — Hanuman.Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  body { font-family: 'Outfit', sans-serif; }
+  .font-brand { font-family: 'Cinzel Decorative', serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body class="min-h-screen bg-[#0A0502] text-[#F2E8DE] antialiased selection:bg-[#FF6700]/30 selection:text-white">
+<header class="border-b border-[#FF6700]/20 bg-[#0A0502]/90 backdrop-blur sticky top-0 z-50">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
+    <div class="flex items-center gap-3">
+      <a href="/" class="font-brand text-lg font-bold tracking-tight text-white flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#FF6700] shadow-lg shadow-[#FF6700]/50"></span>
+        HANUMAN<span class="text-[#FF6700]">.SOLUTIONS</span>
+      </a>
+      <span class="text-xs text-[#A89F95] hidden sm:inline-block">/ Production Debugging & Incident Response</span>
+    </div>
+    <span class="font-mono text-[11px] uppercase tracking-widest px-2.5 py-1 rounded bg-[#FF6700]/10 border border-[#FF6700]/30 text-[#FF6700]">Outage UI States</span>
+  </div>
+</header>
+<main class="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+  <div class="mb-10 text-center sm:text-left">
+    <div class="inline-flex items-center gap-2 font-mono text-xs text-[#F4C430] bg-[#FF6700]/10 border border-[#FF6700]/20 px-3 py-1 rounded-full mb-3">
+      <i data-lucide="wrench" class="w-3.5 h-3.5"></i> Production System Debugging Console
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">Incident & Debugging States</h1>
+    <p class="text-[#A89F95] text-sm max-w-2xl leading-relaxed">
+      Standardized visual reference states for Hanuman emergency outage triage, thread diagnostics, and system recovery workflows.
+    </p>
+  </div>
+  <div class="grid sm:grid-cols-2 gap-4" id="grid"></div>
+</main>
+
+<script>
+  const states = [
+    ['empty.html', 'check-circle-2', 'Empty State', 'Zero unresolved production system outages in triage queue'],
+    ['loading.html', 'loader-2', 'Loading State', 'Running emergency heap dump & stack trace diagnostics'],
+    ['error.html', 'alert-octagon', 'Error State', 'Critical outage detected — Hanuman debug unit dispatching root-cause triage'],
+    ['offline.html', 'wifi-off', 'No Internet', 'Air-gapped incident response terminal active for local debug'],
+    ['slow-network.html', 'signal-low', 'Slow Network', 'Log stream throttling fallback to high-priority error filter'],
+    ['no-results.html', 'search-x', 'No Search Results', 'Query yielded zero matching outage tickets or stack traces'],
+    ['permission-denied.html', 'shield-alert', 'Permission Denied', 'Emergency production console restricted to lead debuggers'],
+    ['session-expired.html', 'clock-alert', 'Session Expired', 'On-call incident response authorization token timeout'],
+    ['form-validation.html', 'list-checks', 'Form Validation', 'Real-time production incident triage submission validator'],
+    ['success.html', 'shield-check', 'Success State', 'Production system failure mitigated & root cause resolved'],
+  ];
+  const grid = document.getElementById('grid');
+  for (const [href, icon, title, desc] of states) {
+    const a = document.createElement('a');
+    a.href = href;
+    a.className = 'group flex items-start gap-4 rounded-xl border border-[#FF6700]/20 bg-[#140a05] p-5 hover:border-[#FF6700]/60 hover:bg-[#FF6700]/10 transition-all duration-200';
+    a.innerHTML = `
+      <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#FF6700]/30 bg-[#0A0502] group-hover:border-[#FF6700] group-hover:text-[#FF6700] transition-colors">
+        <i data-lucide="${icon}" class="h-5 w-5 text-[#FF6700]"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between">
+          <div class="text-sm font-semibold text-white group-hover:text-[#FF6700] transition-colors">${title}</div>
+          <i data-lucide="arrow-right" class="h-4 w-4 text-[#A89F95] group-hover:text-[#FF6700] group-hover:translate-x-0.5 transition-all"></i>
+        </div>
+        <div class="text-xs text-[#A89F95] mt-1 line-clamp-2">${desc}</div>
+      </div>`;
+    grid.appendChild(a);
+  }
+  lucide.createIcons();
+</script>
+</body>
+</html>
