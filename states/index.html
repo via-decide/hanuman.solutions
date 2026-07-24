@@ -43,16 +43,16 @@
 
 <script>
   const states = [
-    ['empty.html', 'check-circle-2', 'Empty State', 'Zero unresolved production system outages in triage queue'],
-    ['loading.html', 'loader-2', 'Loading State', 'Running emergency heap dump & stack trace diagnostics'],
-    ['error.html', 'alert-octagon', 'Error State', 'Critical outage detected — Hanuman debug unit dispatching root-cause triage'],
-    ['offline.html', 'wifi-off', 'No Internet', 'Air-gapped incident response terminal active for local debug'],
-    ['slow-network.html', 'signal-low', 'Slow Network', 'Log stream throttling fallback to high-priority error filter'],
-    ['no-results.html', 'search-x', 'No Search Results', 'Query yielded zero matching outage tickets or stack traces'],
-    ['permission-denied.html', 'shield-alert', 'Permission Denied', 'Emergency production console restricted to lead debuggers'],
-    ['session-expired.html', 'clock-alert', 'Session Expired', 'On-call incident response authorization token timeout'],
-    ['form-validation.html', 'list-checks', 'Form Validation', 'Real-time production incident triage submission validator'],
-    ['success.html', 'shield-check', 'Success State', 'Production system failure mitigated & root cause resolved'],
+    ['empty', 'activity', 'Empty State', 'Zero production outages recorded — all systems 100% operational'],
+    ['loading', 'loader-2', 'Loading State', 'Hanuman debug squad compiling kernel stack traces'],
+    ['error', 'siren', 'Error State', 'CRITICAL OUTAGE DETECTED — Active Hanuman Emergency Triage'],
+    ['offline', 'wifi-off', 'No Internet', 'Production node offline — local emergency triage active'],
+    ['slow-network', 'signal-low', 'Slow Network', 'High latency degraded mode — core telemetry fallback'],
+    ['no-results', 'search-x', 'No Search Results', 'Zero matching incident tickets found in debug registry'],
+    ['permission-denied', 'shield-alert', 'Permission Denied', 'Emergency Debug Console restricted to Lead Debugger'],
+    ['session-expired', 'clock-alert', 'Session Expired', 'On-call incident response session lease expired'],
+    ['form-validation', 'list-checks', 'Form Validation', 'Live production incident ticket validation & dispatch'],
+    ['success', 'shield-check', 'Success State', 'Production incident resolved & root cause patched'],
   ];
   const grid = document.getElementById('grid');
   for (const [href, icon, title, desc] of states) {
