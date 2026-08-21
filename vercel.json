@@ -5,19 +5,28 @@
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*)\\.html",
       "headers": [
-        { "key": "Cache-Control", "value": "public, s-maxage=86400, stale-while-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=86400, stale-while-revalidate"
+        }
       ]
     },
     {
       "source": "/analytics/(.*)\\.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, s-maxage=3600" }
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=3600"
+        }
       ]
     }
   ],
@@ -25,10 +34,20 @@
     "api/analytics-event.js": {
       "memory": 256,
       "maxDuration": 10
+    },
+    "api/intake.js": {
+      "memory": 256,
+      "maxDuration": 10
     }
   },
   "rewrites": [
-    { "source": "/api/analytics/event", "destination": "/api/analytics-event" },
-    { "source": "/((?!assets/|analytics/|api/|.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
+    {
+      "source": "/api/analytics/event",
+      "destination": "/api/analytics-event"
+    },
+    {
+      "source": "/((?!assets/|analytics/|api/|.*\\.[a-zA-Z0-9]+$).*)",
+      "destination": "/index.html"
+    }
   ]
 }
