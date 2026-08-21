@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
   overlay.innerHTML = [
     '<button class="mobile-nav-close" aria-label="Close menu">×</button>',
     '<a href="#s1">Proof</a>',
-    '<a href="#s2">Pricing</a>',
-    '<a href="#s3">Compliance</a>',
+    '<a href="#s2">How It Works</a>',
+    '<a href="#s3">Capabilities</a>',
     '<a href="#s4">Contact</a>',
     '<a href="#s2" class="accent-link" id="mobile-book-audit">Book Audit →</a>',
     '<a href="https://daxini.xyz" style="margin-top:1.5rem;font-size:1rem;color:#A89F95">Daxini Ecosystem →</a>'
