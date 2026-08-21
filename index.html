@@ -379,6 +379,16 @@
 </head>
 <body>
 
+<nav style="position:fixed;top:0;left:0;right:0;z-index:150;background:rgba(10,5,2,0.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,103,0,0.15);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.8rem;">
+  <a href="/" style="color:var(--gold);text-decoration:none;font-family:var(--font-display);font-size:1rem;font-weight:700;">Hanuman.Solutions</a>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <a href="https://aporaksha.com/store" style="color:var(--text-muted);text-decoration:none;">Store</a>
+    <a href="https://aporaksha.com/sell" style="color:var(--text-muted);text-decoration:none;">Sell</a>
+    <a href="https://aporaksha.com/membership" style="color:var(--text-muted);text-decoration:none;">Membership</a>
+    <a href="https://aporaksha.com/passport" style="color:var(--saffron);text-decoration:none;">Passport</a>
+  </div>
+</nav>
+
 <canvas id="bg"></canvas>
 <div id="progress-bar"></div>
 
@@ -687,10 +697,23 @@
     <a href="#s4" class="cta-btn">Send your issue → Get diagnosis in 12h</a>
     <p class="cta-sub" style="margin-top:14px">
       Already know it needs a full review?
-      <a href="https://aporaksha.com/passport/checkout?product=arch_audit"
-         style="color:var(--accent,#ff6700);text-decoration:underline">
-        Book an Architecture Audit — ₹4,999</a>
+      <button onclick="bookArchAudit()" style="background:none;border:none;padding:0;cursor:pointer;color:var(--accent,#ff6700);text-decoration:underline;font:inherit">
+        Book an Architecture Audit — ₹4,999</button>
     </p>
+    <script>
+    function bookArchAudit() {
+      if (typeof AporakshaCheckout !== 'undefined') {
+        AporakshaCheckout.submit({
+          product_id: 'arch_audit',
+          name: 'Architecture Audit — Hanuman.Solutions',
+          onSuccess: function() { alert('Payment successful! We will reach out within 12 hours.'); },
+          onError: function(err) { console.error('[Payment]', err); alert('Payment could not be completed. Please try again.'); }
+        });
+      } else {
+        alert('Payment system is loading. Please try again in a moment.');
+      }
+    }
+    </script>
     <p class="cta-sub"><a href="/sovereignty">Sovereignty</a> · <a href="/adoption">Adoption Path</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/refunds.html">Refund Policy</a> · <a href="/contact.html">Contact Us</a></p>
     <div class="ghost-num">01</div>
   </section>
@@ -1054,5 +1077,8 @@ window.addEventListener('resize', () => {
 }
 
 </script>
+<script src="/public/js/aporaksha-client.js"></script>
+<script src="/public/js/aporaksha-checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
