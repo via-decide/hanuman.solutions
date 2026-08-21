@@ -1,35 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hanuman.Solutions Intake</title>
-<style>
-body{margin:0;background:#0A0502;color:#F2E8DE;font-family:Arial,sans-serif;display:flex;justify-content:center;padding:40px 16px}
-.wrap{width:100%;max-width:680px}.row{display:flex;flex-direction:column;gap:6px;margin:0 0 14px}
-input,textarea,select,button{background:#140a05;border:1px solid rgba(255,103,0,.25);color:#fff;padding:12px;border-radius:4px}
-textarea{min-height:110px;resize:vertical}button{background:#FF6700;border:none;font-weight:700;cursor:pointer}
-.note{font-size:.9rem;color:#F4C430;margin:4px 0}.small{font-size:.86rem;color:#A89F95}
-</style>
-</head>
-<body>
-<main class="wrap" id="app">
-  <h1 style="margin-top:0">System Intake</h1>
-  <form id="intake-form">
-    <div class="row"><label>System URL (required)</label><input required name="system_url"></div>
-    <div class="row"><label>What broke</label><textarea name="what_broke"></textarea></div>
-    <div class="row"><label>Error logs / link</label><textarea name="logs"></textarea></div>
-    <div class="row"><label>When it broke</label><input name="when_broke"></div>
-    <div class="row"><label>Urgency (P0/P1/P2)</label><select name="urgency"><option>P0</option><option>P1</option><option>P2</option></select></div>
-    <div class="row"><label>Access method</label><input name="access_method"></div>
-    <div class="row"><label>Budget (required)</label><input required name="budget"></div>
-    <p class="note">You will be charged for diagnosis.</p>
-    <p class="small">For security: do NOT send credentials here.</p>
-    <button type="submit">Create Ticket</button>
-  </form>
-</main>
-<script>
-document.getElementById('intake-form').addEventListener('submit',function(e){e.preventDefault();document.getElementById('app').innerHTML='<h1>Received.</h1><p>Diagnosis within 12 hours.</p>';});
-</script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Project Intake — Hanuman.Solutions</title><meta name="description" content="Start a scoped engineering engagement with Hanuman.Solutions."><link rel="canonical" href="https://hanuman.solutions/intake"><style>
+:root{--orange:#ff6700;--gold:#f4c430;--bg:#0a0502;--panel:#140a05;--text:#f2e8de;--muted:#b8afa6}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.55;padding:32px 16px}.wrap{width:100%;max-width:760px;margin:auto}.eyebrow{color:var(--orange);font:700 .75rem monospace;letter-spacing:.15em;text-transform:uppercase}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.6rem 0}p{color:var(--muted)}form{margin-top:2rem;padding:clamp(1rem,4vw,2rem);border:1px solid rgba(255,103,0,.25);background:var(--panel)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.field{display:flex;flex-direction:column;gap:.4rem}.full{grid-column:1/-1}label{font-weight:700;font-size:.9rem}label span{color:var(--muted);font-weight:400}input,textarea,select,button{min-height:48px;border:1px solid rgba(255,103,0,.3);border-radius:3px;background:#0a0502;color:var(--text);font:inherit;padding:.75rem}textarea{min-height:140px;resize:vertical}input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:2px}button{background:var(--orange);border:0;font-weight:800;cursor:pointer}.privacy{font-size:.83rem;color:var(--gold);padding:.8rem;border-left:2px solid var(--orange)}.links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem}.links a{color:var(--gold)}@media(max-width:600px){.grid{grid-template-columns:1fr}.full{grid-column:auto}body{padding:20px 12px}form{padding:1rem}}
+</style></head><body><main class="wrap"><span class="eyebrow">Project intake / secure first contact</span><h1>What are you trying to build or fix?</h1><p>Describe the outcome and present stage. We will use it to determine the correct engineering entry point and scope.</p>
+<form id="intake-form" action="mailto:dharam@viadecide.com" method="post" enctype="text/plain"><div class="grid">
+<div class="field"><label for="name">Name</label><input id="name" name="Name" autocomplete="name" required></div><div class="field"><label for="email">Email</label><input id="email" name="Email" type="email" autocomplete="email" required></div>
+<div class="field full"><label for="company">Company / organisation <span>(optional)</span></label><input id="company" name="Company" autocomplete="organization"></div>
+<div class="field full"><label for="brief">What are you trying to build or fix?</label><textarea id="brief" name="Project brief" required placeholder="The system, desired outcome, constraints, or observed failure."></textarea></div>
+<div class="field"><label for="stage">Current stage</label><select id="stage" name="Current stage" required><option value="">Select one</option><option>Idea / requirement</option><option>Existing prototype</option><option>Existing production system</option><option>Production failure</option><option>Not sure</option></select></div>
+<div class="field"><label for="domain">Domain</label><select id="domain" name="Domain" required><option value="">Select one</option><option>AI</option><option>Embedded / electronics</option><option>Industrial software</option><option>Automation / robotics</option><option>Infrastructure</option><option>Production rescue</option><option>Other</option></select></div>
+<div class="field"><label for="deadline">Deadline <span>(optional)</span></label><input id="deadline" name="Deadline" placeholder="Date or operational constraint"></div><div class="field"><label for="budget">Budget range <span>(optional)</span></label><input id="budget" name="Budget range" placeholder="If already defined"></div>
+<div class="field full"><p class="privacy"><strong>Do not submit passwords, credentials, private keys, confidential source code or regulated personal data through this form.</strong></p><button type="submit">Start technical intake</button></div></div></form>
+<div class="links"><a href="/">← Hanuman.Solutions</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="mailto:dharam@viadecide.com">Email directly</a></div></main>
+<script src="/analytics/analytics_service.js"></script><script>var params=new URLSearchParams(location.search);if(params.get('engagement')==='production-rescue'){document.getElementById('domain').value='Production rescue';document.getElementById('stage').value='Production failure'}document.getElementById('intake-form').addEventListener('submit',function(){if(window.HanumanAnalytics){HanumanAnalytics.contactSubmitted({trigger:'project-intake'});HanumanAnalytics.consultationRequested({service_interest:document.getElementById('domain').value,source:'intake-form'})}});if(window.HanumanAnalytics)HanumanAnalytics.init();</script></body></html>
