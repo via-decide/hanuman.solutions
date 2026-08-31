@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hanuman.Solutions — We debug and fix production system failures</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hanuman.Solutions — Engineering Systems, Built for the Real World</title>
+<meta name="description" content="Hanuman designs, builds, integrates, verifies, deploys and rescues AI, embedded, industrial software, automation and infrastructure systems.">
+<link rel="canonical" href="https://hanuman.solutions/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://hanuman.solutions/">
+<meta property="og:title" content="Hanuman.Solutions — Engineering Systems, Built for the Real World">
+<meta property="og:description" content="Engineering execution across AI, electronics, industrial software, automation and infrastructure — from architecture to production.">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Hanuman.Solutions — Engineering Systems, Built for the Real World">
+<meta name="twitter:description" content="We design, build, integrate, verify, deploy and rescue real technical systems.">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +28,7 @@
     --surface-border: rgba(255, 103, 0, 0.15);
     --text-main: #F2E8DE;
     --text-muted: #A89F95;
-    
+
     --font-display: 'Cinzel Decorative', serif;
     --font-sans: 'Outfit', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
@@ -99,7 +106,7 @@
     transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: -1;
   }
-  
+
   .state-1 #divine-sun { top: 5vh; right: 10%; opacity: 0.8; transform: scale(1.1); filter: blur(20px); }
   .state-3 #divine-sun { top: 12vh; right: 35%; opacity: 1; transform: scale(1); filter: blur(8px); }
 
@@ -114,11 +121,11 @@
   /* ══════════════════════════════════════════
      DIVINE PUPPET RIG (MATURE & MUSCULAR)
      ══════════════════════════════════════════ */
-  
+
   [id^="sw-"] {
     transition: transform 1.2s cubic-bezier(0.25, 1, 0.3, 1); /* Heavy, powerful movements */
   }
-  
+
   [id^="aw-"] { transform-origin: inherit; }
 
   /* New Pivot Points for the 400x550 Canvas */
@@ -176,7 +183,7 @@
   @keyframes breath-armL   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(-2deg);} }
   @keyframes breath-armR   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(2deg);} }
   @keyframes breath-head   { 0%,100%{transform:rotate(0);} 50%{transform:rotate(-2deg);} }
-  
+
   @keyframes power-aura { 0%,100%{opacity:0.6; transform:scale(1);} 50%{opacity:1; transform:scale(1.05);} }
 
   #aw-puppet { animation: breath-puppet 6s infinite ease-in-out; }
@@ -189,9 +196,9 @@
   .state-1 #aw-puppet { animation: breath-puppet 2s infinite ease-in-out; } /* Faster breathing when powered up */
 
   /* Facial Expressions (Blinking) */
-  @keyframes blink { 
-    0%, 96%, 100% { transform: scaleY(1); } 
-    98% { transform: scaleY(0.1); } 
+  @keyframes blink {
+    0%, 96%, 100% { transform: scaleY(1); }
+    98% { transform: scaleY(0.1); }
   }
   #h-eyes { transform-origin: 200px 125px; animation: blink 5s infinite; }
 
@@ -209,7 +216,7 @@
     background: linear-gradient(to bottom, transparent, var(--saffron), var(--gold), transparent);
   }
   #divine-hud.show { opacity: 1; transform: translateY(-50%) translateX(0); }
-  
+
   .hud-header {
     font-family: var(--font-mono); font-size: 0.7rem; color: var(--saffron);
     letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;
@@ -375,29 +382,22 @@
     #nav-dots { left: 12px; }
     .cta-btn { width: 100%; }
   }
+
+  .nav-brand{color:var(--gold);text-decoration:none;font-family:var(--font-display);font-size:.9rem;font-weight:700}.desktop-nav-links{display:flex;align-items:center;gap:14px}.desktop-nav-links a{color:var(--text-muted);text-decoration:none;text-transform:uppercase}.desktop-nav-links .nav-project{color:#fff;border:1px solid var(--saffron);padding:8px 10px}.dot{padding:0}.anchor-alias{position:absolute;top:0}.cta-row{display:flex;flex-wrap:wrap;gap:10px}.cta-row .cta-btn{margin-top:20px;padding:15px 20px}.cta-secondary{background:transparent;border:1px solid var(--gold);color:var(--gold);box-shadow:none}.text-cta{display:inline-block;margin-top:15px;color:var(--text-muted);font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase}.cap-grid,.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:600px}.tech-card{padding:14px;background:var(--surface);border:1px solid var(--surface-border);border-left:2px solid var(--saffron)}.tech-card b,.execution-path b,.engagement-list b,.why-list b{font-family:var(--font-mono);font-size:.72rem;color:var(--saffron);letter-spacing:1px}.tech-card h3{font-size:1rem;margin:8px 0}.tech-card p,.execution-path p,.engagement-list p{font-size:.84rem;line-height:1.5;margin:0 0 8px}.tech-card small{font-family:var(--font-mono);font-size:.65rem;color:var(--gold);line-height:1.5}.execution-path{border-left:1px solid var(--saffron);padding-left:18px}.execution-path>div{position:relative;margin-bottom:12px}.execution-path>div:before{content:'';position:absolute;left:-22px;top:3px;width:7px;height:7px;background:var(--gold)}.engagement-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}.engagement-list article{border-top:1px solid var(--surface-border);padding:10px 0}.why-list p{font-size:.9rem;line-height:1.55;margin-bottom:10px}.site-footer{margin-top:36px;padding:20px 0 50px;border-top:1px solid var(--surface-border);color:var(--text-muted);font-size:.8rem}.site-footer nav{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.site-footer a{color:var(--text-muted)}@media(max-width:840px){.desktop-nav-links{display:none}.cap-grid,.proof-grid,.engagement-list{grid-template-columns:1fr}.cta-row{flex-direction:column}.cta-row .cta-btn{width:100%;margin-top:8px}section{min-height:auto;padding-top:7rem}.hero{min-height:100vh}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}section{opacity:1;transform:none}.mantra-track{transform:none}.spark{display:none}}
 </style>
 </head>
 <body>
 
-<nav class="fixed-nav-bar" style="position:fixed;top:0;left:0;right:0;z-index:150;background:rgba(10,5,2,0.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,103,0,0.15);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.8rem;">
-  <a href="/" style="color:var(--gold);text-decoration:none;font-family:var(--font-display);font-size:1rem;font-weight:700;">Hanuman.Solutions</a>
-  <div style="display:flex;gap:14px;flex-wrap:wrap;">
-    <a href="https://aporaksha.com/store" style="color:var(--text-muted);text-decoration:none;">Store</a>
-    <a href="https://aporaksha.com/sell" style="color:var(--text-muted);text-decoration:none;">Sell</a>
-    <a href="https://aporaksha.com/membership" style="color:var(--text-muted);text-decoration:none;">Membership</a>
-    <a href="https://aporaksha.com/passport" style="color:var(--saffron);text-decoration:none;">Passport</a>
-  </div>
+<nav class="fixed-nav-bar" aria-label="Primary" style="position:fixed;top:0;left:0;right:0;z-index:150;background:rgba(10,5,2,0.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,103,0,0.15);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.72rem;">
+  <a href="/" class="nav-brand">Hanuman.Solutions</a><div class="desktop-nav-links"><a href="#capabilities">Capabilities</a><a href="#process">How We Work</a><a href="#proof">Proof</a><a href="#engagements">Engagements</a><a href="#contact">Contact</a><a href="/intake" class="nav-project">Start a Project</a></div>
 </nav>
 
 <canvas id="bg"></canvas>
 <div id="progress-bar"></div>
 
-<div id="nav-dots">
-  <div class="dot active" data-i="0"></div>
-  <div class="dot" data-i="1"></div>
-  <div class="dot" data-i="2"></div>
-  <div class="dot" data-i="3"></div>
-  <div class="dot" data-i="4"></div>
+<div id="nav-dots" aria-label="Section progress">
+  <button class="dot active" data-i="0" aria-label="Hero"></button><button class="dot" data-i="1" aria-label="Capabilities"></button><button class="dot" data-i="2" aria-label="How we work"></button><button class="dot" data-i="3" aria-label="Proof"></button><button class="dot" data-i="4" aria-label="Engagements"></button><button class="dot" data-i="5" aria-label="Why Hanuman"></button><button class="dot" data-i="6" aria-label="Contact"></button>
 </div>
 
 <!-- ═══ HANUMAN & HUD ═══ -->
@@ -417,7 +417,7 @@
         <stop offset="60%" stop-color="#006666" stop-opacity="0.1"/>
         <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
       </radialGradient>
-      
+
       <!-- Powerful Dark Brown Skin Gradients -->
       <radialGradient id="skin-chest" cx="50%" cy="40%" r="60%">
         <stop offset="0%" stop-color="#6B4226"/>
@@ -480,7 +480,7 @@
         <g id="h-legs">
           <!-- Back layer fold -->
           <path d="M 150,450 C 100,500 50,520 60,540 C 150,560 250,560 340,540 C 350,520 300,500 250,450 Z" fill="#8B3A00"/>
-          
+
           <!-- Right Leg (Folded inward) -->
           <path d="M 200,430 C 280,430 380,450 380,510 C 380,550 280,550 200,530 C 150,520 180,480 200,430 Z" fill="url(#dhoti-grad)" stroke="#FFB347" stroke-width="2"/>
           <!-- Right foot sole peeking out -->
@@ -490,7 +490,7 @@
           <path d="M 200,430 C 120,430 20,450 20,510 C 20,550 120,550 200,530 C 250,520 220,480 200,430 Z" fill="url(#dhoti-grad)" stroke="#FFB347" stroke-width="2"/>
           <!-- Left foot sole peeking out -->
           <ellipse cx="240" cy="510" rx="15" ry="8" fill="#4A2A18" transform="rotate(15, 240, 510)"/>
-          
+
           <!-- Dhoti Folds & Center drape -->
           <path d="M 180,440 C 190,480 210,480 220,440 C 210,490 190,490 180,440 Z" fill="#FFD700" opacity="0.8"/>
           <path d="M 50,510 C 100,530 150,530 200,520" fill="none" stroke="#CC5500" stroke-width="4"/>
@@ -500,14 +500,14 @@
         <!-- ── UPPER BODY RIG (Massive Torso) ── -->
         <g id="sw-body">
           <g id="aw-body">
-            
+
             <!-- Waistband -->
             <rect x="150" y="420" width="100" height="25" rx="5" fill="#FFD700"/>
             <rect x="155" y="425" width="90" height="15" rx="3" fill="#CC5500"/>
 
             <!-- Torso Base (Broad V-Taper) -->
             <path d="M 150,425 C 130,320 80,220 100,180 L 300,180 C 320,220 270,320 250,425 Z" fill="url(#skin-chest)"/>
-            
+
             <!-- 8-Pack Abs (Deep definition) -->
             <!-- Row 1 -->
             <rect x="168" y="270" width="28" height="30" rx="8" fill="#5C3820" stroke="#3A1F10" stroke-width="3"/>
@@ -527,7 +527,7 @@
             <path d="M 198,180 C 160,180 110,190 100,230 C 100,270 160,280 198,260 Z" fill="#6B4226" stroke="#2D160C" stroke-width="4"/>
             <!-- Right Pec -->
             <path d="M 202,180 C 240,180 290,190 300,230 C 300,270 240,280 202,260 Z" fill="#6B4226" stroke="#2D160C" stroke-width="4"/>
-            
+
             <!-- Pec highlights -->
             <path d="M 130,210 C 150,200 180,200 190,210" fill="none" stroke="#8A5A38" stroke-width="3" stroke-linecap="round"/>
             <path d="M 270,210 C 250,200 220,200 210,210" fill="none" stroke="#8A5A38" stroke-width="3" stroke-linecap="round"/>
@@ -544,7 +544,7 @@
                 <!-- Muscle definitions -->
                 <path d="M 70,240 C 90,260 100,280 100,300" fill="none" stroke="#3A1F10" stroke-width="3"/>
                 <path d="M 75,370 C 95,400 115,420 125,430" fill="none" stroke="#3A1F10" stroke-width="3"/>
-                
+
                 <!-- Silver Wrist Bracer -->
                 <rect x="100" y="445" width="40" height="15" rx="4" fill="#E0E5E9" transform="rotate(-35, 120, 450)" stroke="#747D84" stroke-width="2"/>
                 <rect x="98" y="450" width="44" height="5" fill="#FFFFFF" transform="rotate(-35, 120, 450)" opacity="0.6"/>
@@ -570,7 +570,7 @@
                 <!-- Muscle definitions -->
                 <path d="M 330,240 C 310,260 300,280 300,300" fill="none" stroke="#3A1F10" stroke-width="3"/>
                 <path d="M 325,370 C 305,400 285,420 275,430" fill="none" stroke="#3A1F10" stroke-width="3"/>
-                
+
                 <!-- Silver Wrist Bracer -->
                 <rect x="260" y="445" width="40" height="15" rx="4" fill="#E0E5E9" transform="rotate(35, 280, 450)" stroke="#747D84" stroke-width="2"/>
                 <rect x="258" y="450" width="44" height="5" fill="#FFFFFF" transform="rotate(35, 280, 450)" opacity="0.6"/>
@@ -599,21 +599,21 @@
 
             <!-- Long Rudraksha Mala (Necklace) -->
             <path d="M 160,180 C 120,280 160,400 200,400 C 240,400 280,280 240,180" fill="none" stroke="#4A2511" stroke-width="12" stroke-dasharray="12 6" stroke-linecap="round" filter="url(#glow-filter)"/>
-            
+
           </g>
         </g> <!-- End Body Rig -->
 
         <!-- ── HEAD RIG (Majestic, Bearded, Intense) ── -->
         <g id="sw-head">
           <g id="aw-head">
-            
+
             <!-- Flowing Back Hair -->
             <path d="M 160,120 C 100,180 120,250 150,280 C 170,250 150,180 180,150 Z" fill="url(#beard-grad)"/>
             <path d="M 240,120 C 300,180 280,250 250,280 C 230,250 250,180 220,150 Z" fill="url(#beard-grad)"/>
 
             <!-- Face Base (Strong, Square Jaw) -->
             <path d="M 160,100 C 160,50 240,50 240,100 C 250,160 230,200 200,210 C 170,200 150,160 160,100 Z" fill="#5C3820"/>
-            
+
             <!-- Deep shading on cheeks -->
             <path d="M 160,130 C 170,160 180,180 200,190 C 220,180 230,160 240,130 C 230,180 170,180 160,130 Z" fill="#3A1F10" opacity="0.6"/>
 
@@ -634,21 +634,21 @@
               <!-- Calm, curved eyebrows -->
               <path d="M 165,120 Q 180,112 195,120" fill="none" stroke="#E0E5E9" stroke-width="5" stroke-linecap="round"/>
               <path d="M 235,120 Q 220,112 205,120" fill="none" stroke="#E0E5E9" stroke-width="5" stroke-linecap="round"/>
-              
+
               <!-- Eye Sockets (Dark) -->
               <ellipse cx="178" cy="128" rx="12" ry="6" fill="#2D160C"/>
               <ellipse cx="222" cy="128" rx="12" ry="6" fill="#2D160C"/>
-              
+
               <!-- Sclera (White) -->
               <ellipse cx="178" cy="129" rx="10" ry="4" fill="#FFFFFF"/>
               <ellipse cx="222" cy="129" rx="10" ry="4" fill="#FFFFFF"/>
-              
+
               <!-- Glowing Golden Irises -->
               <circle cx="178" cy="129" r="3.5" fill="#FFD700" filter="url(#glow-filter)"/>
               <circle cx="222" cy="129" r="3.5" fill="#FFD700" filter="url(#glow-filter)"/>
               <circle cx="178" cy="129" r="1.5" fill="#000000"/>
               <circle cx="222" cy="129" r="1.5" fill="#000000"/>
-              
+
               <!-- Gentle Smile -->
               <path d="M 190,165 Q 200,172 210,165" fill="none" stroke="#1A0D07" stroke-width="2.5" stroke-linecap="round"/>
             </g>
@@ -678,156 +678,16 @@
 </div>
 
 <!-- ═══ MAIN SCROLL CONTENT ═══ -->
-<main>
-
-  <section id="s0" class="visible">
-    <span class="pre-label">Production System Repair</span>
-    <span class="om-symbol">ॐ</span>
-    <h1>Hanuman<br>Solutions</h1>
-    <p class="tagline">We debug and fix production system failures &mdash; infra, AI pipelines, automation.</p>
-    <div class="divider"></div>
-    <p><strong style="color:var(--text-main);">Turnaround: 24&ndash;48 hours.</strong> Diagnosis in 12 hours. Send the broken system, get a working one back.</p>
-    <div class="chips">
-      <div class="chip">Infra outages</div>
-      <div class="chip">AI pipeline failures</div>
-      <div class="chip">Auth / token bridges</div>
-      <div class="chip">Automation breakage</div>
-      <div class="chip">Monitoring &amp; recovery</div>
-    </div>
-    <a href="#s4" class="cta-btn">Send your issue → Get diagnosis in 12h</a>
-    <p class="cta-sub" style="margin-top:14px">
-      Already know it needs a full review?
-      <button onclick="bookArchAudit()" style="background:none;border:none;padding:0;cursor:pointer;color:var(--accent,#ff6700);text-decoration:underline;font:inherit">
-        Book an Architecture Audit — ₹4,999</button>
-    </p>
-    <script>
-    function bookArchAudit() {
-      if (typeof AporakshaCheckout !== 'undefined') {
-        AporakshaCheckout.submit({
-          product_id: 'arch_audit',
-          name: 'Architecture Audit — Hanuman.Solutions',
-          onSuccess: function() { alert('Payment successful! We will reach out within 12 hours.'); },
-          onError: function(err) { console.error('[Payment]', err); alert('Payment could not be completed. Please try again.'); }
-        });
-      } else {
-        alert('Payment system is loading. Please try again in a moment.');
-      }
-    }
-    </script>
-    <p class="cta-sub"><a href="/sovereignty">Sovereignty</a> · <a href="/adoption">Adoption Path</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/refunds.html">Refund Policy</a> · <a href="/contact.html">Contact Us</a></p>
-    <div class="ghost-num">01</div>
-  </section>
-
-  <section id="s1">
-    <span class="pre-label">Proof / Real Fixes</span>
-    <h2>Real systems.<br><span>Real fixes.</span></h2>
-    <div class="divider"></div>
-    <p>No mock examples. Each block below is a production failure we received, diagnosed, and shipped a fix for.</p>
-
-    <div class="proof-blocks">
-      <div class="proof-block">
-        <div class="proof-line"><span class="proof-label">Problem</span>daxini.xyz returning 503</div>
-        <div class="proof-line"><span class="proof-label">Root cause</span>application layer failure (not tunnel)</div>
-        <div class="proof-line"><span class="proof-label">Fix</span>isolated layer, corrected service flow</div>
-        <div class="proof-line proof-result"><span class="proof-label">Result</span>stable 200 response</div>
-      </div>
-
-      <div class="proof-block">
-        <div class="proof-line"><span class="proof-label">Problem</span>pipeline execution failed with 401</div>
-        <div class="proof-line"><span class="proof-label">Root cause</span>auth not propagated in bridge layer</div>
-        <div class="proof-line"><span class="proof-label">Fix</span>fixed token binding across execution pipeline</div>
-        <div class="proof-line proof-result"><span class="proof-label">Result</span>execution completed successfully</div>
-      </div>
-
-      <div class="proof-block">
-        <div class="proof-line"><span class="proof-label">Problem</span>no system monitoring</div>
-        <div class="proof-line"><span class="proof-label">Fix</span>built Telegram supervisor bot</div>
-        <div class="proof-line proof-result"><span class="proof-label">Result</span>real-time alerts + auto recovery</div>
-      </div>
-    </div>
-
-    <div class="ghost-num">02</div>
-  </section>
-
-  <section id="s2">
-    <span class="pre-label">How it works</span>
-    <h2>Send → Diagnose<br><span>→ Fix → Verify</span></h2>
-    <div class="divider"></div>
-    <p>Send → include logs + access. Diagnose → root cause (12h). Fix → deployed (24–48h). Verify → logs returned.</p>
-    <div class="chips">
-      <div class="chip">12h diagnosis</div>
-      <div class="chip">24–48h fix</div>
-      <div class="chip">Logs handed back</div>
-      <div class="chip">No retainer</div>
-    </div>
-    <div class="ghost-num">03</div>
-  </section>
-
-  <section id="s3">
-    <span class="pre-label">Capabilities</span>
-    <h2>What we<br><span>fix and build.</span></h2>
-    <div class="divider"></div>
-    <p>Production outages. Broken AI pipelines. Auth and token bridges that silently drop. Automation that dies on edge cases. Missing monitoring. Internal tools that need to ship this week.</p>
-    <p>If it's running in production and behaving wrong, send it over.</p>
-    <div class="chips">
-      <div class="chip">Infra debugging</div>
-      <div class="chip">AI pipeline repair</div>
-      <div class="chip">Auth bridges</div>
-      <div class="chip">Monitoring bots</div>
-      <div class="chip">Internal tools</div>
-    </div>
-    <div class="ghost-num">04</div>
-  </section>
-
-  <section id="s4">
-    <span class="pre-label">Contact</span>
-    <span class="om-symbol" style="font-size: 2.5rem;">🔱</span>
-    <h2>Have a<br><span>broken system?</span></h2>
-    <div class="divider"></div>
-    <p class="hard-filter">If it's not breaking, don’t send it.<br>If it's costing you time or money → send it.</p>
-    <p style="margin-bottom:6px;">Include:</p>
-    <ul class="micro-list"><li>system URL</li><li>error / logs</li><li>urgency</li></ul>
-    <a href="/intake" class="cta-btn" id="cta-consultation" onclick="if(window.HanumanAnalytics){HanumanAnalytics.consultationRequested({service_interest:'production-system-repair',source:'cta-button'})}">Send Broken System</a>
-    <div class="cta-sub">Get diagnosis in 12h</div>
-
-    <div class="contact-direct">
-      <a href="/intake" onclick="if(window.HanumanAnalytics){HanumanAnalytics.contactSubmitted({trigger:'intake-link'})}">Open intake form</a>
-      <a href="mailto:dharam@viadecide.com?subject=Broken%20system%20-%20need%20diagnosis" id="email-link" onclick="if(window.HanumanAnalytics){HanumanAnalytics.emailClicked('dharam@viadecide.com')}">dharam@viadecide.com (fallback)</a>
-    </div>
-
-    <div class="ghost-num">05</div>
-  </section>
-
+<main id="main">
+<section id="hero" class="visible"><span class="pre-label">Engineering execution company</span><span class="om-symbol">ॐ</span><h1>Engineering systems,<br>built for the real world.</h1><p class="tagline">We design, build, integrate and rescue AI, electronics, industrial software and automation systems — from architecture to production deployment.</p><p class="hard-filter">DESIGN / BUILD / INTEGRATE / VERIFY / DEPLOY / RESCUE</p><div class="cta-row"><a href="/intake" class="cta-btn hero-project">Start a Project</a><a href="#capabilities" class="cta-btn cta-secondary">See Capabilities</a></div><a href="/intake?engagement=production-rescue" class="text-cta">Production Rescue →</a><div class="ghost-num">01</div></section>
+<section id="capabilities"><span id="s3" class="anchor-alias" aria-hidden="true"></span><span class="pre-label">01 / What we build</span><h2>Engineering<br><span>capabilities.</span></h2><p>One engineering discipline across the boundaries where difficult systems usually fail.</p><div class="cap-grid">
+<article class="tech-card"><b>AI SYSTEMS</b><h3>Reliable beyond the demo.</h3><p>Build AI systems that remain observable, testable and useful in operation.</p><small>Agentic AI · RAG/MCP · private AI · evaluation · automation</small></article><article class="tech-card"><b>EMBEDDED &amp; ELECTRONICS</b><h3>Architecture through bring-up.</h3><p>Take electronics through tested hardware, firmware and device integration.</p><small>PCB · MCU · sensors · RS-485/Modbus/CAN · edge</small></article><article class="tech-card"><b>INDUSTRIAL SOFTWARE</b><h3>Machine state made operational.</h3><p>Turn factory data into operator, traceability and maintenance systems.</p><small>Dashboards · pipelines · traceability · edge apps</small></article><article class="tech-card"><b>AUTOMATION &amp; ROBOTICS</b><h3>Physical processes, measured.</h3><p>Automate physical work with explicit control boundaries and evidence.</p><small>Retrofits · ROS2 · vision · sensor/control loops</small></article><article class="tech-card"><b>INFRASTRUCTURE &amp; BACKEND</b><h3>Keep the system operational.</h3><p>Build secure infrastructure supporting the complete engineering system.</p><small>APIs · data · auth · cloud/local · observability</small></article><article class="tech-card"><b>PRODUCTION RESCUE</b><h3>Find failures behind green dashboards.</h3><p>Recover systems that are failing, unreliable or unsafe.</p><small>Deployments · payments · security · AI · firmware</small></article></div><div class="ghost-num">02</div></section>
+<section id="process"><span id="s2" class="anchor-alias" aria-hidden="true"></span><span class="pre-label">02 / How we work</span><h2>From problem<br><span>to production.</span></h2><div class="execution-path"><div><b>01 DIAGNOSE</b><p>System, requirement, environment, constraints and risk.</p></div><div><b>02 ARCHITECT</b><p>Boundaries, interfaces, security, failure modes and verification.</p></div><div><b>03 PROTOTYPE</b><p>Prove feasibility, performance and high-risk integrations.</p></div><div><b>04 BUILD</b><p>Implement hardware, software, firmware, AI and infrastructure.</p></div><div><b>05 VERIFY</b><p>Tests, negative cases, benchmarks and production evidence.</p></div><div><b>06 DEPLOY</b><p>Integrate, document, hand over, train and support.</p></div></div><div class="ghost-num">03</div></section>
+<section id="proof"><span id="s1" class="anchor-alias" aria-hidden="true"></span><span class="pre-label">03 / Proof from real systems</span><h2>Green is not<br><span>the same as working.</span></h2><p>The same failure modes we rescue from production shape how we design new systems.</p><div class="proof-grid"><article class="tech-card"><b>CUSTOMER PATH</b><h3>Live site down for four days</h3><p>The API stayed healthy while every customer-facing page returned page-not-found.</p><small>Monitor the customer path, not only the endpoint.</small></article><article class="tech-card"><b>DEPLOYMENT INTEGRITY</b><h3>Green deploy deleted files</h3><p>A successful upload mirrored a developer machine and silently removed production files.</p><small>Success needs a source-of-truth and destructive-diff check.</small></article><article class="tech-card"><b>FINANCIAL STATE</b><h3>Payment received. Order lost.</h3><p>A webhook acknowledged rejected requests, stopping provider retries.</p><small>Financial state must fail closed.</small></article><article class="tech-card"><b>CREDENTIAL SCOPE</b><h3>One credential. 101 repositories.</h3><p>A write-capable credential propagated without an alert.</p><small>Secret scope can become estate scope.</small></article></div><div class="ghost-num">04</div></section>
+<section id="engagements"><span class="pre-label">04 / Engagements</span><h2>Ways to work<br><span>with Hanuman.</span></h2><p>Scoped after technical intake. Fixed-scope where uncertainty permits.</p><div class="engagement-list"><article><b>Technical Assessment</b><p>Findings, risk map, recommended architecture and next action.</p></article><article><b>Prototype Sprint</b><p>Bounded prototype, evidence, tests and production recommendation.</p></article><article><b>Full Build</b><p>Architecture, implementation, testing, deployment and documentation.</p></article><article><b>System Integration</b><p>Connect machines, APIs, databases, sensors, AI and infrastructure.</p></article><article><b>Production Rescue</b><p>Diagnosis, containment, repair, verification and runbook.</p></article><article><b>Engineering Retainer</b><p>Ongoing architecture, maintenance, reliability and development.</p></article></div><div class="ghost-num">05</div></section>
+<section id="why"><span class="pre-label">05 / Why Hanuman</span><h2>Execution is<br><span>the deliverable.</span></h2><div class="why-list"><p><b>SYSTEMS, NOT SLIDES</b> — Executable systems, not recommendations that stop at a deck.</p><p><b>HARDWARE + SOFTWARE + AI</b> — Engineering across boundaries generic agencies avoid.</p><p><b>FAILURE-AWARE ENGINEERING</b> — Negative cases, recovery and verification belong in the architecture.</p><p><b>LOCAL / SOVEREIGN WHEN REQUIRED</b> — Private, local and edge-first designs where required.</p><p><b>EVIDENCE BEFORE CLAIMS</b> — Tests, measurements and deployment proof.</p><p><b>BUILD AND RESCUE</b> — Greenfield construction and brownfield recovery.</p></div><div class="ghost-num">06</div></section>
+<section id="contact"><span id="s4" class="anchor-alias" aria-hidden="true"></span><span class="pre-label">06 / Start</span><h2>What are you<br><span>trying to build?</span></h2><p class="tagline">Tell us the system, constraint, failure or outcome. We'll determine the correct engineering entry point.</p><div class="cta-row"><a href="/intake" class="cta-btn">Start Technical Intake</a><a href="/intake?engagement=production-rescue" class="cta-btn cta-secondary">Book a Production Audit</a></div><p class="hard-filter">Do not send credentials or confidential source code through intake.</p><footer class="site-footer"><b>Hanuman.Solutions</b> — Engineering systems, built for the real world.<nav aria-label="Footer"><a href="#capabilities">Capabilities</a><a href="#process">How We Work</a><a href="#proof">Proof</a><a href="/contact.html">Contact</a><a href="/sovereignty">Sovereignty</a><a href="https://aporaksha.com/cea-0000">CEA-0000</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav><small>Part of the Daxini / ViaDecide ecosystem · © 2026</small></footer><div class="ghost-num">07</div></section>
 </main>
-
-<footer style="position:relative;z-index:20;margin-top:0;padding:3rem 2rem;border-top:1px solid rgba(255,103,0,0.15);background:rgba(10,5,2,0.6);text-align:center;font-family:'Outfit',sans-serif;">
-  <div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:2rem">
-    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;border-bottom:1px solid rgba(255,103,0,0.08);padding-bottom:1.5rem">
-      <div style="font-weight:800;font-size:1.25rem;color:#F2E8DE;letter-spacing:-0.5px">DAXINI ECOSYSTEM</div>
-      <div style="display:flex;flex-wrap:wrap;gap:1.25rem;font-size:0.85rem">
-        <a href="https://daxini.xyz" style="color:#A89F95;text-decoration:none">daxini.xyz</a>
-        <a href="https://logichub.app" style="color:#A89F95;text-decoration:none">logichub</a>
-        <a href="https://daxini.space" style="color:#A89F95;text-decoration:none">daxini.space</a>
-        <a href="https://aporaksha.com/store" style="color:#A89F95;text-decoration:none">store</a>
-        <a href="https://aporaksha.com/sell" style="color:#A89F95;text-decoration:none">sell</a>
-        <a href="https://aporaksha.com/membership" style="color:#A89F95;text-decoration:none">membership</a>
-        <a href="https://aporaksha.com/passport" style="color:#A89F95;text-decoration:none">passport</a>
-        <a href="https://aporaksha.com" style="color:#A89F95;text-decoration:none">aporaksha</a>
-        <a href="https://hanuman.solutions" style="color:#FF6700;text-decoration:none;font-weight:700">hanuman.solutions</a>
-        <a href="https://viadecide.com" style="color:#A89F95;text-decoration:none">viadecide</a>
-      </div>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:0.75rem;color:#A89F95">
-      <span>&copy; 2026 Dharam Daxini. All rights reserved.</span>
-      <div style="display:flex;gap:1rem">
-        <a href="/privacy.html" style="color:#A89F95;text-decoration:none">Privacy</a>
-        <a href="/terms.html" style="color:#A89F95;text-decoration:none">Terms</a>
-        <a href="/refunds.html" style="color:#A89F95;text-decoration:none">Refunds</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
 <div id="scroll-hint">
   <div class="sh-line"></div>
   <span class="sh-text">SCROLL TO DESCEND</span>
@@ -835,16 +695,16 @@
 
 <div id="mantra-bar">
   <div class="mantra-track">
-    <span>JAI SHRI RAM</span><span class="mantra-sep">•</span>
+    <span>DESIGN · BUILD · DEPLOY</span><span class="mantra-sep">•</span>
     <span>HANUMAN.SOLUTIONS</span><span class="mantra-sep">•</span>
-    <span>DEBUG · FIX · DELIVER</span><span class="mantra-sep">•</span>
-    <span>12H DIAGNOSIS</span><span class="mantra-sep">•</span>
-    <span>24–48H TURNAROUND</span><span class="mantra-sep">•</span>
-    <span>JAI SHRI RAM</span><span class="mantra-sep">•</span>
+    <span>INTEGRATE · VERIFY · RESCUE</span><span class="mantra-sep">•</span>
+    <span>ENGINEERING EXECUTION</span><span class="mantra-sep">•</span>
+    <span>REAL SYSTEMS · REAL EVIDENCE</span><span class="mantra-sep">•</span>
+    <span>DESIGN · BUILD · DEPLOY</span><span class="mantra-sep">•</span>
     <span>HANUMAN.SOLUTIONS</span><span class="mantra-sep">•</span>
-    <span>DEBUG · FIX · DELIVER</span><span class="mantra-sep">•</span>
-    <span>12H DIAGNOSIS</span><span class="mantra-sep">•</span>
-    <span>24–48H TURNAROUND</span><span class="mantra-sep">•</span>
+    <span>INTEGRATE · VERIFY · RESCUE</span><span class="mantra-sep">•</span>
+    <span>ENGINEERING EXECUTION</span><span class="mantra-sep">•</span>
+    <span>REAL SYSTEMS · REAL EVIDENCE</span><span class="mantra-sep">•</span>
   </div>
 </div>
 
@@ -898,7 +758,7 @@ for (let i = 0; i < emberCount; i++) {
   ePos[i*3+1] = (Math.random()-0.5)*80;
   ePos[i*3+2] = Math.random()*20 + 5;
   eVel[i*3]   = (Math.random()-0.5)*0.02;
-  eVel[i*3+1] = Math.random()*0.05 + 0.02; 
+  eVel[i*3+1] = Math.random()*0.05 + 0.02;
   eVel[i*3+2] = 0;
 }
 
@@ -930,7 +790,7 @@ function animate() {
   const ep = embers.geometry.attributes.position.array;
   for (let i = 0; i < emberCount; i++) {
     ep[i*3]   += eVel[i*3];
-    ep[i*3+1] += eVel[i*3+1] + currentEmberSpeed; 
+    ep[i*3+1] += eVel[i*3+1] + currentEmberSpeed;
     if (ep[i*3+1] > 40) { ep[i*3+1] = -40; ep[i*3] = (Math.random()-0.5)*80; }
   }
   embers.geometry.attributes.position.needsUpdate = true;
@@ -941,7 +801,8 @@ function animate() {
 
   renderer.render(scene, camera);
 }
-animate();
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reducedMotion) renderer.render(scene, camera); else animate();
 
 // ══════════════════════════════════════════
 // SCROLL SYSTEM + HUD LOGIC
@@ -956,14 +817,16 @@ const hanumanSvg = document.getElementById('hanuman-svg');
 const sparkContainer = document.getElementById('spark-container');
 
 const directives = [
-  "SYSTEM_BOOT: Repair pipeline online. Awaiting broken systems.",
-  "LOG_ENTRY: Real fixes loaded. Production failures diagnosed and shipped.",
-  "STATUS: Workflow active — Send → Diagnose → Fix → Verify.",
-  "SCAN_COMPLETE: Capability matrix ready. Infra, AI, auth, automation.",
-  "AWAITING_INPUT: Send your issue. Diagnosis in 12 hours. 🔱"
+  "SYSTEM_READY: Engineering execution from architecture to deployment.",
+  "CAPABILITY_MATRIX: AI, electronics, industrial software and automation.",
+  "PIPELINE_ACTIVE: Diagnose → Architect → Prototype → Build → Verify → Deploy.",
+  "PRODUCTION_EVIDENCE: Real failure modes inform every new architecture.",
+  "ENGAGEMENT_SCOPED: Select the entry point that matches technical uncertainty.",
+  "DISCIPLINE: Systems, evidence, recovery and cross-domain execution.",
+  "AWAITING_INPUT: Describe the system, constraint, failure or outcome."
 ];
 
-const hanumanClasses = ['state-0', 'state-1', 'state-2', 'state-3', 'state-4'];
+const hanumanClasses = ['state-0', 'state-1', 'state-2', 'state-3', 'state-4', 'state-2', 'state-4'];
 let currentIdx = -1;
 
 function switchSection(idx) {
@@ -973,13 +836,13 @@ function switchSection(idx) {
   hanumanSvg.className = '';
   if (hanumanClasses[idx]) hanumanSvg.classList.add(hanumanClasses[idx]);
 
-  if (idx === 1) { 
+  if (idx === 1) {
     targetEmberSpeed = 0.15; /* Calm, steady rise */
     targetStarSpeed = 0.08;
-  } else if (idx === 3) { 
+  } else if (idx === 3) {
     targetEmberSpeed = 0.1;
     targetStarSpeed = 0.06;
-  } else { 
+  } else {
     targetEmberSpeed = 0.05;
     targetStarSpeed = 0.05;
   }
@@ -1048,10 +911,12 @@ setTimeout(() => { switchSection(0); sections[0].classList.add('visible'); }, 50
 // LEAD ANALYTICS — SECTION TRACKING
 // ══════════════════════════════════════════
 const SECTION_SERVICE_MAP = {
-  's1': 'real-fixes-case-studies',
-  's2': 'how-it-works',
-  's3': 'capabilities',
-  's4': 'contact'
+  'capabilities': 'engineering-capabilities',
+  'process': 'how-we-work',
+  'proof': 'production-proof',
+  'engagements': 'engagement-models',
+  'why': 'why-hanuman',
+  'contact': 'project-intake'
 };
 
 const _trackedSections = new Set();
@@ -1063,7 +928,7 @@ window.addEventListener('scroll', () => {
     const r  = sec.getBoundingClientRect();
     if (r.top < window.innerHeight * 0.7 && r.bottom > 0 && !_trackedSections.has(id)) {
       _trackedSections.add(id);
-      if (id === 's4') {
+      if (id === 'contact') {
         HanumanAnalytics.contactOpened({ from_section: 'scroll', trigger: 'viewport' });
       } else if (SECTION_SERVICE_MAP[id]) {
         HanumanAnalytics.serviceView(SECTION_SERVICE_MAP[id], { section: id });
@@ -1084,7 +949,7 @@ if (window.HanumanAnalytics) {
   HanumanAnalytics.init();
 }
 
-if (window.innerWidth > 768) {
+if (window.innerWidth > 768 && !reducedMotion) {
   document.addEventListener('mousemove', (e) => {
     const cx = window.innerWidth/2;
     const cy = window.innerHeight/2;
