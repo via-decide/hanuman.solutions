@@ -49,5 +49,20 @@
       "source": "/((?!assets/|analytics/|api/|.*\\.[a-zA-Z0-9]+$).*)",
       "destination": "/index.html"
     }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.hanuman.solutions"
+        }
+      ],
+      "destination": "https://hanuman.solutions/$1",
+      "permanent": true
+    }
   ]
 }
